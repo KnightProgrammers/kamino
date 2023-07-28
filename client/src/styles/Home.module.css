@@ -1,0 +1,174 @@
+
+
+.formlogin{
+
+  margin-right: auto;
+  text-align: center;
+  padding-top: 10%;
+
+}
+.formregister{
+
+  margin-right: auto;
+  text-align: center;
+  padding-top: 5%;
+
+}
+
+
+
+.select {
+
+  text-align: center;
+  border: white solid  1px;
+  padding-top: 1000%;
+  margin: 20px;
+  padding: 1rem;
+  border-radius: 100px;
+
+}
+
+  
+
+  
+
+
+
+.footer{
+  text-align: right;
+  padding: 0px;
+  margin: 0px;
+  background-color: #ff7676;  
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+  position: fixed;
+
+   
+
+}
+
+.style2{
+
+
+font-family: sans-serif;
+  border: 10;
+  background-color: rgb(255, 255, 255);
+  position:static;
+   min-height: 100vh;
+  display:flex ;
+  flex-direction: column;
+  min-height: 100vh; 
+  
+
+
+    
+
+}
+
+
+.style3 {
+  text-align: start;
+
+ 
+  border-bottom-left-radius: 40px;
+  margin: 0px;
+  background-color: #ff7676;  
+  top: 0;
+  left: 870px;
+  width: 424px;
+  position: absolute;
+  display: flex;
+  justify-content: flex-start;
+
+  
+}
+
+.style3 button {
+  background: none;
+  border: none;
+  padding: 10px;
+
+}
+
+.style3 a {
+  color:  #c20000;
+  text-decoration: none;
+  background: none;
+  cursor: pointer;
+   margin-right: 10px;
+   white-space: nowrap;
+   letter-spacing: 1px;
+   
+  
+}
+
+.style4{
+
+  text-align: center;
+  top: 20px;
+  bottom: 2000px;
+  position: relative;
+  
+
+  
+
+}
+
+
+
+.years{
+
+  text-align: center;
+
+  background-position: 200px;
+
+}
+
+.years button {
+
+   padding: 15px;
+  border-radius: 100px;
+  background-color:  #ff7676;  
+  bottom: 20px;
+
+ margin-right: 50px;
+ margin-left: 50px;
+
+}
+
+
+.text1{
+  text-align: center;
+  color:  #c20000;
+  text-decoration: none;
+  background: none;
+
+
+  
+}
+
+.text2{
+  text-align: center;
+  color:  #c20000;
+  text-decoration: none;
+  background: none;
+  cursor: pointer;
+}
+
+.style5{
+
+
+font-family: sans-serif;
+  border: 10;
+  background-color: rgb(255, 255, 255);
+  position:static;
+  display:flex ;
+  flex-direction: column;
+  min-height: 25vh; 
+  
+
+
+    
+
+}
