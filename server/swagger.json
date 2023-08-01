@@ -111,7 +111,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthToken"
+                  "$ref": "#/components/schemas/AuthTokenWithUser"
                 }
               }
             }
@@ -126,6 +126,61 @@
                 "example": {
                   "status": 400,
                   "message": "Username is already in use"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error en el servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/refreshtoken": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refrescar Sesion",
+        "operationId": "refreshToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshToken"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthToken"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No Access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "status": 403,
+                  "message": "Refresh token expired"
                 }
               }
             }
@@ -232,6 +287,19 @@
       "AuthToken": {
         "type": "object",
         "properties": {
+          "accessToken": {
+            "type": "string",
+            "example": "<JWT_Token>"
+          },
+          "refreshToken": {
+            "type": "string",
+            "example": "<Refresh_Token>"
+          }
+        }
+      },
+      "AuthTokenWithUser": {
+        "type": "object",
+        "properties": {
           "id": {
             "type": "string",
             "example": "5d2265a5-f073-451c-9fae-601e4b4d73d8"
@@ -250,7 +318,16 @@
           },
           "refreshToken": {
             "type": "string",
-            "example": "<JWT_Token>"
+            "example": "<Refresh_Token>"
+          }
+        }
+      },
+      "RefreshToken": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "example": "2c86c5a2-0aaf-4ae9-b538-496f9ec2c32b"
           }
         }
       },

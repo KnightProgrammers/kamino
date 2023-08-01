@@ -65,7 +65,7 @@ exports.signin = async (req, res) => {
 exports.refreshToken = async (req, res) => {
   const { refreshToken: requestToken } = req.body;
 
-  if (requestToken == null) {
+  if (!requestToken) {
     throwError('Refresh Token is required', 403);
   }
   let refreshToken = await RefreshToken.findOne({ where: { token: requestToken } });
