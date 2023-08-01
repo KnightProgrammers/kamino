@@ -38,9 +38,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // routes
 const authRouter = require('./routes/auth.routes');
 const userRouter = require('./routes/user.routes');
+const healthRouter = require('./routes/health.routes');
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api', healthRouter);
 
 app.use('*', invalidPathHandler);
 
