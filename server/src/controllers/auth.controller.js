@@ -3,8 +3,6 @@ const config = require("../config/auth.config");
 const User = db.user;
 const RefreshToken = db.refreshToken;
 
-const Op = db.Sequelize.Op;
-
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {throwError} = require("../middleware/errorHandler");
@@ -12,7 +10,7 @@ const {throwError} = require("../middleware/errorHandler");
 exports.signup = async (req, res) => {
   // Save User to Database
   const user = await User.create({
-    username: req.body.username,
+    name: req.body.name,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8)
   })
@@ -20,7 +18,7 @@ exports.signup = async (req, res) => {
     message: "User registered successfully",
     user: {
       id: user.id,
-      username: user.username,
+      name: user.name,
       email: user.email
     }
   });
@@ -29,7 +27,7 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
   const user = await User.findOne({
     where: {
-      username: req.body.username
+      email: req.body.email
     }
   })
   if (!user) {
@@ -57,7 +55,7 @@ exports.signin = async (req, res) => {
 
   res.status(200).send({
     id: user.id,
-    username: user.username,
+    name: user.name,
     email: user.email,
     accessToken,
     refreshToken
@@ -76,9 +74,7 @@ exports.refreshToken = async (req, res) => {
   }
 
   if (RefreshToken.verifyExpiration(refreshToken)) {
-    RefreshToken.destroy({ where: { id: refreshToken.id } });
-
-
+    await RefreshToken.destroy({ where: { id: refreshToken.id } });
     throwError('Refresh token expired', 403);
   }
 

@@ -8,7 +8,7 @@ const swaggerDocument = require('../swagger.json');
 const app = express();
 
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN
+  // origin: process.env.CORS_ORIGIN
 };
 
 app.use(cors(corsOptions));
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./models");
 
 const forceDbSync = false;
-// force: true will drop the table if it already exists
+// forceDbSync: true will drop the table if it already exists
 db.sequelize.sync({force: forceDbSync}).then(() => {
   console.log(`Drop and Resync Database with { force: ${forceDbSync} }`);
 });
