@@ -14,7 +14,7 @@ exports.signup = async (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8)
   })
-  res.send({
+  res.status(201).send({
     message: "User registered successfully",
     user: {
       id: user.id,
@@ -53,7 +53,7 @@ exports.signin = async (req, res) => {
 
   let refreshToken = await RefreshToken.createToken(user);
 
-  res.status(200).send({
+  res.status(201).send({
     id: user.id,
     name: user.name,
     email: user.email,

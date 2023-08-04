@@ -42,7 +42,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -106,7 +106,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -117,7 +117,7 @@
             }
           },
           "400": {
-            "description": "Usuario existente",
+            "description": "Credenciales incorrectas",
             "content": {
               "application/json": {
                 "schema": {
@@ -125,7 +125,7 @@
                 },
                 "example": {
                   "status": 400,
-                  "message": "Username is already in use"
+                  "message": "Bad credentials"
                 }
               }
             }

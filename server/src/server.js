@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require("express");
 const cors = require("cors");
 const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
@@ -22,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 // database
 const db = require("./models");
 
-const forceDbSync = false;
+const forceDbSync = !!JSON.parse(process.env.FORCE_DB_SYNC || false);
 // forceDbSync: true will drop the table if it already exists
 db.sequelize.sync({force: forceDbSync}).then(() => {
   console.log(`Drop and Resync Database with { force: ${forceDbSync} }`);
