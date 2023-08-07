@@ -13,11 +13,26 @@ jobs:
         uses: actions/checkout@v3
       - name: Build and Start Servers
         run: docker compose up --detach --wait
-      - name: Install Postman CLI
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install newman
         run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_APIKEY }}
-      - name: Run API tests
-        run: |
-          postman collection run ${{ vars.POSTMAN_COLLECTION_ID }} -e ${{ vars.POSTMAN_ENVIRONMENT_ID }}
+          npm install -g newman
+      - name: Run POSTMAN collection
+        run: >
+          newman run "https://api.getpostman.com/collections/${{vars.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
+          --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
+          --reporters cli,json --reporter-json-export test-report.json
+      - name: Create Status check based on postman results
+        uses: im-open/process-postman-test-results
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          results-file: test-report.json
+          report-name: 'Postman Test Result #${{ github.run_number }}'     # Default: Postman Test Results
+          create-status-check: true                           # Default: true
+          create-pr-comment: true                            # Default: true
+          update-comment-if-one-exists: true                 # Default: true
+          ignore-test-failures: true                          # Default: false
+          timezone: 'america/montevideo'                          # Default: UTC
