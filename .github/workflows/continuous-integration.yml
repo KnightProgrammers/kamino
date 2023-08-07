@@ -25,7 +25,7 @@ jobs:
         run: mkdir -p testResults
       - name: Run POSTMAN collection
         run: |
-          newman run "https://api.getpostman.com/collections/${{env.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" --environment "https://api.getpostman.com/environments/${{ env.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+          newman run "https://api.getpostman.com/collections/${{vars.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
       - name: Output the run Details
         uses: actions/upload-artifact@v2
         with:
