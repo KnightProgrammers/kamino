@@ -11,8 +11,26 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-      - name: Build the stack
+      - name: Build and Start Servers
         run: docker compose up --detach --wait
-      - name: Check
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - name: Install newman
         run: |
-          curl localhost:8080/api/ping
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+      - name: Make Directory for results
+        run: mkdir -p testResults
+      - name: Run POSTMAN collection
+        run: |
+          newman run \
+            "https://api.getpostman.com/collections/${{POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" \
+            --environment "https://api.getpostman.com/environments/${{ POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" \
+            -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+      - name: Output the run Details
+        uses: actions/upload-artifact@v2
+        with:
+          name: RunReports
+          path: testResults
