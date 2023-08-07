@@ -26,7 +26,7 @@ jobs:
           --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
           --reporters cli,json --reporter-json-export test-report.json
       - name: Create Status check based on postman results
-        uses: im-open/process-postman-test-results
+        uses: im-open/process-postman-test-results@latest
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           results-file: test-report.json
