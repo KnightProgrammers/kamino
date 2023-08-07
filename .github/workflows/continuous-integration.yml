@@ -38,7 +38,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           results-file: test-report.json
-          report-name: 'Postman Test Result #${{ github.run_number }}'     # Default: Postman Test Results
+          report-name: 'Postman Test Result'                 # Default: Postman Test Results
           create-status-check: true                          # Default: true
           create-pr-comment: true                            # Default: true
           update-comment-if-one-exists: true                 # Default: true
