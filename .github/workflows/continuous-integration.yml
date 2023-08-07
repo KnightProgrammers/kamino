@@ -25,9 +25,19 @@ jobs:
         run: >
           newman run "https://api.getpostman.com/collections/${{vars.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
           --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
-          -r htmlextra --reporter-htmlextra-export htmlreport.html
-      - name: Output the run Details
+          -- reporters cli,junit,html 
+          --reporter-junit-export test-report.xml
+          --reporter-htmlextra-export htmlreport.html
+      - name: Output the HTML Test Report
         uses: actions/upload-artifact@v3
         with:
-          name: RunReports.html
+          name: RunReport.html
           path: htmlreport.html
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Report API Tests
+          path: ./test-report.xml
+          reporter: java-junit        # Format of test results
+          fail-on-error: false
