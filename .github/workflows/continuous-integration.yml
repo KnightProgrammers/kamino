@@ -25,7 +25,7 @@ jobs:
         run: >
           newman run "https://api.getpostman.com/collections/${{vars.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
           --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
-          -- reporters cli,junit,html 
+          --reporters cli,junit,htmlextra 
           --reporter-junit-export test-report.xml
           --reporter-htmlextra-export htmlreport.html
       - name: Output the HTML Test Report
