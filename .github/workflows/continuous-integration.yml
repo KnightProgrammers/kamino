@@ -39,8 +39,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           results-file: test-report.json
           report-name: 'Postman Test Result #${{ github.run_number }}'     # Default: Postman Test Results
-          create-status-check: true                           # Default: true
+          create-status-check: true                          # Default: true
           create-pr-comment: true                            # Default: true
           update-comment-if-one-exists: true                 # Default: true
-          ignore-test-failures: true                          # Default: false
-          timezone: 'america/montevideo'                          # Default: UTC
+          ignore-test-failures: false                        # Default: false
+          timezone: 'america/montevideo'                     # Default: UTC
+      - name: Fail if there were errors in the postman tests
+        if: steps.process-postman.outputs.test-outcome == 'Failed'
+        run: |
+          echo "There were postman failures."
+          exit 1
