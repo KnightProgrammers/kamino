@@ -12,7 +12,7 @@ const swaggerDocument = YAML.parse(swaggerFile);
 const app = express();
 
 const corsOptions = {
-  // origin: process.env.CORS_ORIGIN
+  origin: process.env.CORS_ORIGIN
 };
 
 app.use(cors(corsOptions));
@@ -53,12 +53,8 @@ app.use('*', invalidPathHandler);
 app.use(errorLogger)
 
 // Attach the second Error handling Middleware
-// function defined above (which sends back the response)
 app.use(errorResponder);
 
-// Attach the fallback Middleware
-// function which sends back the response for invalid paths)
-// app.use(invalidPathHandler)
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
