@@ -35,7 +35,7 @@
 ## 🚀 Getting Started
 
 ```shell
-docker compose up --detach --wait
+docker compose up --detach --wait --build
 ```
 
 ------

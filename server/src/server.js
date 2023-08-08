@@ -25,7 +25,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // database
 const db = require("./models");
-
 const forceDbSync = !!JSON.parse(process.env.FORCE_DB_SYNC || false);
 // forceDbSync: true will drop the table if it already exists
 db.sequelize.sync({force: forceDbSync}).then(() => {
