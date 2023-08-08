@@ -63,6 +63,13 @@ npm run dev-start
 | `FORCE_DB_SYNC` | Boolean | `false`             | Force database structure creation                                                      |
 | `CORS_ORIGIN`   | String  | `*`                 | Origin hosts list separated by comma, allowed to make requests (`*` means all allowed) |
 
+------
+## 📖 API Documentation
+
+ - [Postman Documentation](https://documenter.getpostman.com/view/954922/2s9Xy2MrRn)
+ - [Local Swagger](http://localhost:8080/api-docs)
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/954922-f2c48d14-63b7-41b0-9d40-211a6c55210f)
 
 ------
 ## 🗄️  Database
