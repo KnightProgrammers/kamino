@@ -5,6 +5,11 @@
 </h1>
 
 <p align="center">
+    <a href="https://github.com/KnightProgrammers/kamino/actions/workflows/continuous-integration.yml"><img src="https://github.com/KnightProgrammers/kamino/actions/workflows/continuous-integration.yml/badge.svg" alt="Continuous Integration"></a>
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
+<p align="center">
   <i align="center"></i>
 </p>
 
