@@ -1,10 +1,13 @@
 require('dotenv').config();
 
+const fs = require('fs');
 const express = require("express");
 const cors = require("cors");
 const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../swagger.json');
+const YAML = require('yaml');
+const swaggerFile  = fs.readFileSync('./swagger.yaml', 'utf8')
+const swaggerDocument = YAML.parse(swaggerFile);
 
 const app = express();
 

@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+  title: API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: Auth
+    description: Administración de session
+  - name: User
+    description: Operaciones sobre usuario
+paths:
+  /api/auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: Registración
+      operationId: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRegistration'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User registered successfully
+                  user:
+                    $ref: '#/components/schemas/User'
+        '400':
+          description: Usuario existente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: 400
+                message: Email is already in use
+        '500':
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/signin:
+    post:
+      tags:
+        - Auth
+      summary: Iniciar Sesion
+      operationId: signin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthLogin'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenWithUser'
+        '400':
+          description: Credenciales incorrectas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: 400
+                message: Bad credentials
+        '500':
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/refreshtoken:
+    post:
+      tags:
+        - Auth
+      summary: Refrescar Sesion
+      operationId: refreshToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        '403':
+          description: No Access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: 403
+                message: Refresh token expired
+        '500':
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/users/me:
+    get:
+      tags:
+        - User
+      summary: Información sobre el usuario
+      operationId: userMe
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - ApiKeyAuth: []
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5d2265a5-f073-451c-9fae-601e4b4d73d8
+        name:
+          type: string
+          example: Anakin Skywalker
+        email:
+          type: string
+          example: anakin@empire.com
+    AuthLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          example: anakin@empire.com
+        password:
+          type: string
+          example: HighGround
+    AuthRegistration:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Anakin Skywalker
+        email:
+          type: string
+          example: anakin@empire.com
+        password:
+          type: string
+          example: HighGround
+    AuthToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: <JWT_Token>
+        refreshToken:
+          type: string
+          example: <Refresh_Token>
+    AuthTokenWithUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5d2265a5-f073-451c-9fae-601e4b4d73d8
+        name:
+          type: string
+          example: Anakin Skywalker
+        email:
+          type: string
+          example: anakin@empire.com
+        accessToken:
+          type: string
+          example: <JWT_Token>
+        refreshToken:
+          type: string
+          example: <Refresh_Token>
+    RefreshToken:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          example: 2c86c5a2-0aaf-4ae9-b538-496f9ec2c32b
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 500
+        message:
+          type: string
+          example: Server Error
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: x-access-token
+      in: header
