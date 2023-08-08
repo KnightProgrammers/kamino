@@ -6,7 +6,18 @@ name: Dependabot
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/server" # Location of package manifests
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  # Maintain Server dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/server"
+    schedule:
+      interval: "weekly"
+  # Maintain Server dependencies for Composer
+  - package-ecosystem: "docker"
+    directory: "/server"
     schedule:
       interval: "weekly"
