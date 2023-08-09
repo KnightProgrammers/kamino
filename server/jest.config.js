@@ -13,6 +13,7 @@ module.exports = {
   testMatch: [
     '**/test/**/*.unit.test.js'
   ],
+  reporters: ["default", "jest-junit"],
   collectCoverageFrom: [
     '**/src/controllers/*.js',
     // '**/src/middleware/*.js',
