@@ -44,7 +44,7 @@ jobs:
       - name: 📦 run tests
         run: |
           cd server 
-          npm test-ci
+          npm run test-ci
       - name: ☂️ Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
         with:
