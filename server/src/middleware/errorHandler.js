@@ -8,6 +8,13 @@ const errorLogger = (error, request, response, next) => {
 // and sends back a response in JSON format
 const errorResponder = (error, request, res, next) => {
   res.header("Content-Type", 'application/json');
+  if (error && error.error && error.error.isJoi) {
+    res.status(400).json({
+      status: 400,
+      message: error.error.details[0].message
+    });
+    return;
+  }
   const status = error.status || 400
   return res.status(status).send({ status, message: error.message });
 }

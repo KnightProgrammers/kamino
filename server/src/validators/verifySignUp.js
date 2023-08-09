@@ -14,17 +14,8 @@ const checkDuplicateEmail = async (req, res, next) => {
   next();
 };
 
-const checkValidEmail = async (req, res, next) => {
-  const {email} = req.body;
-  if (!validator.isEmail(email)) {
-    return next(errorBuilder('Invalid email address', 400));
-  }
-  next();
-};
-
 const verifySignUp = {
-  checkDuplicateEmail,
-  checkValidEmail
+  checkDuplicateEmail
 };
 
 module.exports = verifySignUp;

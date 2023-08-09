@@ -2,6 +2,7 @@ const { verifySignUp } = require("../validators");
 const controller = require("../controllers/auth.controller");
 const tryCatch = require("../middleware/tryCatch");
 const {Router} = require("express");
+const AuthValidator = require("../validators/auth.validators");
 
 const router = Router();
 
@@ -16,12 +17,20 @@ router.use(function(req, res, next) {
 router.post(
   "/signup",
   [
-    verifySignUp.checkValidEmail,
+    AuthValidator.signupValidator,
     verifySignUp.checkDuplicateEmail,
   ],
   tryCatch(controller.signup)
 );
 
-router.post("/signin", tryCatch(controller.signin));
-router.post("/refreshtoken", tryCatch(controller.refreshToken));
+router.post("/signin",
+  [
+    AuthValidator.loginValidator
+  ],
+  tryCatch(controller.signin));
+router.post("/refreshtoken",
+  [
+    AuthValidator.refreshTokenValidator
+  ],
+  tryCatch(controller.refreshToken));
 module.exports = router;
