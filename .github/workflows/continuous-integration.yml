@@ -44,18 +44,18 @@ jobs:
       - name: 📦 run tests
         run: |
           cd server 
-          npm test
+          npm test-ci
       - name: ☂️ Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
         with:
-          coverage-summary-path: ./server/coverage/coverage-final.json
+          coverage-summary-path: ./server/coverage/coverage-summary.json
           title: Server Coverage
           summary-title: Summary
           badge-title: Coverage
           hide-comment: false
           create-new-comment: true
           hide-summary: false
-          junitxml-title: JUnit Report
+          junitxml-title: Test Report
           junitxml-path: ./server/junit.xml
   server-api-tests:
     name: "Server - API Tests"
