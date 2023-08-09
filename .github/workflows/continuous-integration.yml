@@ -45,6 +45,18 @@ jobs:
         run: |
           cd server 
           npm test
+      - name: ☂️ Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
+        with:
+          coverage-summary-path: ./server/coverage/coverage-final.json
+          title: Server Coverage
+          summary-title: Summary
+          badge-title: Coverage
+          hide-comment: false
+          create-new-comment: true
+          hide-summary: false
+          junitxml-title: JUnit Report
+          junitxml-path: ./server/junit.xml
   server-api-tests:
     name: "Server - API Tests"
     runs-on: ubuntu-latest
@@ -54,7 +66,7 @@ jobs:
         uses: actions/checkout@v3
       - name: 🚂 Run Dockers
         run: docker compose up --detach --wait
-      - name: 🪢 Install Node
+      - name: 🦑 Install Node
         uses: actions/setup-node@v3
         with:
           node-version: 16
