@@ -13,10 +13,10 @@ permissions:
   pull-requests: write
 
 env:
-  DB_PORT: 3306
-  DB_USER: root
-  DB_PASSWORD: root
-  DB_SCHEMA: kamino-test
+  DB_PORT: "3306"
+  DB_USER: "root"
+  DB_PASSWORD: "root"
+  DB_SCHEMA: "kamino-test"
 
 jobs:
   server-unit-tests:
