@@ -12,7 +12,7 @@ exports.userMe = async (req, res, next) => {
 
   res.status(200).send({
     id: user.id,
-    name: user.name,
+    name: user.name || '',
     email: user.email
   });
 };

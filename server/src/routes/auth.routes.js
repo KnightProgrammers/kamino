@@ -16,7 +16,8 @@ router.use(function(req, res, next) {
 router.post(
   "/signup",
   [
-    verifySignUp.checkDuplicateUsernameOrEmail
+    verifySignUp.checkValidEmail,
+    verifySignUp.checkDuplicateEmail,
   ],
   tryCatch(controller.signup)
 );

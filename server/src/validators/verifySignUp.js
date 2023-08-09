@@ -3,11 +3,8 @@ const db = require("../models");
 const {errorBuilder} = require("../middleware/errorHandler");
 const User = db.user;
 
-checkDuplicateUsernameOrEmail = async (req, res, next) => {
+const checkDuplicateEmail = async (req, res, next) => {
   const {email} = req.body;
-  if (!validator.isEmail(email)) {
-    return next(errorBuilder('Invalid email address', 400));
-  }
   const user = await User.findOne({
     where: { email }
   });
@@ -17,8 +14,17 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
   next();
 };
 
+const checkValidEmail = async (req, res, next) => {
+  const {email} = req.body;
+  if (!validator.isEmail(email)) {
+    return next(errorBuilder('Invalid email address', 400));
+  }
+  next();
+};
+
 const verifySignUp = {
-  checkDuplicateUsernameOrEmail
+  checkDuplicateEmail,
+  checkValidEmail
 };
 
 module.exports = verifySignUp;

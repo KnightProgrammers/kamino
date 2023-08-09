@@ -8,7 +8,6 @@ const bcrypt = require("bcryptjs");
 const {throwError} = require("../middleware/errorHandler");
 
 exports.signup = async (req, res) => {
-  // Save User to Database
   const user = await User.create({
     name: req.body.name,
     email: req.body.email,
