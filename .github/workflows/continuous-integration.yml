@@ -13,19 +13,21 @@ permissions:
   pull-requests: write
 
 env:
-  MYSQL_DATABASE: test_db
-  DB_USER: root
-  DB_PASSWORD: root
+  DB_PORT=3306
+  DB_USER=root
+  DB_PASSWORD=root
+  DB_SCHEMA=kamino-test
 
 jobs:
   server-unit-tests:
+    name: "Server - Unit Tests"
     runs-on: ubuntu-20.04
     steps:
       - name: 🔥 Initialize MySQL
         run: sudo systemctl start mysql.service
       - name: 📌 Initialize first database
         run: |
-          mysql -e 'CREATE DATABASE ${{ env.MYSQL_DATABASE }};' \
+          mysql -e 'CREATE DATABASE ${{ env.DB_SCHEMA }};' \
           -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
       - name: 🚀 Boost user
         run: |
@@ -46,6 +48,7 @@ jobs:
           cd server 
           npm test
   server-api-tests:
+    name: "Server - API Tests"
     runs-on: ubuntu-latest
     needs: server-unit-tests
     steps:
@@ -74,8 +77,8 @@ jobs:
           report-name: 'Postman Test Result'                 # Default: Postman Test Results
           create-status-check: true                          # Default: true
           create-pr-comment: true                            # Default: true
-          update-comment-if-one-exists: true                 # Default: true
-          ignore-test-failures: false                        # Default: false
+          update-comment-if-one-exists: false                 # Default: true
+          ignore-test-failures: true                        # Default: false
           timezone: 'america/montevideo'                     # Default: UTC
       - name: ☢️ Fail if there were errors in the postman tests
         if: steps.process-postman.outputs.test-outcome == 'Failed'
