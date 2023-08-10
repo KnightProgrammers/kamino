@@ -1,6 +1,5 @@
 const { verifySignUp } = require("../validators");
 const controller = require("../controllers/auth.controller");
-const tryCatch = require("../middleware/tryCatch");
 const {Router} = require("express");
 const AuthValidator = require("../validators/auth.validators");
 
@@ -20,17 +19,21 @@ router.post(
     AuthValidator.signupValidator,
     verifySignUp.checkDuplicateEmail,
   ],
-  tryCatch(controller.signup)
+  controller.signup
 );
 
 router.post("/signin",
   [
     AuthValidator.loginValidator
   ],
-  tryCatch(controller.signin));
+  controller.signin
+);
+
 router.post("/refreshtoken",
   [
     AuthValidator.refreshTokenValidator
   ],
-  tryCatch(controller.refreshToken));
+  controller.refreshToken
+);
+
 module.exports = router;

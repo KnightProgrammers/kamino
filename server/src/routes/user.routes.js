@@ -1,7 +1,6 @@
 const {authJwt} = require("../middleware");
 const controller = require("../controllers/user.controller");
 const {Router} = require("express");
-const tryCatch = require("../middleware/tryCatch");
 
 const router = Router();
 
@@ -16,7 +15,7 @@ router.use((req, res, next) => {
 router.get(
   "/me",
   [authJwt.verifyToken],
-  tryCatch(controller.userMe)
+  controller.userMe
 );
 
 module.exports = router;

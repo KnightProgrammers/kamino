@@ -4,7 +4,12 @@ const { v4: uuidv4 } = require("uuid");
 module.exports = (sequelize, Sequelize) => {
   const RefreshToken = sequelize.define("refreshToken", {
     token: {
+      unique: true,
+      allowNull: false,
       type: Sequelize.STRING,
+      validate: {
+        isUUID: 4,
+      }
     },
     expiryDate: {
       type: Sequelize.DATE,

@@ -4,7 +4,7 @@ const fs = require('fs');
 const express = require("express");
 const cors = require("cors");
 const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
-const httpLogger = require('./middleware/httpLogger');
+const httpLogger = require('./utils/httpLogger');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yaml');
 const swaggerFile  = fs.readFileSync('./swagger.yaml', 'utf8')
@@ -32,7 +32,7 @@ db.sequelize.sync({force: forceDbSync}).then(() => {
   console.log(`Drop and Resync Database with { force: ${forceDbSync} }`);
 });
 
-app.use(httpLogger);
+// app.use(httpLogger);
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the application" });
 });
@@ -50,11 +50,18 @@ app.use('/api', healthRouter);
 
 app.use('*', invalidPathHandler);
 
-// function defined above (which logs the error)
-app.use(errorLogger)
+app.use(errorLogger);
 
-// Attach the second Error handling Middleware
-app.use(errorResponder);
+app.use(async (error, req, res, next) => {
+  if (error && error.error && error.error.isJoi) {
+    return res.status(400).json({
+      status: 400,
+      message: error.error.details[0].message
+    });
+  }
+  const status = error.status || 500
+  return res.status(status).json({ status, message: error.message });
+})
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

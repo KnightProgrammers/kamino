@@ -5,7 +5,7 @@ const RefreshToken = db.refreshToken;
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const {throwError} = require("../middleware/errorHandler");
+const {errorBuilder} = require("../middleware/errorHandler");
 
 exports.signup = async (req, res) => {
   const user = await User.create({
@@ -23,14 +23,14 @@ exports.signup = async (req, res) => {
   });
 };
 
-exports.signin = async (req, res) => {
+exports.signin = async (req, res, next) => {
   const user = await User.findOne({
     where: {
       email: req.body.email
     }
   })
   if (!user) {
-    throwError('Bad credentials', 401);
+    return next(errorBuilder('Bad credentials', 401, 'warn'));
   }
 
   const passwordIsValid = bcrypt.compareSync(
@@ -39,7 +39,7 @@ exports.signin = async (req, res) => {
   );
 
   if (!passwordIsValid) {
-    throwError('Bad credentials', 401);
+    return next(errorBuilder('Bad credentials', 401, 'warn'));
   }
 
   const accessToken = jwt.sign({id: user.id},
@@ -61,20 +61,20 @@ exports.signin = async (req, res) => {
   });
 };
 
-exports.refreshToken = async (req, res) => {
+exports.refreshToken = async (req, res, next) => {
   const { refreshToken: requestToken } = req.body;
 
   if (!requestToken) {
-    throwError('Refresh Token is required', 403);
+    return next(errorBuilder('Refresh Token is required', 403, 'warn'));
   }
   let refreshToken = await RefreshToken.findOne({ where: { token: requestToken } });
   if (!refreshToken) {
-    throwError('Refresh token is not in database', 403);
+    return next(errorBuilder('Refresh token is not in database', 403, 'warn'));
   }
 
   if (RefreshToken.verifyExpiration(refreshToken)) {
-    await RefreshToken.destroy({ where: { id: refreshToken.id } });
-    throwError('Refresh token expired', 403);
+    RefreshToken.destroy({ where: { id: refreshToken.id } });
+    return next(errorBuilder('Refresh token expired', 403, 'warn'));
   }
 
   const user = await refreshToken.getUser();

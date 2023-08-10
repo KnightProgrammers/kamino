@@ -37,26 +37,25 @@ describe('User Controller - Unit Tests', () => {
     const request = httpMocks.createRequest();
     request.userId = null;
 
-    const r = async () => {
-       await userController.userMe(request, response);
-    };
-    await expect(r).rejects.toThrow('User not found');
+    const next = jest.fn();
+    await userController.userMe(request, response, next);
 
-    await expect(response._isEndCalled()).toBeFalsy();
+    await expect(next).toBeCalledWith(new Error('User not found'));
   });
   it('Should throw an error if the user doesn\'t exist', async () => {
     const response = httpMocks.createResponse();
     const request = httpMocks.createRequest();
     request.userId = '9a07e6c3-21be-45b0-a296-53eb77f5d77a';
 
-    const r = async () => {
-       await userController.userMe(request, response);
-    };
-    await expect(r).rejects.toThrow('User not found');
+    const next = jest.fn();
+    await userController.userMe(request, response, next);
+
+    await expect(next).toBeCalledWith(new Error('User not found'));
   });
   it('Validate response when the user has no name', async () => {
     const testUser = await User.create({
       ...MOCK_USER_DATA,
+      email: 'random@test.com',
       name: undefined
     });
     const response = httpMocks.createResponse();

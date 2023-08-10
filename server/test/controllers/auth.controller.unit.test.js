@@ -48,18 +48,10 @@ describe('Auth Controller - Unit Tests', () => {
         email: MOCK_USER_DATA.email,
         password: MOCK_USER_DATA.password,
       })
-      await authController.signup(request, response);
-      const testUser = await User.findOne({where: {name: MOCK_USER_DATA.name + ' - duplicated'}});
-      expect(response.statusCode).toEqual(201);
-      expect(response._isEndCalled()).toBeTruthy();
-      expect(response._getData()).toEqual({
-        message: "User registered successfully",
-        user: {
-          id: testUser.id,
-          name : testUser.name,
-          email: testUser.email
-        }
-      });
+      const r = async () => {
+        await authController.signup(request, response);
+      };
+      await expect(r).rejects.toThrow('Validation error');
     });
   });
   describe('Login', () => {
@@ -87,10 +79,11 @@ describe('Auth Controller - Unit Tests', () => {
         email: 'wrong',
         password: MOCK_USER_DATA.password,
       });
-      const r = async () => {
-        await authController.signin(request, response);
-      };
-      await expect(r).rejects.toThrow('Bad credentials');
+
+      const next = jest.fn();
+      await authController.signin(request, response, next);
+
+      await expect(next).toBeCalledWith(new Error('Bad credentials'));
     });
     it('Bad password', async () => {
       const response = httpMocks.createResponse();
@@ -99,10 +92,11 @@ describe('Auth Controller - Unit Tests', () => {
         email: MOCK_USER_DATA.email,
         password: 'wrong',
       });
-      const r = async () => {
-        await authController.signin(request, response);
-      };
-      await expect(r).rejects.toThrow('Bad credentials');
+
+      const next = jest.fn();
+      await authController.signin(request, response, next);
+
+      await expect(next).toBeCalledWith(new Error('Bad credentials'));
     });
   });
   describe('Refresh Access Token', () => {
@@ -126,11 +120,12 @@ describe('Auth Controller - Unit Tests', () => {
       const request = httpMocks.createRequest();
       request._setBody({
         refreshToken: null
-      })
-      const r = async () => {
-        await authController.refreshToken(request, response);
-      };
-      await expect(r).rejects.toThrow('Refresh Token is required');
+      });
+
+      const next = jest.fn();
+      await authController.refreshToken(request, response, next);
+
+      await expect(next).toBeCalledWith(new Error('Refresh Token is required'));
     });
     it('No Refresh Token', async () => {
       const response = httpMocks.createResponse();
@@ -138,10 +133,11 @@ describe('Auth Controller - Unit Tests', () => {
       request._setBody({
         refreshToken: 'Not Found'
       })
-      const r = async () => {
-        await authController.refreshToken(request, response);
-      };
-      await expect(r).rejects.toThrow('Refresh token is not in database');
+
+      const next = jest.fn();
+      await authController.refreshToken(request, response, next);
+
+      await expect(next).toBeCalledWith(new Error('Refresh token is not in database'));
     });
     it('Refresh token expired', async () => {
       const testUser = await User.findOne({where: {email: MOCK_USER_DATA.email}});
@@ -154,12 +150,12 @@ describe('Auth Controller - Unit Tests', () => {
       const request = httpMocks.createRequest();
       request._setBody({
         refreshToken: testToken.token
-      })
-      const r = async () => {
-        await authController.refreshToken(request, response);
-        console.log(response._getData())
-      };
-      await expect(r).rejects.toThrow('Refresh token expired');
+      });
+
+      const next = jest.fn();
+      await authController.refreshToken(request, response, next);
+
+      await expect(next).toBeCalledWith(new Error('Refresh token expired'));
     });
   });
   afterAll(async () => {

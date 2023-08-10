@@ -1,6 +1,5 @@
 const controller = require("../controllers/health.controller");
 const {Router} = require("express");
-const tryCatch = require("../middleware/tryCatch");
 
 const router = Router();
 
@@ -14,7 +13,7 @@ router.use((req, res, next) => {
 
 router.get(
   "/ping",
-  tryCatch(controller.ping)
+  controller.ping
 );
 
 module.exports = router;
