@@ -4,6 +4,7 @@ const fs = require('fs');
 const express = require("express");
 const cors = require("cors");
 const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
+const httpLogger = require('./middleware/httpLogger');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yaml');
 const swaggerFile  = fs.readFileSync('./swagger.yaml', 'utf8')
@@ -31,7 +32,7 @@ db.sequelize.sync({force: forceDbSync}).then(() => {
   console.log(`Drop and Resync Database with { force: ${forceDbSync} }`);
 });
 
-// simple route
+app.use(httpLogger);
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the application" });
 });

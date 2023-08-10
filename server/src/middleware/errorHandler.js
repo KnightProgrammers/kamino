@@ -1,6 +1,9 @@
+const { logger } = require('../utils');
 // Error handling Middleware function for logging the error message
 const errorLogger = (error, request, response, next) => {
-  // console.log( `[Error] ${error.message}`)
+  logger.error(error.message);
+  const stack = error.stack.split('\n').map(function (line) { return line.trim(); });
+  console.log(stack.splice(stack[0] === 'Error' ? 2 : 1).join('\n'));
   next(error) // calling next middleware
 }
 

@@ -16,7 +16,7 @@ module.exports = {
   reporters: ["default", "jest-junit"],
   collectCoverageFrom: [
     '**/src/controllers/*.js',
-    // '**/src/middleware/*.js',
+    // '**/src/middlewares/*.js',
     '**/src/validators/*.js'
   ]
 };
