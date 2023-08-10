@@ -15,7 +15,7 @@ const errorResponder = (error, request, res, next) => {
     });
     return;
   }
-  const status = error.status || 400
+  const status = error.status || 500
   return res.status(status).send({ status, message: error.message });
 }
 
