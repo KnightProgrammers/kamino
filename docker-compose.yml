@@ -26,6 +26,7 @@ services:
       DB_SCHEMA: 'kamino'
       PORT: '8080'
       FORCE_DB_SYNC: 'false'
+      DEBUG: 'true'
     ports:
       - '8080:8080'
     depends_on:

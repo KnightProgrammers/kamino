@@ -66,6 +66,7 @@ npm run dev-start
 | `DB_SCHEMA`     | String  | `testdb`            | Database name                                                                          |
 | `PORT`          | Number  | `8080`              | Server port number                                                                     |
 | `FORCE_DB_SYNC` | Boolean | `false`             | Force database structure creation                                                      |
+| `DEBUG`         | Boolean | `false`             | Enables the debug mode                                                                 |
 | `CORS_ORIGIN`   | String  | `*`                 | Origin hosts list separated by comma, allowed to make requests (`*` means all allowed) |
 
 ------
