@@ -17,6 +17,6 @@ module.exports = {
   collectCoverageFrom: [
     '**/src/controllers/*.js',
     // '**/src/middlewares/*.js',
-    '**/src/validators/*.js'
+    // '**/src/validators/*.js'
   ]
 };

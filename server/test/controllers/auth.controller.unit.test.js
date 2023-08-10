@@ -5,6 +5,7 @@ const User = db.user;
 const RefreshToken = db.refreshToken;
 
 const authController = require('../../src/controllers/auth.controller');
+const config = require("../../src/config/auth.config");
 
 const MOCK_USER_DATA = {
   name: 'Test user',
@@ -119,7 +120,47 @@ describe('Auth Controller - Unit Tests', () => {
       const data = response._getJSONData();
       const newRefreshToken = await RefreshToken.findOne({where: {token: data.refreshToken}});
       expect(newRefreshToken).toBeDefined()
-    })
+    });
+    it('No Refresh Token', async () => {
+      const response = httpMocks.createResponse();
+      const request = httpMocks.createRequest();
+      request._setBody({
+        refreshToken: null
+      })
+      const r = async () => {
+        await authController.refreshToken(request, response);
+      };
+      await expect(r).rejects.toThrow('Refresh Token is required');
+    });
+    it('No Refresh Token', async () => {
+      const response = httpMocks.createResponse();
+      const request = httpMocks.createRequest();
+      request._setBody({
+        refreshToken: 'Not Found'
+      })
+      const r = async () => {
+        await authController.refreshToken(request, response);
+      };
+      await expect(r).rejects.toThrow('Refresh token is not in database');
+    });
+    it('Refresh token expired', async () => {
+      const testUser = await User.findOne({where: {email: MOCK_USER_DATA.email}});
+      const testToken = await RefreshToken.findOne({where: {userId: testUser.id}});
+      let expiredAt = new Date();
+      expiredAt.setSeconds(expiredAt.getSeconds() - 1);
+      testToken.expiryDate = expiredAt.getTime();
+      await testToken.save();
+      const response = httpMocks.createResponse();
+      const request = httpMocks.createRequest();
+      request._setBody({
+        refreshToken: testToken.token
+      })
+      const r = async () => {
+        await authController.refreshToken(request, response);
+        console.log(response._getData())
+      };
+      await expect(r).rejects.toThrow('Refresh token expired');
+    });
   });
   afterAll(async () => {
     await db.sequelize.sync({force: true});
