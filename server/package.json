@@ -24,7 +24,6 @@
     "sequelize": "6.32.1",
     "swagger-ui-express": "5.0.0",
     "uuid": "9.0.0",
-    "validator": "13.9.0",
     "winston": "3.10.0",
     "yaml": "2.3.1"
   },

@@ -89,7 +89,7 @@ describe('Auth Controller - Unit Tests', () => {
       const r = async () => {
         await authController.signin(request, response);
       };
-      expect(r).rejects.toThrow('Bad credentials');
+      await expect(r).rejects.toThrow('Bad credentials');
     });
     it('Bad password', async () => {
       const response = httpMocks.createResponse();
@@ -101,7 +101,7 @@ describe('Auth Controller - Unit Tests', () => {
       const r = async () => {
         await authController.signin(request, response);
       };
-      expect(r).rejects.toThrow('Bad credentials');
+      await expect(r).rejects.toThrow('Bad credentials');
     });
   });
   describe('Refresh Access Token', () => {

@@ -2,7 +2,7 @@ const db = require("../models");
 const {throwError} = require("../middleware/errorHandler");
 const User = db.user;
 
-exports.userMe = async (req, res, next) => {
+exports.userMe = async (req, res) => {
   const userId = req.userId;
   const user = await User.findByPk(userId);
 

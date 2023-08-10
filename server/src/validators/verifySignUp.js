@@ -1,4 +1,3 @@
-var validator = require('validator');
 const db = require("../models");
 const {errorBuilder} = require("../middleware/errorHandler");
 const User = db.user;

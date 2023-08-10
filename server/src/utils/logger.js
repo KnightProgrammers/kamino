@@ -2,8 +2,9 @@ const { createLogger, transports, format } = require('winston');
 
 const logger = createLogger({
   format: format.combine(
-    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    format.printf(info => `${info.timestamp} [${info.level.toUpperCase()}]: ${info.message}`)
+    // format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    format.printf(info => `[${info.level.toUpperCase()}]: ${info.message}`),
+    format.colorize({all: true})
   ),
   transports: [
     // Log into a file

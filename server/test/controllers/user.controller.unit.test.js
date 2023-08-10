@@ -40,9 +40,9 @@ describe('User Controller - Unit Tests', () => {
     const r = async () => {
        await userController.userMe(request, response);
     };
-    expect(r).rejects.toThrow('User not found');
+    await expect(r).rejects.toThrow('User not found');
 
-    expect(response._isEndCalled()).toBeFalsy();
+    await expect(response._isEndCalled()).toBeFalsy();
   });
   it('Should throw an error if the user doesn\'t exist', async () => {
     const response = httpMocks.createResponse();
@@ -52,7 +52,7 @@ describe('User Controller - Unit Tests', () => {
     const r = async () => {
        await userController.userMe(request, response);
     };
-    expect(r).rejects.toThrow('User not found');
+    await expect(r).rejects.toThrow('User not found');
   });
   it('Validate response when the user has no name', async () => {
     const testUser = await User.create({

@@ -9,7 +9,7 @@ const errorLogger = (error, request, response, next) => {
 
 // Error handling Middleware function reads the error message
 // and sends back a response in JSON format
-const errorResponder = (error, request, res, next) => {
+const errorResponder = (error, request, res) => {
   res.header("Content-Type", 'application/json');
   if (error && error.error && error.error.isJoi) {
     res.status(400).json({
