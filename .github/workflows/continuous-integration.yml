@@ -99,7 +99,8 @@ jobs:
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic
-    if: github.event_name == 'push'
+    needs: server-api-tests
+    # if: github.event_name == 'push'
     steps:
       - name: ☄️ New Relic Application Deployment Marker
         uses: newrelic/deployment-marker-action@v2.3.0
