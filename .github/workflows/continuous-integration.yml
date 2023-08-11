@@ -47,6 +47,7 @@ jobs:
           npm run test-ci
       - name: ☂️ Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
+        if: always()
         with:
           coverage-summary-path: ./server/coverage/coverage-summary.json
           title: Server Coverage
