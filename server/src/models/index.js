@@ -1,4 +1,5 @@
 const config = require("../config/db.config.js");
+const logger = require('../utils/logger')
 
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
@@ -9,7 +10,7 @@ const sequelize = new Sequelize(
     host: config.DB_HOST,
     port: config.DB_PORT,
     dialect: config.dialect,
-    logging: !!JSON.parse(process.env.DEBUG || false) ? console.log : false,
+    logging: !!JSON.parse(process.env.DEBUG || false) ? (msg) => logger.debug(msg) : false,
     pool: {
       max: config.pool.max,
       min: config.pool.min,

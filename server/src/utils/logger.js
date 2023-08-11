@@ -1,19 +1,12 @@
 const { createLogger, transports, format } = require('winston');
 
 const logger = createLogger({
+  level: 'debug',
   format: format.combine(
-    // format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.printf(info => `[${info.level.toUpperCase()}]: ${info.message}`),
     format.colorize({all: true})
   ),
   transports: [
-    // Log into a file
-    /*new transports.File({
-      filename: './logs/all-logs.log',
-      json: false,
-      maxsize: 5242880,
-      maxFiles: 1,
-    }),*/
     new transports.Console()
   ]
 });

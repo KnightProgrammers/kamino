@@ -4,7 +4,8 @@ const fs = require('fs');
 const express = require("express");
 const cors = require("cors");
 const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
-const httpLogger = require('./utils/httpLogger');
+const httpLogger = require('./middleware/httpLogger');
+const logger = require('./utils/logger');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yaml');
 const swaggerFile  = fs.readFileSync('./swagger.yaml', 'utf8')
@@ -29,10 +30,10 @@ const db = require("./models");
 const forceDbSync = !!JSON.parse(process.env.FORCE_DB_SYNC || false);
 // forceDbSync: true will drop the table if it already exists
 db.sequelize.sync({force: forceDbSync}).then(() => {
-  console.log(`Drop and Resync Database with { force: ${forceDbSync} }`);
+  logger.debug(`Drop and Resync Database with { force: ${forceDbSync} }`);
 });
 
-// app.use(httpLogger);
+app.use(httpLogger);
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the application" });
 });
@@ -66,5 +67,5 @@ app.use(async (error, req, res, next) => {
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  logger.info(`Server is running on port ${PORT}.`);
 });
