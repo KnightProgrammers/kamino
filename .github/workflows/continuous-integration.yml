@@ -98,7 +98,7 @@ jobs:
           exit 1
   newrelic-notification:
     runs-on: ubuntu-latest
-    name: New Relic
+    name: New Relic Notification
     needs: server-api-tests
     # if: github.event_name == 'push'
     steps:
@@ -107,5 +107,5 @@ jobs:
         with:
           apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
           guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
-          version: "${{ env.RELEASE_VERSION }}"
+          version: "${{ github.sha }}"
           user: "${{ github.actor }}"

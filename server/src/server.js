@@ -11,6 +11,7 @@ const swaggerUi = require('swagger-ui-express');
 const {version} = require('../package.json');
 
 const Rollbar = require('rollbar');
+
 const rollbar = new Rollbar({
   accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
   enabled: process.env.ENVIRONMENT === 'production' && !!process.env.ROLLBAR_ACCESS_TOKEN,
