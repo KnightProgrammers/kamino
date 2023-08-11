@@ -35,6 +35,7 @@ services:
       PORT: '8080'
       FORCE_DB_SYNC: 'false'
       DEBUG: 'true'
+      LOG_LEVEL: 'DEBUG'
     ports:
       - '8080:8080'
     depends_on:
