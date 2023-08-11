@@ -20,6 +20,7 @@
     "jsonwebtoken": "9.0.1",
     "morgan": "1.10.0",
     "mysql2": "3.5.2",
+    "newrelic": "latest",
     "nodemon": "3.0.1",
     "redis": "4.6.7",
     "sequelize": "6.32.1",

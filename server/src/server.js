@@ -3,6 +3,7 @@ require('dotenv').config();
 const fs = require('fs');
 const express = require("express");
 const cors = require("cors");
+require('newrelic');
 const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
 const httpLogger = require('./middleware/httpLogger');
 const logger = require('./utils/logger');
