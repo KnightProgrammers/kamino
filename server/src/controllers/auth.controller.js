@@ -6,6 +6,7 @@ const RefreshToken = db.refreshToken;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {errorBuilder} = require("../middleware/errorHandler");
+const RedisClient = require("../libraries/redis");
 
 exports.signup = async (req, res) => {
   const user = await User.create({
@@ -47,8 +48,12 @@ exports.signin = async (req, res, next) => {
     {
       algorithm: 'HS256',
       allowInsecureKeySizes: true,
-      expiresIn: 86400, // 24 hours
+      expiresIn: config.jwtExpiration
     });
+
+  RedisClient.set(accessToken, user.id, {
+    'EX': config.jwtExpiration
+  });
 
   let refreshToken = await RefreshToken.createToken(user);
 
@@ -77,9 +82,12 @@ exports.refreshToken = async (req, res, next) => {
     return next(errorBuilder('Refresh token expired', 403, 'warn'));
   }
 
-  const user = await refreshToken.getUser();
-  let newAccessToken = jwt.sign({ id: user.id }, config.secret, {
+  let newAccessToken = jwt.sign({ id: refreshToken.userId }, config.secret, {
     expiresIn: config.jwtExpiration,
+  });
+
+  await RedisClient.set(newAccessToken, refreshToken.userId, {
+    'EX': config.jwtExpiration
   });
 
   return res.status(200).json({

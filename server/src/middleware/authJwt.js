@@ -3,6 +3,7 @@ const { TokenExpiredError } = jwt;
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const {errorBuilder} = require("./errorHandler");
+const RedisClient = require("../libraries/redis");
 const User = db.user;
 
 const verifyUser = async (userId) => {
@@ -22,6 +23,15 @@ const verifyToken = async (req, res, next) => {
   if (!token) {
     return next(errorBuilder('No token provided', 403));
   }
+
+  const userId = await RedisClient.get(token);
+
+  if (userId) {
+    req.userId = userId;
+    next();
+    return;
+  }
+
   jwt.verify(token,
     config.secret,
     async (err, decoded) => {

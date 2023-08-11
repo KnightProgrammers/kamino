@@ -7,6 +7,7 @@ const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/
 const httpLogger = require('./middleware/httpLogger');
 const logger = require('./utils/logger');
 const swaggerUi = require('swagger-ui-express');
+
 const YAML = require('yaml');
 const swaggerFile  = fs.readFileSync('./swagger.yaml', 'utf8')
 const swaggerDocument = YAML.parse(swaggerFile);

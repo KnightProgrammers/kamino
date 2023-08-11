@@ -13,6 +13,13 @@ services:
       - 3306
     volumes:
       - data-db:/var/lib/mysql
+  kamino-redis:
+    image: redis:latest
+    restart: always
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
   kamino-server:
     build:
       context: ./server
@@ -24,12 +31,15 @@ services:
       DB_USER: 'kamino-user'
       DB_PASSWORD: 'password'
       DB_SCHEMA: 'kamino'
+      REDIS_URL: 'redis://kamino-redis:6379'
       PORT: '8080'
       FORCE_DB_SYNC: 'false'
       DEBUG: 'true'
     ports:
       - '8080:8080'
     depends_on:
+      kamino-redis:
+        condition: service_healthy
       kamino-db:
         condition: service_healthy
     healthcheck:
