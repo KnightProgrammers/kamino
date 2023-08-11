@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const {createClient} = require("redis");
 const logger = require("../utils/logger");
-const config = require("../config/auth.config");
+const config = require("../config/redis.config");
 
 class RedisClient {
   client = null;
@@ -15,7 +15,7 @@ class RedisClient {
     try {
       if (!RedisClient.client && RedisClient.noConnection < 3) {
         RedisClient.client = createClient({
-          url: process.env.REDIS_URL || 'redis://localhost:6380'
+          url: config.REDIS_URL
         });
         RedisClient.client.on('error', err => {
           logger.warn('Redis Client Error', err);
@@ -31,17 +31,16 @@ class RedisClient {
   }
   static async set(key, value, options = {}) {
     const redisClient = await RedisClient._getClient();
-
     if (redisClient) {
       await redisClient.set(key, value, options);
     }
   }
   static async get(key, options = {}) {
     const redisClient = await RedisClient._getClient();
-
     if (redisClient) {
-      await redisClient.get(key, options);
+      return redisClient.get(key, options);
     }
+    return null;
   }
 }
 
