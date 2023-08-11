@@ -8,6 +8,18 @@ const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/
 const httpLogger = require('./middleware/httpLogger');
 const logger = require('./utils/logger');
 const swaggerUi = require('swagger-ui-express');
+const {version} = require('../package.json');
+
+const Rollbar = require('rollbar');
+const rollbar = new Rollbar({
+  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+  enabled: process.env.ENVIRONMENT === 'production' && !!process.env.ROLLBAR_ACCESS_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  payload: {
+    code_version: version,
+  }
+});
 
 const YAML = require('yaml');
 const swaggerFile  = fs.readFileSync('./swagger.yaml', 'utf8')
@@ -52,6 +64,8 @@ app.use('/api/users', userRouter);
 app.use('/api', healthRouter);
 
 app.use('*', invalidPathHandler);
+
+app.use(rollbar.errorHandler());
 
 app.use(errorLogger);
 
