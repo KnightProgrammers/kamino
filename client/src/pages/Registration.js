@@ -7,7 +7,7 @@ import axios from "axios";
 export default function Registration() {
   const handleRegister = async (values) => {
     try {
-      const response = await axios.post("http://localhost:3000/register", {
+      const response = await axios.post("http://localhost:3001/register", {
         email: values.email,
         password: values.password,
       });

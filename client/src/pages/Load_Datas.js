@@ -3,7 +3,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import styles from "@/styles/Home.module.css";
- import Head from "next/head";
+import Head from "next/head";
 
 function Load_Dates() {
   const [show, setShow] = useState();
@@ -11,6 +11,151 @@ function Load_Dates() {
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
   const [show5, setShow5] = useState(false);
+
+  const firstYear = {
+    firstSemester: [
+      {
+        key: 1,
+        name: "Analisis Matemático I",
+
+      },
+      {
+        key: 2,
+        name: "Algebra y Geometría Analítica",
+      },
+      {
+        key: 3,
+        name: "Lógica y Estructura de discreta ",
+      },
+    ],
+    secondSemester: [
+      {
+        key: 4,
+        name: "Inglés I",
+      },
+      {
+        key: 5,
+        name: "Física I",
+      },
+      {
+        key: 6,
+        name: "Algoritmo y Estructura de Datos",
+      },
+      {
+        key: 7,
+        name: "Arquitectura de computadorass",
+      },
+      {
+        key: 8,
+        name: "Sistema y procesos de negocio",
+      },
+    ],
+  };
+const secondYear = {
+  firstSemester: [
+    {
+      key: 9,
+      name: "Analisis Matemático II",
+    },
+    {
+      key: 10,
+      name: "Ingeniería y Sociedad",
+    },
+    {
+      key: 11,
+      name: "Sintaxis y Semántica de los Lenguajes ",
+    },
+    {
+      key: 12,
+      name: "Física I",
+    },
+  ],
+  secondSemester: [
+    {
+      key: 13,
+      name: "Inglés II",
+    },
+
+    {
+      key: 14,
+      name: "Física II",
+    },
+    {
+      key: 15,
+      name: "Paradigmas de Programación ",
+    },
+    {
+      key: 16,
+      name: "Sistemas Operativo",
+    },
+  ],
+};
+
+  for (let i = 0; i < firstYear.firstSemester.length; i++) {
+    const subject = firstYear.firstSemester[i];
+  }
+  for (const firstYearKey in firstYear) {
+    const semester = firstYear[firstYearKey];
+    for (const subject of semester) {
+    }
+  }
+
+  const SUBJECT_STATUS = [
+    {
+      key: "approved",
+      label: "Aprobado",
+    },
+    {
+      key: "regularized",
+      label: "Regularizada",
+    },
+    {
+      key: "inprogress",
+      label: "Cursando",
+    },
+    {
+      key: "notInprogress",
+      label: "No cursada",
+    },
+
+    {
+      key: "free",
+      label: "Libre",
+    },
+  ];
+
+
+  function getSubjectStatus(subject) {
+    const options = [];
+    for (const subjectStatus of SUBJECT_STATUS) {
+      options.push(
+        <option value={subjectStatus.key}>{subjectStatus.label}</option>
+      );
+    }
+    return (
+      <select id={`${subject.id}`} name={`${subject.id}`}>
+        {options}
+      </select>
+    );
+  }
+
+  const Semester = ({ semester }) => {
+    const result = [];
+    for (const subject of semester) {
+      const subjectStatus = getSubjectStatus(subject);
+
+      const subjectHTML = (
+        <fieldset>
+          <h4> {subject.name} </h4>
+          {subjectStatus}
+        </fieldset>
+      );
+
+      result.push(subjectHTML);
+    }
+    return result;
+  };
+
   return (
     <>
       {/*--------HEAD----------- */}
@@ -26,20 +171,20 @@ function Load_Dates() {
         <br />
         <br />
         <br />
-
-        <button className={styles.text2} onClick={() => setShow(!show)}>
+        <br />
+        <button className={styles.text} onClick={() => setShow(!show)}>
           Primer Año
         </button>
-        <button className={styles.text2} onClick={() => setShow2(!show2)}>
+        <button className={styles.text} onClick={() => setShow2(!show2)}>
           Segundo Año
         </button>
-        <button className={styles.text2} onClick={() => setShow3(!show3)}>
+        <button className={styles.text} onClick={() => setShow3(!show3)}>
           Tercer Año
         </button>
-        <button className={styles.text2} onClick={() => setShow4(!show4)}>
+        <button className={styles.text} onClick={() => setShow4(!show4)}>
           Cuarto Año
         </button>
-        <button className={styles.text2} onClick={() => setShow5(!show5)}>
+        <button className={styles.text} onClick={() => setShow5(!show5)}>
           Quinto Año
         </button>
       </div>
@@ -54,405 +199,20 @@ function Load_Dates() {
                 <br />
                 <h3 align="center"> PRIMER AÑO</h3>
               </div>
-              {/*-------- FIRTS TERN ---------- */}
               <div>
                 <h3> Primer Cuatrimestre </h3>
                 <br />
               </div>
-              <div>
-                <div>{/*--------MATHEMATICAL ANALYSIS---------- */}</div>
-                <fieldset>
-                  <h4> Análisis Matemático I </h4>
-                  <input
-                    type="radio"
-                    id="approved"
-                    name="mathematical_analysis1 "
-                    value="approved"
-                  />
-                  <label for="approved">Aprobada </label>
-
-                  <input
-                    type="radio"
-                    id="regularized "
-                    name="mathematical_analysis1 "
-                    value="regularized"
-                  />
-                  <label for="regularized"> Regularizada </label>
-
-                  <input
-                    type="radio"
-                    id="disapproved "
-                    name="mathematical_analysis1 "
-                    value="disapproved"
-                  />
-                  <label for="disapproved"> Desaporbada </label>
-
-                  <input
-                    type="radio"
-                    id="currently "
-                    name="mathematical_analysis1 "
-                    value="currently"
-                  />
-                  <label for="currently"> Cursando </label>
-
-                  <input
-                    type="radio"
-                    id="not_currently "
-                    name="mathematical_analysis1 "
-                    value="not_currently"
-                    defaultChecked
-                  />
-                  <label for="not_currently"> No cursada </label>
-                </fieldset>
-                <br />
-                <div>{/*--------MATHEMATICAL ANALYSIS---------- */}</div>
-                {/*--------Algebra and Analytical Geometry---------- */}
-                <div>
-                  <fieldset>
-                    <h4>Algebra y Geometria Analitica </h4>
-                    <input
-                      type="radio"
-                      id="approved"
-                      name="Algebra "
-                      value="approved"
-                    />
-                    <label for="approved">Aprobada </label>
-
-                    <input
-                      type="radio"
-                      id="regularized "
-                      name="Algebra "
-                      value="regularized"
-                    />
-                    <label for="regularized"> Regularizada </label>
-
-                    <input
-                      type="radio"
-                      id="disapproved "
-                      name=" Algebra"
-                      value="disapproved"
-                    />
-                    <label for="disapproved"> Desaporbada </label>
-
-                    <input
-                      type="radio"
-                      id="currently "
-                      name="Algebra "
-                      value="currently"
-                    />
-                    <label for="currently"> Cursando </label>
-
-                    <input
-                      type="radio"
-                      id="not_currently "
-                      name=" Algebra"
-                      value="not_currently"
-                      defaultChecked
-                    />
-                    <label for="not_currently"> No cursada </label>
-                  </fieldset>
-                  <br />
-                </div>
-                {/*--------Algebra and Analytical Geometry---------- */}
-                {/*--------Lógica y Estructura de discreta t---------- */}
-                <div>
-                  <fieldset>
-                    <h4> Lógica y estructura de discreta</h4>
-                    <input
-                      type="radio"
-                      id="approved"
-                      name="Discrete"
-                      value="approved"
-                    />
-                    <label for="approved">Aprobada </label>
-
-                    <input
-                      type="radio"
-                      id="regularized "
-                      name="Discrete"
-                      value="regularized"
-                    />
-                    <label for="regularized"> Regularizada </label>
-
-                    <input
-                      type="radio"
-                      id="disapproved "
-                      name="Discrete"
-                      value="disapproved"
-                    />
-                    <label for="disapproved"> Desaporbada </label>
-
-                    <input
-                      type="radio"
-                      id="currently "
-                      name="Discrete"
-                      value="currently"
-                    />
-                    <label for="currently"> Cursando </label>
-
-                    <input
-                      type="radio"
-                      id="not_currently "
-                      name="Discrete"
-                      value="not_currently"
-                      defaultChecked
-                    />
-                    <label for="not_currently"> No cursada </label>
-                  </fieldset>
-                  <br />
-                </div>
-                <div>{/*--------Logic and Discrete Structure---------- */}</div>
-              </div>
-              {/*-------- SECOND TERN ---------- */}
+              <Semester semester={firstYear.firstSemester} />
               <div>
                 <br />
                 <h3> Segundo Cuatrimestre </h3>
                 <br />
               </div>
-              <div>
-                {/*-------- English 1---------- */}
-                <fieldset>
-                  <h4>Inglés I </h4>
-                  <input
-                    type="radio"
-                    id="approved"
-                    name="English1"
-                    value="approved"
-                  />
-                  <label for="approved">Aprobada </label>
-
-                  <input
-                    type="radio"
-                    id="regularized "
-                    name="English1"
-                    value="regularized"
-                  />
-                  <label for="regularized"> Regularizada </label>
-
-                  <input
-                    type="radio"
-                    id="disapproved "
-                    name="English1"
-                    value="disapproved"
-                  />
-                  <label for="disapproved"> Desaporbada </label>
-
-                  <input
-                    type="radio"
-                    id="currently "
-                    name="English1"
-                    value="currently"
-                  />
-                  <label for="currently"> Cursando </label>
-
-                  <input
-                    type="radio"
-                    id="not_currently "
-                    name="English1"
-                    value="not_currently"
-                    defaultChecked
-                  />
-                  <label for="not_currently"> No cursada </label>
-                </fieldset>
-                <br />
-                {/*-------- English 1---------- */}
-                {/*-------- Physics I---------- */}
-                <fieldset>
-                  <h4>Física I </h4>
-                  <input
-                    type="radio"
-                    id="approved"
-                    name="Physics1 "
-                    value="approved"
-                  />
-                  <label for="approved">Aprobada </label>
-
-                  <input
-                    type="radio"
-                    id="regularized "
-                    name="Physics1 "
-                    value="regularized"
-                  />
-                  <label for="regularized"> Regularizada </label>
-
-                  <input
-                    type="radio"
-                    id="disapproved "
-                    name="Physics1 "
-                    value="disapproved"
-                  />
-                  <label for="disapproved"> Desaporbada </label>
-
-                  <input
-                    type="radio"
-                    id="currently "
-                    name="Physics1 "
-                    value="currently"
-                  />
-                  <label for="currently"> Cursando </label>
-
-                  <input
-                    type="radio"
-                    id="not_currently "
-                    name="Physics1 "
-                    value="not_currently"
-                    defaultChecked
-                  />
-                  <label for="not_currently"> No cursada </label>
-                </fieldset>
-                <br />
-                {/*-------- Physics I---------- */}
-                {/*-------- Algorithm and Data Structure---------- */}
-                <div>
-                  {/*-------- Algorithm and Data Structure---------- */}
-                </div>
-                <fieldset>
-                  <h4>Algoritmo y Estructura de Datos </h4>
-                  <input
-                    type="radio"
-                    id="approved"
-                    name="Algorithm "
-                    value="approved"
-                  />
-                  <label for="approved">Aprobada </label>
-
-                  <input
-                    type="radio"
-                    id="regularized "
-                    name="Algorithm"
-                    value="regularized"
-                  />
-                  <label for="regularized"> Regularizada </label>
-
-                  <input
-                    type="radio"
-                    id="disapproved "
-                    name="Algorithm "
-                    value="disapproved"
-                  />
-                  <label for="disapproved"> Desaporbada </label>
-
-                  <input
-                    type="radio"
-                    id="currently "
-                    name="Algorithm"
-                    value="currently"
-                  />
-                  <label for="currently"> Cursando </label>
-
-                  <input
-                    type="radio"
-                    id="not_currently "
-                    name="Algorithm "
-                    value="not_currently"
-                    defaultChecked
-                  />
-                  <label for="not_currently"> No cursada </label>
-                </fieldset>
-                <br />
-                {/*-------- Algorithm and Data Structure---------- */}
-                {/*-------- computer architecture---------- */}
-                <fieldset>
-                  <h4>Arquitectura de computadoras </h4>
-                  <input
-                    type="radio"
-                    id="approved"
-                    name=" architecture "
-                    value="approved"
-                  />
-                  <label for="approved">Aprobada </label>
-
-                  <input
-                    type="radio"
-                    id="regularized "
-                    name=" architecture "
-                    value="regularized"
-                  />
-                  <label for="regularized"> Regularizada </label>
-
-                  <input
-                    type="radio"
-                    id="disapproved "
-                    name=" architecture "
-                    value="disapproved"
-                  />
-                  <label for="disapproved"> Desaporbada </label>
-
-                  <input
-                    type="radio"
-                    id="currently "
-                    name=" architecture "
-                    value="currently"
-                  />
-                  <label for="currently"> Cursando </label>
-
-                  <input
-                    type="radio"
-                    id="not_currently "
-                    name=" architecture "
-                    value="not_currently"
-                    defaultChecked
-                  />
-                  <label for="not_currently"> No cursada </label>
-                </fieldset>
-                <br />
-                {/*-------- computer architecture---------- */}
-                <div>
-                  <br />
-                  <h3> Anual </h3>
-                  <br />
-                </div>
-                {/*-------- System and business processes---------- */}
-                <fieldset>
-                  <h4>Sistema y procesos de negocio </h4>
-                  <input
-                    type="radio"
-                    id="approved"
-                    name="System_business "
-                    value="approved"
-                  />
-                  <label for="approved">Aprobada </label>
-
-                  <input
-                    type="radio"
-                    id="regularized "
-                    name="System_business "
-                    value="regularized"
-                  />
-                  <label for="regularized"> Regularizada </label>
-
-                  <input
-                    type="radio"
-                    id="disapproved "
-                    name="System_business "
-                    value="disapproved"
-                  />
-                  <label for="disapproved"> Desaporbada </label>
-
-                  <input
-                    type="radio"
-                    id="currently "
-                    name="System_business "
-                    value="currently"
-                  />
-                  <label for="currently"> Cursando </label>
-
-                  <input
-                    type="radio"
-                    id="not_currently "
-                    name="System_business "
-                    value="not_currently"
-                    defaultChecked
-                  />
-                  <label for="not_currently"> No cursada </label>
-                </fieldset>
-                <br />
-                <div>
-                  {/*-------- System and business processes---------- */}
-                </div>
-              </div>
             </div>
-            <button className={styles.text2} type="sumit">
+            <Semester semester={firstYear.secondSemester} />
+            <br />
+            <button className={styles.text} type="sumit">
               ENVIAR
             </button>
           </form>
@@ -465,338 +225,18 @@ function Load_Dates() {
               <br />
               <h3 align="center"> SEGUNDO AÑO</h3>
               <br />
-              <h3> Primer Cuatrimestre </h3>
-              <br />
-              <div>{/*--------MATHEMATICAL ANALYSIS II---------- */}</div>
-              <fieldset>
-                <h4>Analisis Matemático II </h4>
-                <input
-                  type="radio"
-                  id="approved"
-                  name="mathematical_analysis2"
-                  value="approved"
-                />
-                <label for="approved">Aprobada </label>
-
-                <input
-                  type="radio"
-                  id="regularized "
-                  name="mathematical_analysis2"
-                  value="regularized"
-                />
-                <label for="regularized"> Regularizada </label>
-
-                <input
-                  type="radio"
-                  id="disapproved "
-                  name="mathematical_analysis2"
-                  value="disapproved"
-                />
-                <label for="disapproved"> Desaporbada </label>
-
-                <input
-                  type="radio"
-                  id="currently "
-                  name="mathematical_analysis2"
-                  value="currently"
-                />
-                <label for="currently"> Cursando </label>
-
-                <input
-                  type="radio"
-                  id="not_currently "
-                  name="mathematical_analysis2"
-                  value="not_currently"
-                  defaultChecked
-                />
-                <label for="not_currently"> No cursada </label>
-              </fieldset>
-              <br />
-              <div>{/*--------MATHEMATICAL ANALYSIS II---------- */}</div>
-              <div>{/*--------Engineering and Society---------- */}</div>
-              <fieldset>
-                <h4>Ingeniería y Sociedad </h4>
-                <input
-                  type="radio"
-                  id="approved"
-                  name="Engineering_Society"
-                  value="approved"
-                />
-                <label for="approved">Aprobada </label>
-
-                <input
-                  type="radio"
-                  id="regularized "
-                  name="Engineering_Society"
-                  value="regularized"
-                />
-                <label for="regularized"> Regularizada </label>
-
-                <input
-                  type="radio"
-                  id="disapproved "
-                  name="Engineering_Society"
-                  value="disapproved"
-                />
-                <label for="disapproved"> Desaporbada </label>
-
-                <input
-                  type="radio"
-                  id="currently "
-                  name="Engineering_Society"
-                  value="currently"
-                />
-                <label for="currently"> Cursando </label>
-
-                <input
-                  type="radio"
-                  id="not_currently "
-                  name="Engineering_Society"
-                  value="not_currently"
-                  defaultChecked
-                />
-                <label for="not_currently"> No cursada </label>
-              </fieldset>
-              <br />
-              <div>{/*--------Engineering and Society---------- */}</div>
               <div>
-                {/*--------Syntax and Semantics of Languages---------- */}
+                <h3> Primer Cuatrimestre </h3>
+                <br />
               </div>
-              <fieldset>
-                <h4> Sintaxis y Semántica de los Lenguajes </h4>
-                <input
-                  type="radio"
-                  id="approved"
-                  name="Syntax_Semantics"
-                  value="approved"
-                />
-                <label for="approved">Aprobada </label>
-
-                <input
-                  type="radio"
-                  id="regularized "
-                  name="Syntax_Semantics"
-                  value="regularized"
-                />
-                <label for="regularized"> Regularizada </label>
-
-                <input
-                  type="radio"
-                  id="disapproved "
-                  name="Syntax_Semantics"
-                  value="disapproved"
-                />
-                <label for="disapproved"> Desaporbada </label>
-
-                <input
-                  type="radio"
-                  id="currently "
-                  name="Syntax_Semantics"
-                  value="currently"
-                />
-                <label for="currently"> Cursando </label>
-
-                <input
-                  type="radio"
-                  id="not_currently "
-                  name="Syntax_Semantics"
-                  value="not_currently"
-                  defaultChecked
-                />
-                <label for="not_currently"> No cursada </label>
-              </fieldset>
               <br />
+              <Semester semester={secondYear.firstSemester} />
+
               <div>
-                {/*--------Syntax and Semantics of Languages---------- */}
+                <br />
+                <h3> Segundo Cuatrimestre </h3>
+                <br />
               </div>
-              <h3> Segundo Cuatrimestre </h3>
-              <br />
-              <div>{/*--------English II---------- */}</div>
-              <fieldset>
-                <h4>Inglés II </h4>
-                <input
-                  type="radio"
-                  id="approved"
-                  name="English2"
-                  value="approved"
-                />
-                <label for="approved">Aprobada </label>
-
-                <input
-                  type="radio"
-                  id="regularized "
-                  name="English2"
-                  value="regularized"
-                />
-                <label for="regularized"> Regularizada </label>
-
-                <input
-                  type="radio"
-                  id="disapproved "
-                  name="English2"
-                  value="disapproved"
-                />
-                <label for="disapproved"> Desaporbada </label>
-
-                <input
-                  type="radio"
-                  id="currently "
-                  name="English2"
-                  value="currently"
-                />
-                <label for="currently"> Cursando </label>
-
-                <input
-                  type="radio"
-                  id="not_currently "
-                  name="English2"
-                  value="not_currently"
-                  defaultChecked
-                />
-                <label for="not_currently"> No cursada </label>
-              </fieldset>
-              <br />
-              <div>{/*--------English II---------- */}</div>
-              <div>{/*-------- Physics II---------- */}</div>
-              <fieldset>
-                <h4>Física II </h4>
-                <input
-                  type="radio"
-                  id="approved"
-                  name="Física2"
-                  value="approved"
-                />
-                <label for="approved">Aprobada </label>
-
-                <input
-                  type="radio"
-                  id="regularized "
-                  name="Física2"
-                  value="regularized"
-                />
-                <label for="regularized"> Regularizada </label>
-
-                <input
-                  type="radio"
-                  id="disapproved "
-                  name="Física2"
-                  value="disapproved"
-                />
-                <label for="disapproved"> Desaporbada </label>
-
-                <input
-                  type="radio"
-                  id="currently "
-                  name="Física2"
-                  value="currently"
-                />
-                <label for="currently"> Cursando </label>
-
-                <input
-                  type="radio"
-                  id="not_currently "
-                  name="Física2"
-                  value="not_currently"
-                  defaultChecked
-                />
-                <label for="not_currently"> No cursada </label>
-              </fieldset>
-              <br />
-              <div>{/*-------- Physics II---------- */}</div>
-              <div>{/*-------- Physics II---------- */}</div>
-
-              <div>{/*--------Programming Paradigms---------- */}</div>
-              <fieldset>
-                <h4> Paradigmas de Programación </h4>
-                <input
-                  type="radio"
-                  id="approved"
-                  name="Paradigms"
-                  value="approved"
-                />
-                <label for="approved">Aprobada </label>
-
-                <input
-                  type="radio"
-                  id="regularized "
-                  name="Paradigms"
-                  value="regularized"
-                />
-                <label for="regularized"> Regularizada </label>
-
-                <input
-                  type="radio"
-                  id="disapproved "
-                  name="Paradigms"
-                  value="disapproved"
-                />
-                <label for="disapproved"> Desaporbada </label>
-
-                <input
-                  type="radio"
-                  id="currently "
-                  name="Paradigms"
-                  value="currently"
-                />
-                <label for="currently"> Cursando </label>
-
-                <input
-                  type="radio"
-                  id="not_currently "
-                  name="Paradigms"
-                  value="not_currently"
-                  defaultChecked
-                />
-                <label for="not_currently"> No cursada </label>
-              </fieldset>
-              <div>{/*--------Programming Paradigms---------- */}</div>
-              <br />
-              <div>{/*--------Operative Sistems---------- */}</div>
-              <fieldset>
-                <h4>Sistemas Operativos </h4>
-                <input
-                  type="radio"
-                  id="approved"
-                  name="Operative_Sistems"
-                  value="approved"
-                />
-                <label for="approved">Aprobada </label>
-
-                <input
-                  type="radio"
-                  id="regularized "
-                  name="Operative_Sistems"
-                  value="regularized"
-                />
-                <label for="regularized"> Regularizada </label>
-
-                <input
-                  type="radio"
-                  id="disapproved "
-                  name="Operative_Sistems"
-                  value="disapproved"
-                />
-                <label for="disapproved"> Desaporbada </label>
-
-                <input
-                  type="radio"
-                  id="currently "
-                  name="Operative_Sistems"
-                  value="currently"
-                />
-                <label for="currently"> Cursando </label>
-
-                <input
-                  type="radio"
-                  id="not_currently "
-                  name="Operative_Sistems"
-                  value="not_currently"
-                  defaultChecked
-                />
-                <label for="not_currently"> No cursada </label>
-              </fieldset>
-              <br />
-              {/*--------Operative Sistems---------- */}
               <div>
                 <br />
                 <h3> Anual </h3>
@@ -806,42 +246,6 @@ function Load_Dates() {
                 {/*--------Information System Analysis---------- */}
                 <fieldset>
                   <h4> Análisis de Sistema de Información </h4>
-                  <input type="radio" id="approved" name=" " value="approved" />
-                  <label for="approved">Aprobada </label>
-
-                  <input
-                    type="radio"
-                    id="regularized "
-                    name=" "
-                    value="regularized"
-                  />
-                  <label for="regularized"> Regularizada </label>
-
-                  <input
-                    type="radio"
-                    id="disapproved "
-                    name=" "
-                    value="disapproved"
-                  />
-                  <label for="disapproved"> Desaporbada </label>
-
-                  <input
-                    type="radio"
-                    id="currently "
-                    name=" "
-                    value="currently"
-                  />
-                  <label for="currently"> Cursando </label>
-
-                  <input
-                    type="radio"
-                    id="not_currently "
-                    name=" "
-                    value="not_currently"
-                    defaultChecked
-                  />
-
-                  <label for="not_currently"> No cursada </label>
                 </fieldset>
                 {/*--------Information System Analysis---------- */}
               </div>
