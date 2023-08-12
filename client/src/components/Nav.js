@@ -3,9 +3,13 @@ import { Inter, Staatliches } from "next/font/google";
 import Link from "next/link";
 import styles from "@/styles/Home.module.css";
 
-function Browser() {
+
+function NavWeb() {
   return (
-    <div className={styles.style3}>
+
+
+
+    <div className={styles.nav}>
 
       <button>
         <Link href="/Home" >
@@ -14,7 +18,7 @@ function Browser() {
       </button>
 
       <button>
-        <Link href="/Load_Dates" >
+        <Link href="/Load_Datas" >
           Carga de Datos
         </Link>
       </button>
@@ -34,4 +38,4 @@ function Browser() {
   );
 }
 
-export default Browser;
+export default NavWeb;

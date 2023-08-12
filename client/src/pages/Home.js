@@ -1,16 +1,14 @@
-
-
 import React, { useState } from "react";
- import Nav from "@/components/Nav";
- import Footer from "@/components/Footer";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+
 import Head from "next/head";
 import axios from "axios";
 import { useRouter } from "next/router";
 
- import styles from "@/styles/Home.module.css";
+import styles from "@/styles/Home.module.css";
 
 export default function Home() {
-   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -29,36 +27,27 @@ export default function Home() {
       console.log(error);
     }
   };
-  
 
+  return (
+    <>
+      {/*--------HEAD----------- */}
+      <Head>
+        <title>Project-1</title>
+      </Head>
+      {/*--------HEAD----------- */}
 
-  
-  
-   return (
-     <>
+      {/*--------NAV----------- */}
+      <Nav />
+      {/*--------NAV----------- */}
+      {/*--------BODY----------- */}
+      <div className={styles.text}>
+        <h1> Bienvenido </h1>
        
-       
-       {/*--------HEAD----------- */}
-       <Head>
-         <title>Project-1</title>
-       </Head>
-       {/*--------HEAD----------- */}
-
-       {/*--------NAV----------- */}
-       <Nav />
-       {/*--------NAV----------- */}
-       {/*--------BODY----------- */}
-       <div className={styles.text1}>
-         <h1> Bienvenido </h1>
-         
-       </div>
-       {/*--------BODY----------- */}
-       {/*--------FOOTER---------- */}
-       <Footer />
-       {/*--------FOOTER----------- */}
-       
-     </>
-   );
-
+      </div>
+      {/*--------BODY----------- */}
+      {/*--------FOOTER---------- */}
+      <Footer />
+      {/*--------FOOTER----------- */}
+    </>
+  );
 }
-
