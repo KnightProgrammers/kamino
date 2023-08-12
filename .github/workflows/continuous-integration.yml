@@ -1,0 +1,113 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ 'main' ]
+
+permissions:
+  checks: write
+  statuses: write
+  contents: write
+  pull-requests: write
+
+env:
+  DB_HOST: "127.0.0.1"
+  DB_PORT: "3306"
+  DB_USER: "root"
+  DB_PASSWORD: "root"
+  DB_SCHEMA: "kamino-test"
+
+jobs:
+  server-unit-tests:
+    name: "Server - Unit Tests"
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 🔥 Initialize MySQL
+        run: sudo systemctl start mysql.service
+      - name: 📌 Initialize first database
+        run: |
+          mysql -e 'CREATE DATABASE `${{ env.DB_SCHEMA }}`;' \
+          -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      - name: 🚀 Boost user
+        run: |
+          mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
+          IDENTIFIED WITH mysql_native_password BY 'root';" \
+          -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
+      - name: 🧶 Install Dependencies
+        run: |
+          cd server 
+          npm ci
+      - name: 📦 run tests
+        run: |
+          cd server 
+          npm run test-ci
+      - name: ☂️ Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
+        if: always()
+        with:
+          coverage-summary-path: ./server/coverage/coverage-summary.json
+          title: Server Coverage
+          summary-title: Summary
+          badge-title: Coverage
+          hide-comment: false
+          create-new-comment: true
+          hide-summary: false
+          junitxml-title: Test Report
+          junitxml-path: ./server/junit.xml
+  server-api-tests:
+    name: "Server - API Tests"
+    runs-on: ubuntu-latest
+    needs: server-unit-tests
+    steps:
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
+      - name: 🚂 Run Dockers
+        run: docker compose up --detach --wait
+      - name: 🦑 Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: ⛽️ Install newman
+        run: |
+          npm install -g newman
+      - name: 🛰️ Run POSTMAN collection
+        run: >
+          newman run "https://api.getpostman.com/collections/${{vars.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
+          --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
+          --reporters cli,json --reporter-json-export test-report.json
+      - name: 📝 Create Status check based on postman results
+        # You may also reference the major or major.minor version
+        uses: im-open/process-postman-test-results@v2.1.4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          results-file: test-report.json
+          report-name: 'Postman Test Result'                 # Default: Postman Test Results
+          create-status-check: true                          # Default: true
+          create-pr-comment: true                            # Default: true
+          update-comment-if-one-exists: false                 # Default: true
+          ignore-test-failures: true                        # Default: false
+          timezone: 'america/montevideo'                     # Default: UTC
+      - name: ☢️ Fail if there were errors in the postman tests
+        if: steps.process-postman.outputs.test-outcome == 'Failed'
+        run: |
+          echo "There were postman failures."
+          exit 1
+  newrelic-notification:
+    runs-on: ubuntu-latest
+    name: New Relic Notification
+    needs: server-api-tests
+    # if: github.event_name == 'push'
+    steps:
+      - name: ☄️ New Relic Application Deployment Marker
+        uses: newrelic/deployment-marker-action@v2.3.0
+        with:
+          apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
+          guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
+          version: "${{ github.sha }}"
+          user: "${{ github.actor }}"
+          description: "Automated Release via Github Actions"
+          deploymentType: "ROLLING"

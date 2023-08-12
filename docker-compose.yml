@@ -1,0 +1,59 @@
+version: '3.5'
+
+services:
+  kamino-db:
+    image: mysql/mysql-server:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'kamino'
+      MYSQL_USER: 'kamino-user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    expose:
+      - 3306
+    volumes:
+      - data-db:/var/lib/mysql
+  kamino-redis:
+    image: redis:latest
+    restart: always
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+  kamino-server:
+    build:
+      context: ./server
+    environment:
+      SECRET: 'this is a super secret'
+      CORS_ORIGIN: '*'
+      DB_HOST: 'kamino-db'
+      DB_PORT: '3306'
+      DB_USER: 'kamino-user'
+      DB_PASSWORD: 'password'
+      DB_SCHEMA: 'kamino'
+      REDIS_URL: 'redis://kamino-redis:6379'
+      PORT: '8080'
+      FORCE_DB_SYNC: 'false'
+      DEBUG: 'true'
+      LOG_LEVEL: 'DEBUG'
+      NEW_RELIC_DISTRIBUTED_TRACING_ENABLED: 'false'
+      NEW_RELIC_NO_CONFIG_FILE: 'true'
+      NEW_RELIC_APP_NAME: 'Kamino-Server'
+    ports:
+      - '8080:8080'
+    depends_on:
+      kamino-redis:
+        condition: service_healthy
+      kamino-db:
+        condition: service_healthy
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8080/api/ping || exit 1
+      interval: 30s
+      timeout: 3s
+      retries: 3
+volumes:
+  data-db:
+networks:
+  default:
+    driver: bridge
+    name: kamino
