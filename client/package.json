@@ -1,5 +1,5 @@
 {
-  "name": "project-1",
+  "name": "kamino-client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,20 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "axios": "^1.4.0",
-    "cors": "^2.8.5",
-    "eslint": "8.36.0",
-    "eslint-config-next": "^12.0.4",
-    "express": "^4.18.2",
-    "formik": "^2.4.2",
-    "lodash-es": "^4.17.21",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.2.3",
-    "next": "^13.2.4",
+    "axios": "1.4.0",
+    "eslint": "8.47.0",
+    "eslint-config-next": "13.4.13",
+    "formik": "2.4.3",
+    "lodash-es": "4.17.21",
+    "next": "13.4.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.14.1",
-    "sequelize": "^6.31.1",
-    "yup": "^1.2.0"
+    "react-router-dom": "6.15.0",
+    "yup": "1.2.0"
   }
 }
