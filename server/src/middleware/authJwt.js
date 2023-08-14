@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
-const { TokenExpiredError } = jwt;
+const {TokenExpiredError} = jwt;
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const {errorBuilder} = require("./errorHandler");
+const newrelic = require('newrelic');
 const RedisClient = require("../libraries/redis");
 const User = db.user;
 
@@ -28,6 +29,7 @@ const verifyToken = async (req, res, next) => {
 
   if (userId) {
     req.userId = userId;
+    newrelic.setUserID(userId);
     next();
     return;
   }
@@ -41,6 +43,7 @@ const verifyToken = async (req, res, next) => {
       const userExist = await verifyUser(decoded.id);
       if (!userExist) return next(errorBuilder('Unauthorized', 401));
       req.userId = decoded.id;
+      newrelic.setUserID(decoded.id);
       next();
     });
 };

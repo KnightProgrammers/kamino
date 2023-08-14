@@ -6,7 +6,7 @@ const cors = require("cors");
 if (process.env.ENVIRONMENT === 'production') {
   require('newrelic');
 }
-const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
+const {errorLogger, invalidPathHandler} = require("./middleware/errorHandler");
 const httpLogger = require('./middleware/httpLogger');
 const logger = require('./utils/logger');
 const swaggerUi = require('swagger-ui-express');
