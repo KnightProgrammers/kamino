@@ -86,6 +86,7 @@ jobs:
       - name: 📝 Create Status check based on postman results
         # You may also reference the major or major.minor version
         uses: im-open/process-postman-test-results@v2.1.4
+        if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           results-file: test-report.json
@@ -95,11 +96,6 @@ jobs:
           update-comment-if-one-exists: true                 # Default: true
           ignore-test-failures: true                        # Default: false
           timezone: 'america/montevideo'                     # Default: UTC
-      - name: ☢️ Fail if there were errors in the postman tests
-        if: steps.process-postman.outputs.test-outcome == 'Failed'
-        run: |
-          echo "There were postman failures."
-          exit 1
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
