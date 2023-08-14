@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Production DB Backup
     needs: server-api-tests
-    # if: github.event_name == 'push'
+    if: github.event_name == 'push'
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
