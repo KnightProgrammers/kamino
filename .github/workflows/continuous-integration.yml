@@ -118,6 +118,7 @@ jobs:
   db-backup:
     runs-on: ubuntu-latest
     name: Production DB Backup
+    needs: server-api-tests
     # if: github.event_name == 'push'
     steps:
       - name: 🍺 Check out repository code
@@ -126,7 +127,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
       - name: 🧶 Install Dependencies
         run: |
           cd backup-script
