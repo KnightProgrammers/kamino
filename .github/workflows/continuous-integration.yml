@@ -74,7 +74,7 @@ jobs:
       - name: 🦑 Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - name: ⛽️ Install newman
         run: |
           npm install -g newman
