@@ -109,7 +109,7 @@ jobs:
           guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
           version: "${{ github.sha }}"
           user: "${{ github.actor }}"
-          description: "Automated Release via Github Actions"
+          description: "${{ github.event.head_commit.message }}"
           deploymentType: "ROLLING"
   db-backup:
     runs-on: ubuntu-latest
