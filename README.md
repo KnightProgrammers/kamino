@@ -14,6 +14,7 @@
 </p>
 
 ------
+
 ## 🧰 Requirements
 
 **Supported operating systems**:
@@ -24,14 +25,17 @@
 - Docker
 
 **Node:**
- - Recommended: 16.x
- - Minimum: 14.x
+
+- Recommended: 16.x
+- Minimum: 14.x
 
 **MySQL:**
+
 - Recommended: 8.0
 - Minimum: 5.7.8
 
 ------
+
 ## 🚀 Getting Started
 
 ```shell
@@ -39,52 +43,95 @@ docker compose up --detach --wait --build
 ```
 
 ------
+
 ## 💻 Development
 
 ### Server
 
->**Folder:** `/server` 
+> **Folder:** `/server`
 
 **Install Dependencies**
+
 ```shell
 npm install
 ```
 
 **Start Server**
+
 ```shell
 npm run dev-start
 ```
+
 **Environment Vars**
 
-| Var             | Type    | Default Value       | Description                                                                            |
-|-----------------|---------|---------------------|----------------------------------------------------------------------------------------|
-| `SECRET`        | String  | `THIS IS A SECRET`  | Used to encrypt passwords on the database                                              |
-| `DB_HOST`       | String  | `localhost`         | Database connection host                                                               |
-| `DB_PORT`       | Number  | `3306`              | Database connection port                                                               |
-| `DB_USER`       | String  | `root`              | Database connection user                                                               |
-| `DB_PASSWORD`   | String  | `root`              | Database connection password                                                           |
-| `DB_SCHEMA`     | String  | `testdb`            | Database name                                                                          |
-| `PORT`          | Number  | `8080`              | Server port number                                                                     |
-| `FORCE_DB_SYNC` | Boolean | `false`             | Force database structure creation                                                      |
-| `DEBUG`         | Boolean | `false`             | Enables the debug mode                                                                 |
-| `CORS_ORIGIN`   | String  | `*`                 | Origin hosts list separated by comma, allowed to make requests (`*` means all allowed) |
+| Var             | Type    | Default Value      | Description                                                                            |
+|-----------------|---------|--------------------|----------------------------------------------------------------------------------------|
+| `SECRET`        | String  | `THIS IS A SECRET` | Used to encrypt passwords on the database                                              |
+| `DB_HOST`       | String  | `localhost`        | Database connection host                                                               |
+| `DB_PORT`       | Number  | `3306`             | Database connection port                                                               |
+| `DB_USER`       | String  | `root`             | Database connection user                                                               |
+| `DB_PASSWORD`   | String  | `root`             | Database connection password                                                           |
+| `DB_SCHEMA`     | String  | `testdb`           | Database name                                                                          |
+| `PORT`          | Number  | `8080`             | Server port number                                                                     |
+| `FORCE_DB_SYNC` | Boolean | `false`            | Force database structure creation                                                      |
+| `DEBUG`         | Boolean | `false`            | Enables the debug mode                                                                 |
+| `CORS_ORIGIN`   | String  | `*`                | Origin hosts list separated by comma, allowed to make requests (`*` means all allowed) |
 
 ------
+
 ## 📖 API Documentation
 
- - [Postman Documentation](https://documenter.getpostman.com/view/954922/2s9Xy2MrRn)
- - [Local Swagger](http://localhost:8080/api-docs)
+- [Postman Documentation](https://documenter.getpostman.com/view/954922/2s9Xy2MrRn)
+- [Local Swagger](http://localhost:8080/api-docs)
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/954922-f2c48d14-63b7-41b0-9d40-211a6c55210f)
 
 ------
-## 🗄️  Database
+
+## 🗄️ Database
 
 MySQL use as Database.
 
 ------
-## ⚖️  License
+
+## 💾️ Backups
+
+Backups are stored in Azure Containers data storage.
+
+> **Folder:** `/backup-script`
+
+**Automatic Executions**
+
+- On every push to main
+
+**Install Dependencies**
+
+```shell
+npm install
+```
+
+**Run Backup**
+
+```shell
+npm run backup
+```
+
+**Environment Vars**
+
+| Var                 | Type   | Default Value | Description                  |
+|---------------------|--------|---------------|------------------------------|
+| `DB_HOST`           | String | `localhost`   | Database connection host     |
+| `DB_PORT`           | Number | `3306`        | Database connection port     |
+| `DB_USER`           | String | `root`        | Database connection user     |
+| `DB_PASSWORD`       | String | `root`        | Database connection password |
+| `DB_SCHEMA`         | String | `testdb`      | Database name                |
+| `AZURE_ACCOUNT`     | String | `null`        | Azure account name           |
+| `AZURE_ACCOUNT_KEY` | String | `null`        | Azure account secret key     |
+
+------
+
+## ⚖️ License
 
 This project is licensed under the terms of the **MIT** license.
 
->You can check out the full license [MIT](./LICENSE) license.
+> You can check out the full license [MIT](./LICENSE) license.
