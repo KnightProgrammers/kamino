@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
-const { setLogLevel } = require("@azure/logger");
+const {BlobServiceClient, StorageSharedKeyCredential} = require("@azure/storage-blob");
+const {setLogLevel} = require("@azure/logger");
 
 const mysqldump = require("mysqldump");
 const moment = require('moment');
@@ -62,4 +62,7 @@ async function main() {
   console.log(`Execution time: ${moment(start).fromNow(true)}`);
 }
 
-main().catch(console.error);
+main().catch(e => {
+  console.error(e);
+  process.exit(1);
+});
