@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
-const { TokenExpiredError } = jwt;
+const {TokenExpiredError} = jwt;
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const {errorBuilder} = require("./errorHandler");
+const newrelic = require('newrelic');
 const RedisClient = require("../libraries/redis");
 const User = db.user;
 
@@ -13,21 +14,22 @@ const verifyUser = async (userId) => {
 
 const catchError = (err, res, next) => {
   if (err instanceof TokenExpiredError) {
-    next(errorBuilder('Unauthorized - Access Token was expired', 401));
+    next(errorBuilder('Unauthorized - Access Token was expired', 401, 'warn'));
   }
-  next(errorBuilder('Unauthorized', 401));
+  next(errorBuilder('Unauthorized', 401, 'warn'));
 }
 
 const verifyToken = async (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
-    return next(errorBuilder('No token provided', 403));
+    return next(errorBuilder('No token provided', 403, 'warn'));
   }
 
   const userId = await RedisClient.get(token);
 
   if (userId) {
     req.userId = userId;
+    newrelic.setUserID(userId);
     next();
     return;
   }
@@ -36,11 +38,12 @@ const verifyToken = async (req, res, next) => {
     config.secret,
     async (err, decoded) => {
       if (err) {
-        return next(errorBuilder('Unauthorized', 401));
+        return next(errorBuilder('Unauthorized', 401, 'warn'));
       }
       const userExist = await verifyUser(decoded.id);
-      if (!userExist) return next(errorBuilder('Unauthorized', 401));
+      if (!userExist) return next(errorBuilder('Unauthorized', 401, 'warn'));
       req.userId = decoded.id;
+      newrelic.setUserID(decoded.id);
       next();
     });
 };

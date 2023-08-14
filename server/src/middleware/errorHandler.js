@@ -1,4 +1,4 @@
-const { logger } = require('../utils');
+const {logger} = require('../utils');
 
 
 // Error handling Middleware function for logging the error message
@@ -20,6 +20,7 @@ const errorBuilder = (message, status = 400, level = 'error') => {
   const error = new Error(message);
   error.status = status;
   error.level = level;
+  error.expected = level !== 'error';
   return error
 }
 

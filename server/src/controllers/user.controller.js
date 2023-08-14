@@ -6,8 +6,8 @@ exports.userMe = async (req, res, next) => {
   const userId = req.userId;
   const user = await User.findByPk(userId);
 
-  if(!user) {
-    return next(errorBuilder('User not found', 404));
+  if (!user) {
+    return next(errorBuilder('User not found', 404, 'error'));
   }
 
   res.status(200).send({
