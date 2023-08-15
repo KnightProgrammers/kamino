@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * 6'
+  push:
 
 permissions:
   checks: write
@@ -17,14 +18,13 @@ jobs:
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
-        with:
-          path: main
       - name: 🦑 Install Node
         uses: actions/setup-node@v3
         with:
           node-version: 20
       - name: 🧶 Install Dependencies
         run: |
+          ls -a
           cd backup-script
           npm ci
       - name: 💾 Create Backup
