@@ -1,0 +1,41 @@
+name: Automatic DB Backup
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 6'
+
+permissions:
+  checks: write
+  statuses: write
+  contents: write
+
+jobs:
+  backup:
+    name: Backup Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
+        with:
+          path: main
+      - name: 🦑 Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: 🧶 Install Dependencies
+        run: |
+          cd backup-script
+          npm ci
+      - name: 💾 Create Backup
+        run: |
+          cd backup-script
+          npm run backup
+        env:
+          DB_HOST: ${{ secrets.DB_PROD_HOST }}
+          DB_PORT: ${{ secrets.DB_PROD_PORT }}
+          DB_USER: ${{ secrets.DB_PROD_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PROD_PASSWORD }}
+          DB_SCHEMA: ${{ secrets.DB_PROD_SCHEMA }}
+          AZURE_ACCOUNT: ${{ secrets.AZURE_ACCOUNT }}
+          AZURE_ACCOUNT_KEY: ${{ secrets.AZURE_ACCOUNT_KEY }}
