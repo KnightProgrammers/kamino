@@ -3,7 +3,7 @@ name: Automatic DB Backup
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 8 * * SAT *'
+    - cron: '0 8 * * 6'
 
 permissions:
   checks: write
