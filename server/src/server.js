@@ -9,11 +9,6 @@ if (process.env.ENVIRONMENT === 'production') {
 const {errorLogger, invalidPathHandler} = require("./middleware/errorHandler");
 const httpLogger = require('./middleware/httpLogger');
 const logger = require('./utils/logger');
-const swaggerUi = require('swagger-ui-express');
-
-const YAML = require('yaml');
-const swaggerFile = fs.readFileSync('./swagger.yaml', 'utf8')
-const swaggerDocument = YAML.parse(swaggerFile);
 
 const app = express();
 
@@ -41,8 +36,6 @@ app.use(httpLogger);
 app.get("/", (req, res) => {
   res.json({message: "Welcome to the application"});
 });
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // routes
 const authRouter = require('./routes/auth.routes');

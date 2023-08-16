@@ -80,8 +80,7 @@ jobs:
           npm install -g newman
       - name: 🛰️ Run POSTMAN collection
         run: >
-          newman run "https://api.getpostman.com/collections/${{vars.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
-          --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
+          newman run postman/collections/Kamino.json 
           --reporters cli,json --reporter-json-export test-report.json
       - name: 📝 Create Status check based on postman results
         # You may also reference the major or major.minor version
