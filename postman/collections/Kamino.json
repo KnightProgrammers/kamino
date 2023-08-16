@@ -141,10 +141,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/api/auth/signup",
+									"raw": "http://127.0.0.1:8080/api/auth/signup",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"127",
+										"0",
+										"0",
+										"1"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"auth",
@@ -432,10 +437,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/api/auth/signin",
+									"raw": "http://127.0.0.1:8080/api/auth/signin",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"127",
+										"0",
+										"0",
+										"1"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"auth",
@@ -699,7 +709,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+									"raw": "{\n  \"refreshToken\": \"\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -708,10 +718,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/api/auth/refreshtoken",
+									"raw": "http://127.0.0.1:8080/api/auth/refreshtoken",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"127",
+										"0",
+										"0",
+										"1"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"auth",
@@ -987,10 +1002,15 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/users/me",
+									"raw": "http://127.0.0.1:8080/api/users/me",
+									"protocol": "http",
 									"host": [
-										"{{baseUrl}}"
+										"127",
+										"0",
+										"0",
+										"1"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"users",
@@ -1129,11 +1149,33 @@
 			]
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9d1f88b3-b724-4390-b0e0-81b4be4e5f8d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3fbe1342-4b24-4756-80d2-0073960ee7e5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"id": "62f96e55-48a8-4117-9023-3753bc738abd",
+			"id": "01a8e177-59cc-4bc7-9949-4846608e5e6e",
 			"key": "baseUrl",
-			"value": "http://localhost:8080"
+			"value": "http://127.0.0.1:8080"
 		}
 	]
 }

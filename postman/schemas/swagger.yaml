@@ -6,7 +6,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://127.0.0.1:8080
     description: Development server
   - url: https://kamino-server-production.up.railway.app
     description: Production server
