@@ -7,6 +7,9 @@ info:
   version: 1.0.0
 servers:
   - url: http://localhost:8080
+    description: Development server
+  - url: https://kamino-server-production.up.railway.app
+    description: Production server
 tags:
   - name: Auth
     description: Administración de session
@@ -240,7 +243,7 @@ components:
     X-Powered-By":
       schema: 
         type: string
-        example: Express↵
+        example: Express
     "Access-Control-Allow-Origin":
       schema: 
         type: string
