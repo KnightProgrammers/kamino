@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "ef693d72-06e5-4c42-8595-fe2db08f3d46",
+		"_postman_id": "5512957a-3d48-4d9a-8277-ba4fcb0bef16",
 		"name": "Kamino",
 		"description": "<img src=\"https://content.pstmn.io/3aa10df7-f6b8-4959-9d47-e59d130938e5/bG9nby5wbmc=\" alt=\"\">",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "954922-ef693d72-06e5-4c42-8595-fe2db08f3d46"
+		"_uid": "954922-5512957a-3d48-4d9a-8277-ba4fcb0bef16"
 	},
 	"item": [
 		{
@@ -16,7 +16,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "41281a43-e278-4168-aec0-6e359cbff8b7",
+								"id": "831424a7-80e9-4d96-b91d-a21b95d9fc16",
 								"exec": [
 									"pm.test(\"Successful POST request\", function () {",
 									"    pm.response.to.have.status(\"Created\");",
@@ -76,7 +76,7 @@
 							}
 						}
 					],
-					"id": "fb78eb9c-e3bd-4c7f-914a-eaf8f335d67c",
+					"id": "915470b6-a9bd-4399-8c48-51a19e9f674c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -116,7 +116,7 @@
 					},
 					"response": [
 						{
-							"id": "8f0cc607-7c80-4b72-b376-147d9cb7615f",
+							"id": "76b4990d-1f2b-4dcf-8640-b04517a4840a",
 							"name": "Operación Exitosa",
 							"originalRequest": {
 								"method": "POST",
@@ -160,6 +160,7 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -206,7 +207,7 @@
 							"body": "{\n    \"message\": \"User registered successfully\",\n    \"user\": {\n        \"id\": \"6e77127e-4112-46dc-ae04-8a773a17fe52\",\n        \"name\": \"Anakin Skywalker\",\n        \"email\": \"anakin@empire.com\"\n    }\n}"
 						},
 						{
-							"id": "ada60e5c-7d0f-4428-9401-2da0b966b1f3",
+							"id": "1d4a62ee-bcc8-4446-9a24-3c7ca68dd1ed",
 							"name": "Error en el servidor",
 							"originalRequest": {
 								"method": "POST",
@@ -245,6 +246,7 @@
 							"status": "Internal Server Error",
 							"code": 500,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -255,7 +257,7 @@
 							"body": "{\n  \"status\": 500,\n  \"message\": \"Server Error\"\n}"
 						},
 						{
-							"id": "394f91a2-4a12-4641-b9db-ad15c76b1f0e",
+							"id": "73596f9a-5a4d-4a43-bd14-44524f8b7c07",
 							"name": "Email is already in use",
 							"originalRequest": {
 								"method": "POST",
@@ -294,6 +296,7 @@
 							"status": "Bad Request",
 							"code": 400,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -311,7 +314,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "52aff801-183c-4acb-809f-9cd882242683",
+								"id": "e8e259dc-747c-4950-b411-429b8b1ddeb1",
 								"exec": [
 									"const body = JSON.parse(responseBody);",
 									"",
@@ -372,7 +375,7 @@
 							}
 						}
 					],
-					"id": "d9bc047b-cea7-4e42-bf25-91115bdcf208",
+					"id": "22484b28-a574-4c19-a0da-a3be9afbed50",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -412,7 +415,7 @@
 					},
 					"response": [
 						{
-							"id": "060da421-f484-4920-a5b5-4ea7cbfd3845",
+							"id": "8b831336-1d64-4ea7-8ef2-e366de1d0cea",
 							"name": "Operación Exitosa",
 							"originalRequest": {
 								"method": "POST",
@@ -456,6 +459,7 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -502,7 +506,7 @@
 							"body": "{\n    \"id\": \"d380cd92-841f-4f01-bf45-ccf2d5981af8\",\n    \"name\": \"Anakin Skywalker\",\n    \"email\": \"anakin@empire.com\",\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzODBjZDkyLTg0MWYtNGYwMS1iZjQ1LWNjZjJkNTk4MWFmOCIsImlhdCI6MTY5MjE2MTk2MSwiZXhwIjoxNjkyMTY1NTYxfQ.1qVlbnxbXhkvhVSMl0ZkPlH3EGZH_zgbvDmApbWs4ek\",\n    \"refreshToken\": \"ef39093d-6cd8-4510-b1a6-6458e29ef4a2\"\n}"
 						},
 						{
-							"id": "5f88e0dd-245d-4131-9de3-fd0f2f786a5a",
+							"id": "ec3a691a-33d9-4bff-8f10-c4a5795fa70c",
 							"name": "Error en el servidor",
 							"originalRequest": {
 								"method": "POST",
@@ -541,6 +545,7 @@
 							"status": "Internal Server Error",
 							"code": 500,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -551,7 +556,7 @@
 							"body": "{\n  \"status\": 500,\n  \"message\": \"Server Error\"\n}"
 						},
 						{
-							"id": "4dccc803-15ef-4e8d-b96d-9d246924d09b",
+							"id": "d1a99fef-82e2-4472-9af0-6d0cca358e51",
 							"name": "Bad Credentials",
 							"originalRequest": {
 								"method": "POST",
@@ -590,6 +595,7 @@
 							"status": "Unauthorized",
 							"code": 401,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -607,7 +613,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2dbedfa0-f3b1-4e92-bef6-6d9cbb9094ce",
+								"id": "1dfafd7c-e5f2-47eb-b2a8-b56a806e08c9",
 								"exec": [
 									"const body = JSON.parse(responseBody);",
 									"",
@@ -653,7 +659,7 @@
 							}
 						}
 					],
-					"id": "09283e29-4a5b-4380-8105-f252dd4466db",
+					"id": "8c6eee81-c4cd-481f-a644-06642a2ec980",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -693,7 +699,7 @@
 					},
 					"response": [
 						{
-							"id": "dac130bb-2e61-4c67-9bac-6283cc2c8438",
+							"id": "1d4cba3c-9629-4c05-a49d-02a5b490c9aa",
 							"name": "Operación Exitosa",
 							"originalRequest": {
 								"method": "POST",
@@ -737,6 +743,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -783,7 +790,7 @@
 							"body": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzODBjZDkyLTg0MWYtNGYwMS1iZjQ1LWNjZjJkNTk4MWFmOCIsImlhdCI6MTY5MjE2MjE3NiwiZXhwIjoxNjkyMTY1Nzc2fQ.MS7FtF0g7441PBoIrzt7FSyHch_B79mBcuydIxUzIes\",\n    \"refreshToken\": \"ef39093d-6cd8-4510-b1a6-6458e29ef4a2\"\n}"
 						},
 						{
-							"id": "30b7ad85-160d-4bb8-86ac-f95ed0ba405f",
+							"id": "f7c74ef6-3212-4c94-842b-f943532d793c",
 							"name": "No Access token",
 							"originalRequest": {
 								"method": "POST",
@@ -822,6 +829,7 @@
 							"status": "Bad Request",
 							"code": 400,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -832,7 +840,7 @@
 							"body": "{\n    \"status\": 400,\n    \"message\": \"\\\"Refresh Token\\\" is required\"\n}"
 						},
 						{
-							"id": "534aa394-9ac3-417d-b62d-c174cd3669bb",
+							"id": "2c129ea0-52fa-4118-953c-0f84f7651496",
 							"name": "Error en el servidor",
 							"originalRequest": {
 								"method": "POST",
@@ -871,6 +879,7 @@
 							"status": "Internal Server Error",
 							"code": 500,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -883,7 +892,7 @@
 					]
 				}
 			],
-			"id": "aa11d102-c835-490c-b2be-f82e73b93ec0",
+			"id": "605d3974-c3e9-48a5-91d0-b791f957b95d",
 			"auth": {
 				"type": "noauth"
 			},
@@ -891,7 +900,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "7aafaab3-0396-482e-a317-9174a5bc7b55",
+						"id": "e9a11fd1-e7ca-497c-a061-df9888fae180",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -901,7 +910,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9898fdce-64a6-43b8-8b23-36f2575fb246",
+						"id": "3a4639fc-2841-4c3c-8e03-f88f0dbfd75a",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -919,7 +928,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e29dec35-5af4-41be-8f5e-d61536b3c8bd",
+								"id": "a542732d-3284-4c9d-8367-aa1ba835e233",
 								"exec": [
 									"pm.test(\"Successful POST request\", function () {",
 									"    pm.response.to.have.status(\"OK\");",
@@ -965,7 +974,7 @@
 							}
 						}
 					],
-					"id": "72349162-3e55-4dd8-bca2-4272c385c289",
+					"id": "5323aef1-7199-429e-b74e-7d89bb7e86ee",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -991,7 +1000,7 @@
 					},
 					"response": [
 						{
-							"id": "0a050808-fd1f-454b-9990-bcf755f68c62",
+							"id": "408b3340-2841-4923-a900-f027e415f59d",
 							"name": "Operación Exitosa",
 							"originalRequest": {
 								"method": "GET",
@@ -1021,6 +1030,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -1067,7 +1077,7 @@
 							"body": "{\n    \"id\": \"d380cd92-841f-4f01-bf45-ccf2d5981af8\",\n    \"name\": \"Anakin Skywalker\",\n    \"email\": \"anakin@empire.com\"\n}"
 						},
 						{
-							"id": "439a9bca-f974-4ecb-a119-59f55a89a4e3",
+							"id": "b8c01980-b88f-4a1e-9fae-96694e0380f8",
 							"name": "Error en el servidor",
 							"originalRequest": {
 								"method": "GET",
@@ -1097,6 +1107,7 @@
 							"status": "Internal Server Error",
 							"code": 500,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1109,7 +1120,7 @@
 					]
 				}
 			],
-			"id": "9098a01c-774a-4aad-b53a-c3595a6e5153",
+			"id": "946556f6-cfc7-40e1-84e1-2d606cd589a7",
 			"auth": {
 				"type": "apikey",
 				"apikey": [
@@ -1129,7 +1140,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "a1db55ad-e5a1-4326-a080-c497c9cca89a",
+						"id": "ca2bd9b6-2927-450e-a62c-709e80afa6ce",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1139,7 +1150,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3ddd1360-47a7-429c-9af4-eead0011ccd6",
+						"id": "514872da-15b5-4324-ae18-6581ed24a4c6",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1153,7 +1164,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "9d1f88b3-b724-4390-b0e0-81b4be4e5f8d",
+				"id": "7df078cd-c670-40dc-9102-018d5a2453e5",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1163,7 +1174,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "3fbe1342-4b24-4756-80d2-0073960ee7e5",
+				"id": "044c0569-6fd1-4889-b997-f451762f65f6",
 				"type": "text/javascript",
 				"exec": [
 					""
