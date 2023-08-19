@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-
+import styles from "@/styles/general.module.css";
 import Head from "next/head";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-import styles from "@/styles/Home.module.css";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -40,9 +39,8 @@ export default function Home() {
       <Nav />
       {/*--------NAV----------- */}
       {/*--------BODY----------- */}
-      <div className={styles.text}>
+      <div className={styles.text_title_home}>
         <h1> Bienvenido </h1>
-       
       </div>
       {/*--------BODY----------- */}
       {/*--------FOOTER---------- */}

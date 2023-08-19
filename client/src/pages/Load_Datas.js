@@ -2,16 +2,151 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
-import styles from "@/styles/Home.module.css";
+import styles from "@/styles/general.module.css";
 import Head from "next/head";
 
+
 function Load_Dates() {
+  const [color_1year_buttom, setcolor_1year_buttom] = useState("#1f77cc");
+  const [color_1year_text, setcolor_1year_text] = useState("white");
+  const [color_2year_buttom, setcolor_2year_buttom] = useState("#1f77cc");
+  const [color_2ear_text, setcolor_2year_text] = useState("white");
+  const [color_3year_buttom, setcolor_3year_buttom] = useState("#1f77cc");
+  const [color_3year_text, setcolor_3year_text] = useState("white");
+  const [color_4year_buttom, setcolor_4year_buttom] = useState("#1f77cc");
+  const [color_4year_text, setcolor_4year_text] = useState("white");
+  const [color_5year_buttom, setcolor_5year_buttom] = useState("#1f77cc");
+  const [color_5ear_text, setcolor_5year_text] = useState("white");
   const [show, setShow] = useState();
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
   const [show5, setShow5] = useState(false);
+  
+   const handleButtonClick = () => {
+     setShow(!show);
 
+     if (!show) {
+       setcolor_1year_buttom("white"); // Cambiar el color a blanco
+     setcolor_1year_text("#1f77cc"); // Cambiar el color a celeste
+     } else {
+    setcolor_1year_buttom("#1f77cc"); // Cambiar el color a celeste
+      setcolor_1year_text("white"); // Cambiar el color a blanco
+     }
+   };
+
+
+  
+    const handleButton2Click = () => {
+      setShow2(!show2);
+          if (!show2) {
+       setcolor_2year_buttom("white"); // Cambiar el color a blanco
+     setcolor_2year_text("#1f77cc"); // Cambiar el color a celeste
+     } else {
+    setcolor_2year_buttom("#1f77cc"); // Cambiar el color a celeste
+      setcolor_2year_text("white"); // Cambiar el color a blanco
+     }
+   };
+  
+    const handleButton3Click = () => {
+      setShow3(!show3);
+      if (!show3) {
+        setcolor_3year_buttom("white"); // Cambiar el color a blanco
+        setcolor_3year_text("#1f77cc"); // Cambiar el color a celeste
+      } else {
+        setcolor_3year_buttom("#1f77cc"); // Cambiar el color a celeste
+        setcolor_3year_text("white"); // Cambiar el color a blanco
+      }
+    };
+  
+    
+    const handleButton4Click = () => {
+      setShow4(!show4);
+      if (!show4) {
+        setcolor_4year_buttom("white"); // Cambiar el color a blanco
+        setcolor_4year_text("#1f77cc"); // Cambiar el color a celeste
+      } else {
+        setcolor_4year_buttom("#1f77cc"); // Cambiar el color a celeste
+        setcolor_4year_text("white"); // Cambiar el color a blanco
+      }
+    };
+  
+      const handleButton5Click = () => {
+        setShow5(!show5);
+        if (!show5) {
+          setcolor_5year_buttom("white"); // Cambiar el color a blanco
+          setcolor_5year_text("#1f77cc"); // Cambiar el color a celeste
+        } else {
+          setcolor_5year_buttom("#1f77cc"); // Cambiar el color a celeste
+          setcolor_5year_text("white"); // Cambiar el color a blanco
+        }
+      };
+  
+
+
+ 
+  
+     const buttonStyles = {
+       padding: "15px",
+       color: show || show ? color_1year_text : "white", // Cambia el color del texto según show
+       borderRadius: "100px",
+       backgroundColor: show || show ? color_1year_buttom : "#1f77cc", // Cambia el valor según show
+       bottom: "20px",
+       marginRight: "50px",
+       marginLeft: "50px",
+       cursor: "pointer",
+       transition: "color 0.7s, background-color 0.7s",
+     };
+     const buttonStyles2 = {
+       padding: "15px",
+       color: show2 ? color_2ear_text : "white", // Cambia el color del texto según show
+       borderRadius: "100px",
+       backgroundColor: show2 ? color_2year_buttom : "#1f77cc", // Cambia el valor según show
+       bottom: "20px",
+       marginRight: "50px",
+       marginLeft: "50px",
+       cursor: "pointer",
+       transition: "color 0.7s, background-color 0.7s",
+     };
+   const buttonStyles3 = {
+     padding: "15px",
+     color: show3 ? color_3year_text : "white", // Cambia el color del texto según show
+     borderRadius: "100px",
+     backgroundColor: show3 ? color_3year_buttom : "#1f77cc", // Cambia el valor según show
+     bottom: "20px",
+     marginRight: "50px",
+     marginLeft: "50px",
+     cursor: "pointer",
+     transition: "color 0.7s, background-color 0.7s",
+   };
+   const buttonStyles4 = {
+     padding: "15px",
+     color:  show4 ? color_4year_text : "white", // Cambia el color del texto según show
+     borderRadius: "100px",
+     backgroundColor: show4 || show2 ? color_4year_buttom : "#1f77cc", // Cambia el valor según show
+     bottom: "20px",
+     marginRight: "50px",
+     marginLeft: "50px",
+     cursor: "pointer",
+     transition: "color 0.7s, background-color 0.7s",
+   };
+
+     const buttonStyles5 = {
+       padding: "15px",
+       color: show5 ? color_5ear_text : "white", // Cambia el color del texto según show
+       borderRadius: "100px",
+       backgroundColor: show5 || show2 ? color_5year_buttom : "#1f77cc", // Cambia el valor según show
+       bottom: "20px",
+       marginRight: "50px",
+       marginLeft: "50px",
+       cursor: "pointer",
+       transition: "color 0.7s, background-color 0.7s",
+     };
+
+  
+  
+  
+  
   const firstYear = {
     firstSemester: [
       {
@@ -55,7 +190,7 @@ const secondYear = {
   firstSemester: [
     {
       key: 9,
-      name: "Analisis Matemático II",
+      name : "Analisis Matemático II",
     },
     {
       key: 10,
@@ -100,7 +235,12 @@ const secondYear = {
     }
   }
 
+
   const SUBJECT_STATUS = [
+    {
+      key: "notInprogress",
+      label: "No cursada",
+    },
     {
       key: "approved",
       label: "Aprobado",
@@ -112,10 +252,6 @@ const secondYear = {
     {
       key: "inprogress",
       label: "Cursando",
-    },
-    {
-      key: "notInprogress",
-      label: "No cursada",
     },
 
     {
@@ -133,11 +269,15 @@ const secondYear = {
       );
     }
     return (
-      <select id={`${subject.id}`} name={`${subject.id}`}>
-        {options}
-      </select>
+
+        <select id={`${subject.id}`} name={`${subject.id}`}>
+          {options}
+        </select>
+
     );
   }
+
+
 
   const Semester = ({ semester }) => {
     const result = [];
@@ -146,7 +286,7 @@ const secondYear = {
 
       const subjectHTML = (
         <fieldset>
-          <h4> {subject.name} </h4>
+          <h4 className={styles.text_subject_load_dates}> {subject.name} </h4>
           {subjectStatus}
         </fieldset>
       );
@@ -172,19 +312,19 @@ const secondYear = {
         <br />
         <br />
         <br />
-        <button className={styles.text} onClick={() => setShow(!show)}>
-          Primer Año
+        <button onClick={handleButtonClick} style={buttonStyles}>
+          Primer año
         </button>
-        <button className={styles.text} onClick={() => setShow2(!show2)}>
+        <button onClick={handleButton2Click} style={buttonStyles2}>
           Segundo Año
         </button>
-        <button className={styles.text} onClick={() => setShow3(!show3)}>
+        <button onClick={handleButton3Click} style={buttonStyles3}>
           Tercer Año
         </button>
-        <button className={styles.text} onClick={() => setShow4(!show4)}>
+        <button onClick={handleButton4Click} style={buttonStyles4}>
           Cuarto Año
         </button>
-        <button className={styles.text} onClick={() => setShow5(!show5)}>
+        <button onClick={handleButton5Click} style={buttonStyles5}>
           Quinto Año
         </button>
       </div>
@@ -195,24 +335,26 @@ const secondYear = {
         {show ? (
           <form>
             <div>
-              <div>
-                <br />
+              <div className={styles.text_title_load_datas}>
                 <h3 align="center"> PRIMER AÑO</h3>
               </div>
-              <div>
+              <div className={styles.text_sub_title_load_datas}>
                 <h3> Primer Cuatrimestre </h3>
                 <br />
               </div>
               <Semester semester={firstYear.firstSemester} />
               <div>
                 <br />
-                <h3> Segundo Cuatrimestre </h3>
+                <h3 className={styles.text_sub_title_load_datas}>
+                  {" "}
+                  Segundo Cuatrimestre
+                </h3>
                 <br />
               </div>
             </div>
             <Semester semester={firstYear.secondSemester} />
             <br />
-            <button className={styles.text} type="sumit">
+            <button className={styles.button_sumit_form} type="sumit">
               ENVIAR
             </button>
           </form>
@@ -223,10 +365,16 @@ const secondYear = {
           <form>
             <div>
               <br />
-              <h3 align="center"> SEGUNDO AÑO</h3>
+              <h3 align="center" className={styles.text_title_load_datas}>
+                {" "}
+                SEGUNDO AÑO
+              </h3>
               <br />
               <div>
-                <h3> Primer Cuatrimestre </h3>
+                <h3 className={styles.text_sub_title_load_datas}>
+                  {" "}
+                  Primer Cuatrimestre{" "}
+                </h3>
                 <br />
               </div>
               <br />
@@ -234,12 +382,15 @@ const secondYear = {
 
               <div>
                 <br />
-                <h3> Segundo Cuatrimestre </h3>
+                <h3 className={styles.text_sub_title_load_datas}>
+                  {" "}
+                  Segundo Cuatrimestre{" "}
+                </h3>
                 <br />
               </div>
               <div>
                 <br />
-                <h3> Anual </h3>
+                <h3 className={styles.text_sub_title_load_datas}> Anual </h3>
                 <br />
               </div>
               <div>
@@ -251,7 +402,7 @@ const secondYear = {
               </div>
             </div>
             <br />
-            <button className={styles.text2} type="sumit">
+            <button className={styles.button_sumit_form} type="sumit">
               ENVIAR
             </button>
           </form>
@@ -262,9 +413,15 @@ const secondYear = {
           <form>
             <div>
               <br />
-              <h3 align="center"> TERCER AÑO </h3>
+              <h3 align="center" className={styles.text_title_load_datas}>
+                {" "}
+                TERCER AÑO{" "}
+              </h3>
               <br />
-              <h3> Primer Cuatrimestre </h3>
+              <h3 className={styles.text_sub_title_load_datas}>
+                {" "}
+                Primer Cuatrimestre{" "}
+              </h3>
               <br />
               <div>{/*--------Probability and statistics---------- */}</div>
               <fieldset>
@@ -452,7 +609,10 @@ const secondYear = {
               </fieldset>
               <br />
               <div>{/*--------Data Communication---------- */}</div>
-              <h3> Segundo Cuatrimestre </h3>
+              <h3 className={styles.text_sub_title_load_datas}>
+                {" "}
+                Segundo Cuatrimestre{" "}
+              </h3>
               <br />
               <div>{/*--------Software development---------- */}</div>
               <fieldset>
@@ -548,7 +708,7 @@ const secondYear = {
               </fieldset>
               <div>{/*--------Numerical analysis---------- */}</div>
               <br />
-              <h3> Anual </h3>
+              <h3 className={styles.text_sub_title_load_datas}> Anual </h3>
               <br />
               <div>{/*--------Design of information systems---------- */}</div>
               <fieldset>
@@ -598,7 +758,7 @@ const secondYear = {
               <br />
               <div>{/*--------Design of information systems---------- */}</div>
             </div>
-            <button className={styles.text2} type="sumit">
+            <button className={styles.button_sumit_form} type="sumit">
               ENVIAR
             </button>
           </form>
@@ -609,11 +769,17 @@ const secondYear = {
           <form>
             <div>
               <br />
-              <h3 align="center"> CUARTO AÑO</h3>
+              <h3 align="center" className={styles.text_title_load_datas}>
+                {" "}
+                CUARTO AÑO
+              </h3>
               <br />
               <div>
                 <br />
-                <h3> Primer Cuatrimestre </h3>
+                <h3 className={styles.text_sub_title_load_datas}>
+                  {" "}
+                  Primer Cuatrimestre{" "}
+                </h3>
                 <br />
               </div>
               <div>{/*--------Legislation---------- */}</div>
@@ -756,7 +922,10 @@ const secondYear = {
               <div>{/*--------Simulation---------- */}</div>
               <div>
                 <br />
-                <h3> Segundo Cuatrimestre </h3>
+                <h3 className={styles.text_sub_title_load_datas}>
+                  {" "}
+                  Segundo Cuatrimestre{" "}
+                </h3>
                 <br />
               </div>
               <div>{/*-------- Data network---------- */}</div>
@@ -854,7 +1023,7 @@ const secondYear = {
               <div>
                 <div>
                   <br />
-                  <h3> Anual </h3>
+                  <h3 className={styles.text_sub_title_load_datas}> Anual </h3>
                   <br />
                 </div>
                 <div>
@@ -952,8 +1121,8 @@ const secondYear = {
                 </div>
               </div>
             </div>
-            <button className={styles.text2} type="sumit">
-              <br />
+            <br />
+            <button className={styles.button_sumit_form} type="sumit">
               ENVIAR
             </button>
           </form>
@@ -964,11 +1133,17 @@ const secondYear = {
           <form>
             <div>
               <br />
-              <h3 align="center"> QUINTO AÑO</h3>
+              <h3 align="center" className={styles.text_title_load_datas}>
+                {" "}
+                QUINTO AÑO
+              </h3>
               <br />
               <div>
                 <br />
-                <h3> Primer Cuatrimestre </h3>
+                <h3 className={styles.text_sub_title_load_datas}>
+                  {" "}
+                  Primer Cuatrimestre{" "}
+                </h3>
                 <br />
               </div>
               <div>
@@ -1114,7 +1289,10 @@ const secondYear = {
               <div>
                 <div>
                   <br />
-                  <h3> Segundo Cuatrimestre </h3>
+                  <h3 className={styles.text_sub_title_load_datas}>
+                    {" "}
+                    Segundo Cuatrimestre{" "}
+                  </h3>
                   <br />
                 </div>
                 {/*--------Data Science---------- */}
@@ -1213,7 +1391,7 @@ const secondYear = {
               <div>
                 <div>
                   <br />
-                  <h3> Anual </h3>
+                  <h3 className={styles.text_sub_title_load_datas}> Anual </h3>
                   <br />
                 </div>
                 {/*--------Final project--------- */}
@@ -1264,17 +1442,25 @@ const secondYear = {
               </div>
             </div>
             <br />
-            <button className={styles.text2} type="sumit">
+            <button className={styles.button_sumit_form} type="sumit">
               ENVIAR
             </button>
           </form>
         ) : null}
         <div>{/*--------FIFRTH YEAR---------- */}</div>
       </div>
+      <br />
+      <br />
+
+      <br />
+      <br />
       <div>{/*--------YEARS----------- */}</div>
 
-      <div className={styles.style5}>
+      <div>
         {/*--------FOOTER---------- */}
+        <br />
+        <br />
+
         <Footer />
         {/*--------FOOTER----------- */}
       </div>
