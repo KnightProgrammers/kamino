@@ -36,9 +36,7 @@ services:
       FORCE_DB_SYNC: 'false'
       DEBUG: 'true'
       LOG_LEVEL: 'DEBUG'
-      NEW_RELIC_DISTRIBUTED_TRACING_ENABLED: 'false'
-      NEW_RELIC_NO_CONFIG_FILE: 'true'
-      NEW_RELIC_APP_NAME: 'Kamino-Server'
+      ENVIRONMENT: 'staging'
     ports:
       - '8080:8080'
     depends_on:
@@ -48,9 +46,22 @@ services:
         condition: service_healthy
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8080/api/ping || exit 1
-      interval: 30s
+      interval: 5s
       timeout: 3s
-      retries: 3
+      retries: 20
+  kamino-client:
+    build:
+      context: ./client
+    ports:
+      - '80:3000'
+    depends_on:
+      kamino-server:
+        condition: service_healthy
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+      interval: 5s
+      timeout: 3s
+      retries: 20
 volumes:
   data-db:
 networks:

@@ -1,0 +1,14 @@
+{
+  "name": "kamino-db-backup",
+  "version": "1.0.0",
+  "scripts": {
+    "backup": "node index.js"
+  },
+  "dependencies": {
+    "@azure/logger": "latest",
+    "@azure/storage-blob": "latest",
+    "dotenv": "latest",
+    "moment": "latest",
+    "mysqldump": "latest"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "kamino-server",
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
@@ -19,15 +19,13 @@
     "joi": "17.9.2",
     "jsonwebtoken": "9.0.1",
     "morgan": "1.10.0",
-    "mysql2": "3.5.2",
+    "mysql2": "3.6.0",
     "newrelic": "latest",
     "nodemon": "3.0.1",
     "redis": "4.6.7",
     "sequelize": "6.32.1",
-    "swagger-ui-express": "5.0.0",
     "uuid": "9.0.0",
-    "winston": "3.10.0",
-    "yaml": "2.3.1"
+    "winston": "3.10.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.6.2",

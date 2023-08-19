@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ 'main' ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   checks: write
   statuses: write
@@ -54,7 +58,7 @@ jobs:
           summary-title: Summary
           badge-title: Coverage
           hide-comment: false
-          create-new-comment: true
+          create-new-comment: false
           hide-summary: false
           junitxml-title: Test Report
           junitxml-path: ./server/junit.xml
@@ -70,44 +74,67 @@ jobs:
       - name: 🦑 Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - name: ⛽️ Install newman
         run: |
           npm install -g newman
       - name: 🛰️ Run POSTMAN collection
         run: >
-          newman run "https://api.getpostman.com/collections/${{vars.POSTMAN_COLLECTION_ID}}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
-          --environment "https://api.getpostman.com/environments/${{ vars.POSTMAN_ENVIRONMENT_ID }}?apikey=${{ secrets.POSTMAN_APIKEY }}" 
+          newman run postman/collections/Kamino.json 
           --reporters cli,json --reporter-json-export test-report.json
       - name: 📝 Create Status check based on postman results
         # You may also reference the major or major.minor version
         uses: im-open/process-postman-test-results@v2.1.4
+        if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           results-file: test-report.json
           report-name: 'Postman Test Result'                 # Default: Postman Test Results
           create-status-check: true                          # Default: true
           create-pr-comment: true                            # Default: true
-          update-comment-if-one-exists: false                 # Default: true
+          update-comment-if-one-exists: true                 # Default: true
           ignore-test-failures: true                        # Default: false
           timezone: 'america/montevideo'                     # Default: UTC
-      - name: ☢️ Fail if there were errors in the postman tests
-        if: steps.process-postman.outputs.test-outcome == 'Failed'
-        run: |
-          echo "There were postman failures."
-          exit 1
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
     needs: server-api-tests
-    # if: github.event_name == 'push'
+    if: github.event_name == 'push'
     steps:
       - name: ☄️ New Relic Application Deployment Marker
-        uses: newrelic/deployment-marker-action@v2.3.0
+        uses: newrelic/deployment-marker-action@v2.4.0
         with:
           apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
           guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
           version: "${{ github.sha }}"
           user: "${{ github.actor }}"
-          description: "Automated Release via Github Actions"
+          description: "${{ github.event.head_commit.message }}"
           deploymentType: "ROLLING"
+  db-backup:
+    runs-on: ubuntu-latest
+    name: Production DB Backup
+    needs: server-api-tests
+    if: github.event_name == 'push'
+    steps:
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
+      - name: 🦑 Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: 🧶 Install Dependencies
+        run: |
+          cd backup-script
+          npm ci
+      - name: 💾 Create Backup
+        run: |
+          cd backup-script
+          npm run backup
+        env:
+          DB_HOST: ${{ secrets.DB_PROD_HOST }}
+          DB_PORT: ${{ secrets.DB_PROD_PORT }}
+          DB_USER: ${{ secrets.DB_PROD_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PROD_PASSWORD }}
+          DB_SCHEMA: ${{ secrets.DB_PROD_SCHEMA }}
+          AZURE_ACCOUNT: ${{ secrets.AZURE_ACCOUNT }}
+          AZURE_ACCOUNT_KEY: ${{ secrets.AZURE_ACCOUNT_KEY }}

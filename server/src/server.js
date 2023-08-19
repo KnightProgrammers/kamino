@@ -3,15 +3,12 @@ require('dotenv').config();
 const fs = require('fs');
 const express = require("express");
 const cors = require("cors");
-require('newrelic');
-const {errorLogger, errorResponder, invalidPathHandler} = require("./middleware/errorHandler");
+if (process.env.ENVIRONMENT === 'production') {
+  require('newrelic');
+}
+const {errorLogger, invalidPathHandler} = require("./middleware/errorHandler");
 const httpLogger = require('./middleware/httpLogger');
 const logger = require('./utils/logger');
-const swaggerUi = require('swagger-ui-express');
-
-const YAML = require('yaml');
-const swaggerFile  = fs.readFileSync('./swagger.yaml', 'utf8')
-const swaggerDocument = YAML.parse(swaggerFile);
 
 const app = express();
 
@@ -25,7 +22,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 // database
 const db = require("./models");
@@ -37,10 +34,8 @@ db.sequelize.sync({force: forceDbSync}).then(() => {
 
 app.use(httpLogger);
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the application" });
+  res.json({message: "Welcome to the application"});
 });
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // routes
 const authRouter = require('./routes/auth.routes');
@@ -63,11 +58,16 @@ app.use(async (error, req, res, next) => {
     });
   }
   const status = error.status || 500
-  return res.status(status).json({ status, message: error.message });
+  return res.status(status).json({status, message: error.message});
 })
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}.`);
+  if (!!process.env.ENVIRONMENT) {
+    logger.debug('---------------------------------');
+    logger.debug(`Environment: ${process.env.ENVIRONMENT}`)
+    logger.debug('---------------------------------');
+  }
 });

@@ -5,10 +5,10 @@ const User = db.user;
 const checkDuplicateEmail = async (req, res, next) => {
   const {email} = req.body;
   const user = await User.findOne({
-    where: { email }
+    where: {email}
   });
   if (user) {
-    return next(errorBuilder('Email is already in use', 400));
+    return next(errorBuilder('Email is already in use', 400, 'warn'));
   }
   next();
 };

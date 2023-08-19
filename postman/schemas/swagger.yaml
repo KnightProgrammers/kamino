@@ -6,7 +6,10 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://127.0.0.1:8080
+    description: Development server
+  - url: https://kamino-server-production.up.railway.app
+    description: Production server
 tags:
   - name: Auth
     description: Administración de session
@@ -28,6 +31,27 @@ paths:
       responses:
         '201':
           description: Successful operation
+          headers:
+            "X-Powered-By":
+              $ref: '#/components/headers/X-Powered-By'
+            "Access-Control-Allow-Origin":
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            "Vary":
+              $ref: '#/components/headers/Vary'
+            "Access-Control-Allow-Headers":
+              $ref: '#/components/headers/Access-Control-Allow-Headers'
+            "Content-Type":
+              $ref: '#/components/headers/Content-Type'
+            "Content-Length":
+              $ref: '#/components/headers/Content-Length'
+            "ETag":
+              $ref: '#/components/headers/ETag'
+            "Date":
+              $ref: '#/components/headers/Date'
+            "Connection":
+              $ref: '#/components/headers/Connection'
+            "Keep-Alive":
+              $ref: '#/components/headers/Keep-Alive'
           content:
             application/json:
               schema:
@@ -68,18 +92,39 @@ paths:
       responses:
         '201':
           description: Successful operation
+          headers:
+            "X-Powered-By":
+              $ref: '#/components/headers/X-Powered-By'
+            "Access-Control-Allow-Origin":
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            "Vary":
+              $ref: '#/components/headers/Vary'
+            "Access-Control-Allow-Headers":
+              $ref: '#/components/headers/Access-Control-Allow-Headers'
+            "Content-Type":
+              $ref: '#/components/headers/Content-Type'
+            "Content-Length":
+              $ref: '#/components/headers/Content-Length'
+            "ETag":
+              $ref: '#/components/headers/ETag'
+            "Date":
+              $ref: '#/components/headers/Date'
+            "Connection":
+              $ref: '#/components/headers/Connection'
+            "Keep-Alive":
+              $ref: '#/components/headers/Keep-Alive'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthTokenWithUser'
-        '400':
+        '401':
           description: Credenciales incorrectas
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
-                status: 400
+                status: 401
                 message: Bad credentials
         '500':
           description: Error en el servidor
@@ -102,12 +147,42 @@ paths:
       responses:
         '200':
           description: Successful operation
+          headers:
+            "X-Powered-By":
+              $ref: '#/components/headers/X-Powered-By'
+            "Access-Control-Allow-Origin":
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            "Vary":
+              $ref: '#/components/headers/Vary'
+            "Access-Control-Allow-Headers":
+              $ref: '#/components/headers/Access-Control-Allow-Headers'
+            "Content-Type":
+              $ref: '#/components/headers/Content-Type'
+            "Content-Length":
+              $ref: '#/components/headers/Content-Length'
+            "ETag":
+              $ref: '#/components/headers/ETag'
+            "Date":
+              $ref: '#/components/headers/Date'
+            "Connection":
+              $ref: '#/components/headers/Connection'
+            "Keep-Alive":
+              $ref: '#/components/headers/Keep-Alive'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthToken'
-        '403':
+        '400':
           description: No Access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: 400
+                message: '"Refresh Token" is required'
+        '403':
+          description: Access Token expired
           content:
             application/json:
               schema:
@@ -130,6 +205,27 @@ paths:
       responses:
         '200':
           description: Operación exitosa
+          headers:
+            "X-Powered-By":
+              $ref: '#/components/headers/X-Powered-By'
+            "Access-Control-Allow-Origin":
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            "Vary":
+              $ref: '#/components/headers/Vary'
+            "Access-Control-Allow-Headers":
+              $ref: '#/components/headers/Access-Control-Allow-Headers'
+            "Content-Type":
+              $ref: '#/components/headers/Content-Type'
+            "Content-Length":
+              $ref: '#/components/headers/Content-Length'
+            "ETag":
+              $ref: '#/components/headers/ETag'
+            "Date":
+              $ref: '#/components/headers/Date'
+            "Connection":
+              $ref: '#/components/headers/Connection'
+            "Keep-Alive":
+              $ref: '#/components/headers/Keep-Alive'
           content:
             application/json:
               schema:
@@ -143,6 +239,47 @@ paths:
       security:
         - ApiKeyAuth: []
 components:
+  headers:
+    X-Powered-By":
+      schema: 
+        type: string
+        example: Express
+    "Access-Control-Allow-Origin":
+      schema: 
+        type: string
+        example: http://localhost:3000
+    "Vary":
+      schema: 
+        type: string
+        example: Origin
+    "Access-Control-Allow-Headers":
+      schema: 
+        type: string
+        example: x-access-token, Origin, Content-Type, Accept
+    "Content-Type":
+      schema: 
+        type: string
+        example: application/json; charset=utf-8
+    "Content-Length":
+      schema: 
+        type: integer
+        example: 357
+    "ETag":
+      schema: 
+        type: string
+        example: W/"165-zwLRqk48bVz+07Mlyljc2NESVoo"
+    "Date":
+      schema: 
+        type: string
+        example: Wed, 16 Aug 2023 04:48:11 GMT
+    "Connection":
+      schema: 
+        type: string
+        example: keep-alive
+    "Keep-Alive":
+      schema: 
+        type: string
+        example: timeout=5
   schemas:
     User:
       type: object
