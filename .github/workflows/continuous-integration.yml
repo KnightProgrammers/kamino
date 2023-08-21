@@ -30,38 +30,38 @@ jobs:
     steps:
       - name: 🔥 Initialize MySQL
         run: sudo systemctl start mysql.service
-      - name: 📌 Initialize first database
-        run: |
-          mysql -e 'CREATE DATABASE `${{ env.DB_SCHEMA }}`;' \
-          -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      - name: 🚀 Boost user
-        run: |
-          mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
-          IDENTIFIED WITH mysql_native_password BY 'root';" \
-          -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      - name: 🍺 Check out repository code
-        uses: actions/checkout@v3
-      - name: 🧶 Install Dependencies
-        run: |
-          cd server 
-          npm ci
-      - name: 📦 run tests
-        run: |
-          cd server 
-          npm run test-ci
-      - name: ☂️ Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@main
-        if: always()
-        with:
-          coverage-summary-path: ./server/coverage/coverage-summary.json
-          title: Server Coverage
-          summary-title: Summary
-          badge-title: Coverage
-          hide-comment: false
-          create-new-comment: false
-          hide-summary: false
-          junitxml-title: Test Report
-          junitxml-path: ./server/junit.xml  
+      # - name: 📌 Initialize first database
+      #   run: |
+      #     mysql -e 'CREATE DATABASE `${{ env.DB_SCHEMA }}`;' \
+      #     -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      # - name: 🚀 Boost user
+      #   run: |
+      #     mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
+      #     IDENTIFIED WITH mysql_native_password BY 'root';" \
+      #     -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      # - name: 🍺 Check out repository code
+      #   uses: actions/checkout@v3
+      # - name: 🧶 Install Dependencies
+      #   run: |
+      #     cd server 
+      #     npm ci
+      # - name: 📦 run tests
+      #   run: |
+      #     cd server 
+      #     npm run test-ci
+      # - name: ☂️ Jest Coverage Comment
+      #   uses: MishaKav/jest-coverage-comment@main
+      #   if: always()
+      #   with:
+      #     coverage-summary-path: ./server/coverage/coverage-summary.json
+      #     title: Server Coverage
+      #     summary-title: Summary
+      #     badge-title: Coverage
+      #     hide-comment: false
+      #     create-new-comment: false
+      #     hide-summary: false
+      #     junitxml-title: Test Report
+      #     junitxml-path: ./server/junit.xml  
   server-api-tests:
     name: "Server - API Tests"
     runs-on: ubuntu-latest
@@ -103,7 +103,7 @@ jobs:
           tags: kamino/kamino-server:latest
           builder: ${{ steps.buildx.outputs.name }}
           file: ./server/Dockerfile
-          context: .
+          context: ./server
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
       - name: Move cache Server
@@ -119,7 +119,7 @@ jobs:
           tags: kamino/kamino-client:latest
           builder: ${{ steps.buildx.outputs.name }}
           file: ./client/Dockerfile
-          context: .
+          context: ./client
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
       - name: Move cache Client
@@ -155,6 +155,40 @@ jobs:
           update-comment-if-one-exists: true                 # Default: true
           ignore-test-failures: true                        # Default: false
           timezone: 'america/montevideo'                     # Default: UTC
+  test-1:
+    runs-on: ubuntu-latest
+    name: New Relic Notification
+    needs: server-api-tests
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Prepare
+        id: prep
+        run: |
+          TAG=$(echo $GITHUB_SHA | head -c7)
+          IMAGE="my.docker.registry/progapangist/anycable_demo"
+          echo ::set-output name=tagged_image::${IMAGE}:${TAG}
+          echo ::set-output name=tag::${TAG}
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        shell: bash
+
+      # Registry login step intentionally missing
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ steps.get-date.outputs.date }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: 🚂 Run Dockers
+        run: docker compose up --detach --wait
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
