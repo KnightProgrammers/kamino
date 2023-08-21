@@ -150,14 +150,6 @@ jobs:
     needs: server-api-tests
     steps:
       - uses: actions/checkout@v2
-
-      - name: Prepare
-        id: prep
-        run: |
-          TAG=$(echo $GITHUB_SHA | head -c7)
-          IMAGE="my.docker.registry/progapangist/anycable_demo"
-          echo ::set-output name=tagged_image::${IMAGE}:${TAG}
-          echo ::set-output name=tag::${TAG}
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@master
@@ -166,9 +158,6 @@ jobs:
         run: |
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         shell: bash
-
-      # Registry login step intentionally missing
-
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -177,7 +166,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: 🚂 Run Dockers
-        run: docker compose up --detach --wait
+        run: docker compose up --build --detach --wait
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
