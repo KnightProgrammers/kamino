@@ -64,6 +64,7 @@ jobs:
           junitxml-path: ./server/junit.xml
   docker-build:
     runs-on: ubuntu-latest
+    needs: server-unit-tests
     steps:
       - uses: actions/checkout@v2
 
@@ -127,7 +128,7 @@ jobs:
   server-api-tests:
     name: "Server - API Tests"
     runs-on: ubuntu-latest
-    needs: server-unit-tests
+    needs: docker-build
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
