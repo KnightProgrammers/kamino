@@ -79,7 +79,7 @@ jobs:
           docker pull ${{ matrix.image }}
       - name: 🦄 Save image
         run: |
-          docker save ${{ matrix.image }} > ${{ matrix.name }}.tar
+          docker save ${{ matrix.image }} > /tmp/${{ matrix.name }}.tar
       - name: 🪼 Upload artifact
         uses: actions/upload-artifact@v3
         with:
