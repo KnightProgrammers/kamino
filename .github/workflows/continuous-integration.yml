@@ -68,9 +68,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: "redis-image"
+          - name: "redis-docker-image"
             image: "redis:latest"
-          - name: "mysql-image"
+          - name: "mysql-docker-image"
             image: "mysql/mysql-server:5.7"
     runs-on: ubuntu-latest
     steps:
@@ -138,6 +138,22 @@ jobs:
       - name: 🎣 Load Client image
         run: |
           docker load --input /tmp/client-docker-image.tar
+      - name: 🛬 Download Redis Image
+        uses: actions/download-artifact@v3
+        with:
+          name: redis-docker-image
+          path: /tmp
+      - name: 🎣 Load Redis image
+        run: |
+          docker load --input /tmp/redis-docker-image.tar
+      - name: 🛬 Download MySQL Image
+        uses: actions/download-artifact@v3
+        with:
+          name: mysql-docker-image
+          path: /tmp
+      - name: 🎣 Load MySQL image
+        run: |
+          docker load --input /tmp/mysql-docker-image.tar
       - name: 🚂 Run Dockers
         run: docker compose up --detach --wait --no-build
       - name: 🦑 Install Node
@@ -176,6 +192,8 @@ jobs:
             name: |
               server-docker-image
               client-docker-image
+              mysql-docker-image
+              redis-docker-image
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
