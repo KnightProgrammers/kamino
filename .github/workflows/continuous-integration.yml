@@ -127,7 +127,6 @@ jobs:
           path: /tmp
       - name: 🎣 Load Docker Images
         run: |
-          ls -R /tmp
           docker load --input /tmp/server-docker-image/server-docker-image.tar
           docker load --input /tmp/client-docker-image/client-docker-image.tar
           docker load --input /tmp/redis-docker-image/redis-docker-image.tar
