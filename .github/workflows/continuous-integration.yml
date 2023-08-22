@@ -62,6 +62,26 @@ jobs:
           hide-summary: false
           junitxml-title: Test Report
           junitxml-path: ./server/junit.xml  
+  pull-docker-images:
+    name: "Pull Docker Images"
+    needs: server-unit-tests
+    strategy:
+      matrix:
+        include:
+          - name: "redis-image"
+            image: "redis:latest"
+          - name: "mysql-image"
+            image: "mysql/mysql-server:5.7"
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🦄 Pull image
+        run: |
+          docker save ${{ matrix.image }} > ${{ matrix.name }}.tar
+      - name: 🪼 Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}
+          path: /tmp/${{ matrix.name }}.tar
   build-server-image:
     name: "Build Server Docker Image"
     runs-on: ubuntu-latest
