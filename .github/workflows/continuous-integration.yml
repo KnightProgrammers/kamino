@@ -30,38 +30,38 @@ jobs:
     steps:
       - name: 🔥 Initialize MySQL
         run: sudo systemctl start mysql.service
-      # - name: 📌 Initialize first database
-      #   run: |
-      #     mysql -e 'CREATE DATABASE `${{ env.DB_SCHEMA }}`;' \
-      #     -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      # - name: 🚀 Boost user
-      #   run: |
-      #     mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
-      #     IDENTIFIED WITH mysql_native_password BY 'root';" \
-      #     -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      # - name: 🍺 Check out repository code
-      #   uses: actions/checkout@v3
-      # - name: 🧶 Install Dependencies
-      #   run: |
-      #     cd server 
-      #     npm ci
-      # - name: 📦 run tests
-      #   run: |
-      #     cd server 
-      #     npm run test-ci
-      # - name: ☂️ Jest Coverage Comment
-      #   uses: MishaKav/jest-coverage-comment@main
-      #   if: always()
-      #   with:
-      #     coverage-summary-path: ./server/coverage/coverage-summary.json
-      #     title: Server Coverage
-      #     summary-title: Summary
-      #     badge-title: Coverage
-      #     hide-comment: false
-      #     create-new-comment: false
-      #     hide-summary: false
-      #     junitxml-title: Test Report
-      #     junitxml-path: ./server/junit.xml  
+      - name: 📌 Initialize first database
+        run: |
+          mysql -e 'CREATE DATABASE `${{ env.DB_SCHEMA }}`;' \
+          -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      - name: 🚀 Boost user
+        run: |
+          mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
+          IDENTIFIED WITH mysql_native_password BY 'root';" \
+          -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
+      - name: 🧶 Install Dependencies
+        run: |
+          cd server 
+          npm ci
+      - name: 📦 run tests
+        run: |
+          cd server 
+          npm run test-ci
+      - name: ☂️ Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
+        if: always()
+        with:
+          coverage-summary-path: ./server/coverage/coverage-summary.json
+          title: Server Coverage
+          summary-title: Summary
+          badge-title: Coverage
+          hide-comment: false
+          create-new-comment: false
+          hide-summary: false
+          junitxml-title: Test Report
+          junitxml-path: ./server/junit.xml  
   build-server-image:
     name: "Build Server Docker Image"
     runs-on: ubuntu-latest
@@ -84,7 +84,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: server
+          name: server-docker-image
           path: /tmp/server-docker-image.tar
           retention-days: 1
   build-client-image:
@@ -109,7 +109,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: client
+          name: client-docker-image
           path: /tmp/client-docker-image.tar
           retention-days: 1
   server-api-tests:
@@ -118,14 +118,10 @@ jobs:
     needs: [build-server-image,build-client-image]
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@master
-      - uses: actions/checkout@v3
       - name: Download Server Image
         uses: actions/download-artifact@v3
         with:
-          name: server
+          name: server-docker-image
           path: /tmp
       - name: Load Server image
         run: |
@@ -134,14 +130,14 @@ jobs:
       - name: Download Client Image
         uses: actions/download-artifact@v3
         with:
-          name: client
+          name: client-docker-image
           path: /tmp
       - name: Load Client image
         run: |
           docker load --input /tmp/client-docker-image.tar
           docker image ls -a 
       - name: 🚂 Run Dockers
-        run: docker compose up --detach --wait
+        run: docker compose up --detach --wait --no-build
       - name: 🦑 Install Node
         uses: actions/setup-node@v3
         with:
@@ -166,32 +162,6 @@ jobs:
           update-comment-if-one-exists: true                 # Default: true
           ignore-test-failures: true                        # Default: false
           timezone: 'america/montevideo'                     # Default: UTC
-  test-1:
-    runs-on: ubuntu-latest
-    name: Test 1
-    needs: [build-server-image,build-client-image]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download Server Image
-        uses: actions/download-artifact@v3
-        with:
-          name: server
-          path: /tmp
-      - name: Load Server image
-        run: |
-          docker load --input /tmp/server-docker-image.tar
-          docker image ls -a 
-      - name: Download Client Image
-        uses: actions/download-artifact@v3
-        with:
-          name: client
-          path: /tmp
-      - name: Load Client image
-        run: |
-          docker load --input /tmp/client-docker-image.tar
-          docker image ls -a 
-      - name: 🚂 Run Dockers
-        run: docker compose up --detach --wait --no-build
   remove-artifacts:
     runs-on: ubuntu-latest
     name: Remove Artifacts
@@ -201,8 +171,8 @@ jobs:
       - uses: geekyeggo/delete-artifact@v2
         with:
             name: |
-              server2
-              client2
+              server-docker-image
+              client-docker-image
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
