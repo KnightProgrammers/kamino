@@ -121,39 +121,17 @@ jobs:
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
-      - name: 🛬 Download Server Image
+      - name: 🛬 Download Docker Images
         uses: actions/download-artifact@v3
         with:
-          name: server-docker-image
           path: /tmp
-      - name: 🎣 Load Server image
+      - name: 🎣 Load Docker Images
         run: |
           docker load --input /tmp/server-docker-image.tar
-          docker image ls -a 
-      - name: 🛬 Download Client Image
-        uses: actions/download-artifact@v3
-        with:
-          name: client-docker-image
-          path: /tmp
-      - name: 🎣 Load Client image
-        run: |
           docker load --input /tmp/client-docker-image.tar
-      - name: 🛬 Download Redis Image
-        uses: actions/download-artifact@v3
-        with:
-          name: redis-docker-image
-          path: /tmp
-      - name: 🎣 Load Redis image
-        run: |
           docker load --input /tmp/redis-docker-image.tar
-      - name: 🛬 Download MySQL Image
-        uses: actions/download-artifact@v3
-        with:
-          name: mysql-docker-image
-          path: /tmp
-      - name: 🎣 Load MySQL image
-        run: |
           docker load --input /tmp/mysql-docker-image.tar
+          docker image ls -a
       - name: 🚂 Run Dockers
         run: docker compose up --detach --wait --no-build
       - name: 🦑 Install Node
