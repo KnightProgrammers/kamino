@@ -78,6 +78,7 @@ jobs:
           path: /tmp/server-docker-image.tar
           key: ${{ runner.os }}-server-docker-image
       - name: Load Server image
+        continue-on-error: true
         run: |
           docker load --input /tmp/server-docker-image.tar
       - name: Build Docker Image
@@ -112,6 +113,7 @@ jobs:
           path: /tmp/client-docker-image.tar
           key: ${{ runner.os }}-client-docker-image
       - name: Load Client image
+        continue-on-error: true
         run: |
           docker load --input /tmp/client-docker-image.tar
       - name: Build Docker Image
