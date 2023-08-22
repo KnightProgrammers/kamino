@@ -74,7 +74,10 @@ jobs:
             image: "mysql/mysql-server:5.7"
     runs-on: ubuntu-latest
     steps:
-      - name: 🦄 Pull image
+      - name: 🌏 Pull image
+        run: |
+          docker pull ${{ matrix.image }}
+      - name: 🦄 Save image
         run: |
           docker save ${{ matrix.image }} > ${{ matrix.name }}.tar
       - name: 🪼 Upload artifact
