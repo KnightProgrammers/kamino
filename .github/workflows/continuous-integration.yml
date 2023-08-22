@@ -127,11 +127,11 @@ jobs:
           path: /tmp
       - name: 🎣 Load Docker Images
         run: |
-          ls -a /tmp
-          docker load --input /tmp/server-docker-image
-          docker load --input /tmp/client-docker-image
-          docker load --input /tmp/redis-docker-image
-          docker load --input /tmp/mysql-docker-image
+          ls -R /tmp
+          docker load --input /tmp/server-docker-image/server-docker-image.tar
+          docker load --input /tmp/client-docker-image/client-docker-image.tar
+          docker load --input /tmp/redis-docker-image/redis-docker-image.tar
+          docker load --input /tmp/mysql-docker-image/mysql-docker-image.tar
           docker image ls -a
       - name: 🚂 Run Dockers
         run: docker compose up --detach --wait --no-build
