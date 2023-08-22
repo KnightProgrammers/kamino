@@ -76,7 +76,7 @@ jobs:
         with:
           push: false
           load: true
-          tags: kamino-server:latest
+          tags: kamino-kamino-server:latest
           builder: ${{ steps.buildx.outputs.name }}
           file: ./server/Dockerfile
           context: ./server
@@ -101,7 +101,7 @@ jobs:
         with:
           push: false
           load: true
-          tags: kamino-client:latest
+          tags: kamino-kamino-client:latest
           builder: ${{ steps.buildx.outputs.name }}
           file: ./client/Dockerfile
           context: ./client
