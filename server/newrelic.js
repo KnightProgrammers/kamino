@@ -1,4 +1,5 @@
 'use strict'
+require('dotenv').config();
 /**
  * New Relic agent configuration.
  *
@@ -10,6 +11,7 @@ exports.config = {
    * Array of application names.
    */
   app_name: ['Kamino-Server'],
+  agent_enabled: process.env.ENVIRONMENT === 'production',
   /**
    * Your New Relic license key.
    */
