@@ -466,29 +466,7 @@ margin-top: 0%;
 }
 
 }
-@media screen and (min-width: 1201px){ 
-  .nav{
-  background-color: #ff7676;  
-    border-bottom-left-radius: 80px;
-  }
-  .nav a {
-  font-size: 15px;
-    }
-  }
-  .footer{
-  padding: 10px;
-}
-.textfooter{
-   font-size: 25px;
-}
-.form_register{
-  width: 50%;
-  height: 40%;
-}
-.form_login{
-  width: 50%;
-  height: 40%;
-}
+
   
 
 
