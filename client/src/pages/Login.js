@@ -63,9 +63,9 @@ export default function Login() {
 
           <button onClick={handleLogin}>Iniciar sesión</button>
           <div>
-            <h22> No te has registrado? </h22>
-            <Link href="/Registration" className={styles.form_buttom_login}>
-              Registrarte
+            <h22 className={styles.form_login_text}> No te has registrado? </h22>
+            <Link href="/Registration" >
+              Registrate
             </Link>
           </div>
         </div>
