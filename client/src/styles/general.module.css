@@ -436,7 +436,14 @@ margin-top: 0%;
 .textfooter {
    font-size: 3px;
 }
+.form_login{
+  width: 100%;
+  height: 40%;
+  margin: 9%;
 
+
+
+}
 }
   @media screen and (min-width: 1025px) and (max-width: 1200px) { 
 
