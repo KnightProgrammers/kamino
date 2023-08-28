@@ -118,6 +118,8 @@ describe('Auth Controller - Unit Tests', () => {
       await authController.refreshToken(request, response);
       expect(response.statusCode).toEqual(200);
       expect(response._isEndCalled()).toBeTruthy();
+      console.log(response._getData())
+      console.log('Hola')
     });
     it('The user doesn\'n exist anymore', async () => {
       await User.destroy({

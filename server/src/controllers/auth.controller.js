@@ -113,11 +113,11 @@ exports.refreshToken = async (req, res, next) => {
             allowInsecureKeySizes: true,
             expiresIn: config.jwtRefreshExpiration
           });
-
-        resolve(res.status(200).json({
+        res.status(200).json({
           accessToken: newAccessToken,
           refreshToken: newRefreshToken,
-        }));
+        });
+        resolve();
       });
   })
 };
