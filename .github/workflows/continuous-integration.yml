@@ -181,9 +181,9 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Report - Android ${{ matrix.platform-version }}
-          path: ./test-results-${{ matrix.platform-version }}/test/TEST-*.xml    # Path to test results
-          reporter: java-junit        # Format of test results
+          name: API Test Report
+          path: ./tests/api-tests/reports/test-report.xml
+          reporter: java-junit
           fail-on-error: false
   cleanup:
     runs-on: ubuntu-latest
