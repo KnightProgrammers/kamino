@@ -91,7 +91,6 @@ exports.refreshToken = async (req, res, next) => {
     if (!user) {
       return next(errorBuilder('Unauthorized', 401, 'warn'));
     }
-    req.userId = decoded.id;
     newrelic.setUserID(decoded.id);
     const newAccessToken = jwt.sign({id: userId}, config.secret, {
       expiresIn: config.jwtExpiration,
