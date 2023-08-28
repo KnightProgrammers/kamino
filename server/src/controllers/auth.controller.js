@@ -97,7 +97,7 @@ exports.refreshToken = async (req, res, next) => {
       expiresIn: config.jwtExpiration,
     });
 
-    await RedisClient.set(newAccessToken, userId, {
+    RedisClient.set(newAccessToken, userId, {
       'EX': config.jwtExpiration
     });
 
@@ -108,7 +108,7 @@ exports.refreshToken = async (req, res, next) => {
         allowInsecureKeySizes: true,
         expiresIn: config.jwtRefreshExpiration
       });
-    return res.status(200).json({
+    res.status(200).json({
       accessToken: newAccessToken,
       refreshToken: newRefreshToken,
     });

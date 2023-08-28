@@ -109,16 +109,18 @@ describe('Auth Controller - Unit Tests', () => {
       await authController.signin(request, response);
       REFRESH_TOKEN = response._getData().refreshToken;
     })
-    /*it('Should be able to refresh a valid token', async () => {
+    it('Should be able to refresh a valid token', async () => {
+      console.log({REFRESH_TOKEN})
       const response = httpMocks.createResponse();
       const request = httpMocks.createRequest();
       request._setBody({
         refreshToken: REFRESH_TOKEN
       });
-      await authController.refreshToken(request, response);
-      expect(response.statusCode).toEqual(200);
+      const next = jest.fn();
+      await authController.refreshToken(request, response, next);
       expect(response._isEndCalled()).toBeTruthy();
-    });*/
+      expect(response.statusCode).toEqual(200);
+    });
     it('The user doesn\'n exist anymore', async () => {
       await User.destroy({
         where: {
