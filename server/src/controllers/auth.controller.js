@@ -90,7 +90,6 @@ exports.refreshToken = async (req, res, next) => {
     const user = await User.findByPk(userId);
     if (!user) {
       return next(errorBuilder('Unauthorized', 401, 'warn'));
-      ;
     }
     req.userId = decoded.id;
     newrelic.setUserID(decoded.id);
@@ -109,7 +108,7 @@ exports.refreshToken = async (req, res, next) => {
         allowInsecureKeySizes: true,
         expiresIn: config.jwtRefreshExpiration
       });
-    res.status(200).json({
+    return res.status(200).json({
       accessToken: newAccessToken,
       refreshToken: newRefreshToken,
     });
