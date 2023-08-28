@@ -26,7 +26,11 @@ env:
 jobs:
   server-unit-tests:
     name: "Server - Unit Tests"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: server
     steps:
       - name: 🔥 Initialize MySQL
         run: sudo systemctl start mysql.service
@@ -41,14 +45,15 @@ jobs:
           -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
+      - name: 🦑 Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
       - name: 🧶 Install Dependencies
-        run: |
-          cd server 
-          npm ci
+        run: npm ci
       - name: 📦 run tests
-        run: |
-          cd server 
-          npm run test-ci
+        run: npm run test-ci
       - name: ☂️ Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
         if: always()
@@ -66,6 +71,10 @@ jobs:
     name: "Server - API Tests"
     runs-on: ubuntu-latest
     needs: server-unit-tests
+    defaults:
+      run:
+        shell: bash
+        working-directory: tests/api-tests
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
@@ -75,26 +84,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: ⛽️ Install newman
-        run: |
-          npm install -g newman
-      - name: 🛰️ Run POSTMAN collection
-        run: >
-          newman run postman/collections/Kamino.json 
-          --reporters cli,json --reporter-json-export test-report.json
-      - name: 📝 Create Status check based on postman results
-        # You may also reference the major or major.minor version
-        uses: im-open/process-postman-test-results@v2.1.4
-        if: always()
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          results-file: test-report.json
-          report-name: 'Postman Test Result'                 # Default: Postman Test Results
-          create-status-check: true                          # Default: true
-          create-pr-comment: true                            # Default: true
-          update-comment-if-one-exists: true                 # Default: true
-          ignore-test-failures: true                        # Default: false
-          timezone: 'america/montevideo'                     # Default: UTC
+          cache: 'npm'
+      - name: 🧶 Install Dependencies
+        run: npm ci
+      - name: 📦 run tests
+        run: npm run test
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
