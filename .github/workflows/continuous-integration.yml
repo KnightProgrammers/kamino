@@ -29,8 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
-        working-directory: server
+        working-directory: ./server
     steps:
       - name: 🔥 Initialize MySQL
         run: sudo systemctl start mysql.service
@@ -126,7 +125,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: tests/api-tests
+        working-directory: ./tests/api-tests
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
