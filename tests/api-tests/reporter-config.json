@@ -1,7 +1,7 @@
 {
-  "reporterEnabled": "step, xunit, mochawesome",
-  "xunitReporterOptions": {
-    "output": "reports/test-report.xml"
+  "reporterEnabled": "mocha-junit-reporter, mochawesome",
+  "mochaJunitReporterReporterOptions": {
+    "mochaFile": "reports/test-report.xml"
   },
   "mochawesomeReporterOptions": {
     "reportDir": "reports",

@@ -63,7 +63,7 @@ jobs:
         if: always()
         with:
           coverage-summary-path: ./server/coverage/coverage-summary.json
-          title: Server Coverage
+          title: Server Unit Test
           summary-title: Summary
           badge-title: Coverage
           hide-comment: false
@@ -161,10 +161,11 @@ jobs:
         run: npm ci
       - name: 📦 run tests
         run: npm run test
-      - name: ☂️ Test Result Comment
+      - name: 🦔 Test Result Comment
         uses: MishaKav/jest-coverage-comment@main
         if: always()
         with:
+          title: API Tests
           hide-comment: false
           create-new-comment: false
           hide-summary: false
@@ -176,6 +177,14 @@ jobs:
         with:
           name: api-test-report.html
           path: ./tests/api-tests/reports/test-report.html
+      - name: 🌝 Publish Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Report - Android ${{ matrix.platform-version }}
+          path: ./test-results-${{ matrix.platform-version }}/test/TEST-*.xml    # Path to test results
+          reporter: java-junit        # Format of test results
+          fail-on-error: false
   cleanup:
     runs-on: ubuntu-latest
     name: Remove Artifacts
