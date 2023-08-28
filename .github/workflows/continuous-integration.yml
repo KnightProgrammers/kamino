@@ -51,7 +51,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: server/node_modules
           key: server-node_modules-${{hashFiles('package-lock.json')}}
           restore-keys: server-node_modules-
       - name: 🧶 Install Dependencies
@@ -62,7 +62,7 @@ jobs:
         uses: MishaKav/jest-coverage-comment@main
         if: always()
         with:
-          coverage-summary-path: ./coverage/coverage-summary.json
+          coverage-summary-path: ./server/coverage/coverage-summary.json
           title: Server Coverage
           summary-title: Summary
           badge-title: Coverage
@@ -154,7 +154,7 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: tests/api-tests/node_modules
           key: api-tests-node_modules-${{hashFiles('package-lock.json')}}
           restore-keys: api-tests-node_modules-
       - name: 🧶 Install Dependencies
@@ -169,13 +169,13 @@ jobs:
           create-new-comment: false
           hide-summary: false
           junitxml-title: Test Report
-          junitxml-path: ./reports/test-report.xml
+          junitxml-path: ./tests/api-tests/reports/test-report.xml
       - name: 🪼 Upload artifact
         uses: actions/upload-artifact@v3
         if: always()
         with:
           name: api-test-report.html
-          path: ./reports/test-report.html
+          path: ./tests/api-tests/reports/test-report.html
   cleanup:
     runs-on: ubuntu-latest
     name: Remove Artifacts
