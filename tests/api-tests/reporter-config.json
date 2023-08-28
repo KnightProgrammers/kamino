@@ -1,5 +1,5 @@
 {
-  "reporterEnabled": "xunit,mocha-junit-reporter, mochawesome",
+  "reporterEnabled": "mocha-junit-reporter, mochawesome",
   "mochaJunitReporterReporterOptions": {
     "mochaFile": "reports/test-report.xml",
     "jenkinsMode": true,
