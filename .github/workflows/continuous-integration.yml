@@ -48,7 +48,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: server-node_modules-${{hashFiles('package-lock.json')}}
+          restore-keys: server-node_modules-
       - name: 🧶 Install Dependencies
         run: npm ci
       - name: 📦 run tests
@@ -146,7 +151,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: api-tests-node_modules-${{hashFiles('package-lock.json')}}
+          restore-keys: api-tests-node_modules-
       - name: 🧶 Install Dependencies
         run: npm ci
       - name: 📦 run tests
