@@ -1,7 +1,10 @@
 {
-  "reporterEnabled": "mocha-junit-reporter, mochawesome",
+  "reporterEnabled": "xunit,mocha-junit-reporter, mochawesome",
   "mochaJunitReporterReporterOptions": {
     "mochaFile": "reports/test-report.xml"
+  },
+  "xunitReporterOptions": {
+    "output": "reports/api-test-report.xml"
   },
   "mochawesomeReporterOptions": {
     "reportDir": "reports",
