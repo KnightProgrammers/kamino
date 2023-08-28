@@ -1,6 +1,4 @@
-const expect = require('chai').expect;
 const apiCall = require("../../helpers/api-call");
-const tv4 = require('tv4');
 
 const SCHEMA = {
   "type": "object",
@@ -35,7 +33,10 @@ const SCHEMA = {
 };
 
 const ENDPOINT = '/api/auth/signup';
-module.exports = async ({body = {}, headers = []}) => apiCall.post(ENDPOINT, {body, headers}, {
+module.exports = async ({
+                          body = {},
+                          headers = {'Accept': 'application/json'}
+                        }) => apiCall.post(ENDPOINT, body, headers, {
   status: 201,
   schema: SCHEMA
 });

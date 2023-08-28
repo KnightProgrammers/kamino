@@ -12,17 +12,16 @@ describe('[POST] /auth/signup', function () {
     };
 
     const response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(201);
-    expect(response.body.message).to.equal("User registered successfully");
-    expect(response.body.user).to.not.null;
-    expect(response.body.user.id).to.not.null;
-    expect(response.body.user.name).to.equal(DATASET.name);
-    expect(response.body.user.email).to.equal(DATASET.email);
+    expect(response.data.message).to.equal("User registered successfully");
+    expect(response.data.user).to.not.null;
+    expect(response.data.user.id).to.not.null;
+    expect(response.data.user.name).to.equal(DATASET.name);
+    expect(response.data.user.email).to.equal(DATASET.email);
   });
   it('Name is required', async () => {
     const DATASET = {
@@ -31,13 +30,12 @@ describe('[POST] /auth/signup', function () {
     };
 
     const response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(400);
-    expect(response.body).to.contain({
+    expect(response.data).to.contain({
       status: 400,
       message: '"Name" is required'
     });
@@ -49,12 +47,11 @@ describe('[POST] /auth/signup', function () {
     };
 
     const response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(400);
-    expect(response.body).to.contain({
+    expect(response.data).to.contain({
       status: 400,
       message: '"Email" is required'
     });
@@ -66,13 +63,12 @@ describe('[POST] /auth/signup', function () {
     };
 
     const response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(400);
-    expect(response.body).to.contain({
+    expect(response.data).to.contain({
       status: 400,
       message: '"Password" is required'
     });
@@ -81,14 +77,13 @@ describe('[POST] /auth/signup', function () {
     const DATASET = {};
 
     const response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
 
     expect(response.status).to.equal(400);
-    expect(response.body).to.contain({
+    expect(response.data).to.contain({
       status: 400,
       message: '"Name" is required'
     });
@@ -101,14 +96,13 @@ describe('[POST] /auth/signup', function () {
     };
 
     const response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
 
     expect(response.status).to.equal(400);
-    expect(response.body).to.contain({
+    expect(response.data).to.contain({
       status: 400,
       message: '"Email" must be a valid email'
     });
@@ -121,26 +115,24 @@ describe('[POST] /auth/signup', function () {
     };
 
     let response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(201);
-    expect(response.body.message).to.equal("User registered successfully");
-    expect(response.body.user).to.not.null;
-    expect(response.body.user.id).to.not.null;
-    expect(response.body.user.name).to.equal(DATASET.name);
-    expect(response.body.user.email).to.equal(DATASET.email);
+    expect(response.data.message).to.equal("User registered successfully");
+    expect(response.data.user).to.not.null;
+    expect(response.data.user.id).to.not.null;
+    expect(response.data.user.name).to.equal(DATASET.name);
+    expect(response.data.user.email).to.equal(DATASET.email);
 
     response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(400);
-    expect(response.body).to.contain({
+    expect(response.data).to.contain({
       status: 400,
       message: 'Email is already in use'
     });
@@ -153,17 +145,16 @@ describe('[POST] /auth/signup', function () {
     };
 
     let response = await signup({
-      body: DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(201);
-    expect(response.body.message).to.equal("User registered successfully");
-    expect(response.body.user).to.not.null;
-    expect(response.body.user.id).to.not.null;
-    expect(response.body.user.name).to.equal(DATASET.name);
-    expect(response.body.user.email).to.equal(DATASET.email);
+    expect(response.data.message).to.equal("User registered successfully");
+    expect(response.data.user).to.not.null;
+    expect(response.data.user.id).to.not.null;
+    expect(response.data.user.name).to.equal(DATASET.name);
+    expect(response.data.user.email).to.equal(DATASET.email);
 
     const NEW_DATASET = {
       name: DATASET.name,
@@ -172,16 +163,15 @@ describe('[POST] /auth/signup', function () {
     };
 
     response = await signup({
-      body: NEW_DATASET,
-      headers: [{name: 'Accept', value: 'application/json'}]
+      body: NEW_DATASET
     });
 
     expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
     expect(response.status).to.equal(201);
-    expect(response.body.message).to.equal("User registered successfully");
-    expect(response.body.user).to.not.null;
-    expect(response.body.user.id).to.not.null;
-    expect(response.body.user.name).to.equal(NEW_DATASET.name);
-    expect(response.body.user.email).to.equal(NEW_DATASET.email);
+    expect(response.data.message).to.equal("User registered successfully");
+    expect(response.data.user).to.not.null;
+    expect(response.data.user.id).to.not.null;
+    expect(response.data.user.name).to.equal(NEW_DATASET.name);
+    expect(response.data.user.email).to.equal(NEW_DATASET.email);
   });
 });
