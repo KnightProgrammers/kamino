@@ -26,8 +26,13 @@ env:
 jobs:
   server-unit-tests:
     name: "Server - Unit Tests"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
     steps:
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
       - name: 🔥 Initialize MySQL
         run: sudo systemctl start mysql.service
       - name: 📌 Initialize first database
@@ -39,29 +44,33 @@ jobs:
           mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
           IDENTIFIED WITH mysql_native_password BY 'root';" \
           -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      - name: 🍺 Check out repository code
-        uses: actions/checkout@v3
+      - name: 🦑 Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: server/node_modules
+          key: server-node_modules-${{hashFiles('package-lock.json')}}
+          restore-keys: server-node_modules-
       - name: 🧶 Install Dependencies
-        run: |
-          cd server 
-          npm ci
+        run: npm ci
       - name: 📦 run tests
-        run: |
-          cd server 
-          npm run test-ci
+        run: npm run test-ci
       - name: ☂️ Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
         if: always()
         with:
           coverage-summary-path: ./server/coverage/coverage-summary.json
-          title: Server Coverage
+          title: Server Unit Test
           summary-title: Summary
           badge-title: Coverage
           hide-comment: false
           create-new-comment: false
           hide-summary: false
           junitxml-title: Test Report
-          junitxml-path: ./server/junit.xml  
+          junitxml-path: ./server/junit.xml
   pull-docker-images:
     name: "Pull Docker Images"
     needs: server-unit-tests
@@ -89,7 +98,7 @@ jobs:
     name: "Build Docker Images"
     strategy:
       matrix:
-        app: ["server", "client"]
+        app: [ "server", "client" ]
     runs-on: ubuntu-latest
     needs: server-unit-tests
     steps:
@@ -117,7 +126,11 @@ jobs:
   server-api-tests:
     name: "Server - API Tests"
     runs-on: ubuntu-latest
-    needs: [build-docker-images, pull-docker-images]
+    needs: [ build-docker-images, pull-docker-images ]
+    defaults:
+      run:
+        shell: bash
+        working-directory: tests/api-tests
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
@@ -138,44 +151,58 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: ⛽️ Install newman
-        run: |
-          npm install -g newman
-      - name: 🛰️ Run POSTMAN collection
-        run: >
-          newman run postman/collections/Kamino.json 
-          --reporters cli,json --reporter-json-export test-report.json
-      - name: 📝 Create Status check based on postman results
-        # You may also reference the major or major.minor version
-        uses: im-open/process-postman-test-results@v2.1.5
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: tests/api-tests/node_modules
+          key: api-tests-node_modules-${{hashFiles('package-lock.json')}}
+          restore-keys: api-tests-node_modules-
+      - name: 🧶 Install Dependencies
+        run: npm ci
+      - name: 📦 run tests
+        run: npm run test
+      - name: 🦔 Test Result Comment
+        uses: MishaKav/jest-coverage-comment@main
         if: always()
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          results-file: test-report.json
-          report-name: 'Postman Test Result'                 # Default: Postman Test Results
-          create-status-check: true                          # Default: true
-          create-pr-comment: true                            # Default: true
-          update-comment-if-one-exists: true                 # Default: true
-          ignore-test-failures: true                        # Default: false
-          timezone: 'america/montevideo'                     # Default: UTC
+          title: API Tests
+          hide-comment: false
+          create-new-comment: false
+          hide-summary: false
+          junitxml-title: Test Report
+          junitxml-path: ./tests/api-tests/reports/test-report.xml
+      - name: 🪼 Upload artifact
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: api-test-report.html
+          path: ./tests/api-tests/reports/test-report.html
+      - name: 🌝 Publish Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: API Test Report
+          path: ./tests/api-tests/reports/test-report.xml
+          reporter: java-junit
+          fail-on-error: false
   cleanup:
     runs-on: ubuntu-latest
     name: Remove Artifacts
-    needs: [server-api-tests]
+    needs: [ server-api-tests ]
     if: always()
     steps:
       - name: 🗑️ Delete Artifacts
         uses: geekyeggo/delete-artifact@v2
         with:
-            name: |
-              server-docker-image
-              client-docker-image
-              mysql-docker-image
-              redis-docker-image
+          name: |
+            server-docker-image
+            client-docker-image
+            mysql-docker-image
+            redis-docker-image
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
-    needs: [server-api-tests]
+    needs: [ server-api-tests ]
     if: github.event_name == 'push'
     steps:
       - name: ☄️ New Relic Application Deployment Marker
@@ -190,7 +217,7 @@ jobs:
   db-backup:
     runs-on: ubuntu-latest
     name: Production DB Backup
-    needs: [server-api-tests]
+    needs: [ server-api-tests ]
     if: github.event_name == 'push'
     steps:
       - name: 🍺 Check out repository code

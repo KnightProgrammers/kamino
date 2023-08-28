@@ -237,47 +237,47 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
 components:
   headers:
-    X-Powered-By":
-      schema: 
+    "X-Powered-By":
+      schema:
         type: string
         example: Express
     "Access-Control-Allow-Origin":
-      schema: 
+      schema:
         type: string
         example: http://localhost:3000
     "Vary":
-      schema: 
+      schema:
         type: string
         example: Origin
     "Access-Control-Allow-Headers":
-      schema: 
+      schema:
         type: string
         example: x-access-token, Origin, Content-Type, Accept
     "Content-Type":
-      schema: 
+      schema:
         type: string
         example: application/json; charset=utf-8
     "Content-Length":
-      schema: 
+      schema:
         type: integer
         example: 357
     "ETag":
-      schema: 
+      schema:
         type: string
         example: W/"165-zwLRqk48bVz+07Mlyljc2NESVoo"
     "Date":
-      schema: 
+      schema:
         type: string
         example: Wed, 16 Aug 2023 04:48:11 GMT
     "Connection":
-      schema: 
+      schema:
         type: string
         example: keep-alive
     "Keep-Alive":
-      schema: 
+      schema:
         type: string
         example: timeout=5
   schemas:

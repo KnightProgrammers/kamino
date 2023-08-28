@@ -1,0 +1,17 @@
+{
+  "reporterEnabled": "mocha-junit-reporter, mochawesome",
+  "mochaJunitReporterReporterOptions": {
+    "mochaFile": "reports/test-report.xml",
+    "jenkinsMode": true,
+    "rootSuiteTitle": "Suite",
+    "testsuitesTitle": "API Tests",
+    "suiteTitleSeparatedBy": " - "
+  },
+  "mochawesomeReporterOptions": {
+    "reportDir": "reports",
+    "reportFilename": "test-report",
+    "inline": true,
+    "cdn": true,
+    "reportTitle": "Kamino API Tests"
+  }
+}
