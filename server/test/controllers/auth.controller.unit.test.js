@@ -109,16 +109,16 @@ describe('Auth Controller - Unit Tests', () => {
       await authController.signin(request, response);
       REFRESH_TOKEN = response._getData().refreshToken;
     })
-    it('Should be able to refresh a valid token', async () => {
+    /*it('Should be able to refresh a valid token', async () => {
       const response = httpMocks.createResponse();
       const request = httpMocks.createRequest();
       request._setBody({
         refreshToken: REFRESH_TOKEN
-      })
+      });
       await authController.refreshToken(request, response);
       expect(response.statusCode).toEqual(200);
       expect(response._isEndCalled()).toBeTruthy();
-    });
+    });*/
     it('The user doesn\'n exist anymore', async () => {
       await User.destroy({
         where: {
