@@ -1,11 +1,9 @@
 const httpMocks = require('node-mocks-http');
-const { describe, it, expect, afterAll, beforeAll} = require('@jest/globals');
-const db= require("../../src/models");
+const {describe, it, expect, afterAll, beforeAll} = require('@jest/globals');
+const db = require("../../src/models");
 const User = db.user;
-const RefreshToken = db.refreshToken;
 
 const authController = require('../../src/controllers/auth.controller');
-const config = require("../../src/config/auth.config");
 
 const MOCK_USER_DATA = {
   name: 'Test user',
@@ -34,7 +32,7 @@ describe('Auth Controller - Unit Tests', () => {
         message: "User registered successfully",
         user: {
           id: testUser.id,
-          name : testUser.name,
+          name: testUser.name,
           email: testUser.email
         }
       });
@@ -68,7 +66,7 @@ describe('Auth Controller - Unit Tests', () => {
       expect(response._isEndCalled()).toBeTruthy();
       expect(response._getData()).toMatchObject({
         id: testUser.id,
-        name : testUser.name,
+        name: testUser.name,
         email: testUser.email
       });
     });
@@ -100,20 +98,42 @@ describe('Auth Controller - Unit Tests', () => {
     });
   });
   describe('Refresh Access Token', () => {
-    it('Should be able to refresh a valid token', async () => {
-      const testUser = await User.findOne({where: {email: MOCK_USER_DATA.email}});
-      const testToken = await RefreshToken.findOne({where: {userId: testUser.id}});
+    let REFRESH_TOKEN;
+    beforeAll(async () => {
       const response = httpMocks.createResponse();
       const request = httpMocks.createRequest();
       request._setBody({
-        refreshToken: testToken.token
+        email: MOCK_USER_DATA.email,
+        password: MOCK_USER_DATA.password,
+      })
+      await authController.signin(request, response);
+      REFRESH_TOKEN = response._getData().refreshToken;
+    })
+    it('Should be able to refresh a valid token', async () => {
+      const response = httpMocks.createResponse();
+      const request = httpMocks.createRequest();
+      request._setBody({
+        refreshToken: REFRESH_TOKEN
       })
       await authController.refreshToken(request, response);
       expect(response.statusCode).toEqual(200);
       expect(response._isEndCalled()).toBeTruthy();
-      const data = response._getJSONData();
-      const newRefreshToken = await RefreshToken.findOne({where: {token: data.refreshToken}});
-      expect(newRefreshToken).toBeDefined()
+    });
+    it('The user doesn\'n exist anymore', async () => {
+      await User.destroy({
+        where: {
+          email: MOCK_USER_DATA.email
+        },
+      });
+      const response = httpMocks.createResponse();
+      const request = httpMocks.createRequest();
+      const next = jest.fn();
+      request._setBody({
+        refreshToken: REFRESH_TOKEN
+      })
+      await authController.refreshToken(request, response, next);
+
+      await expect(next).toBeCalledWith(new Error('Unauthorized'));
     });
     it('No Refresh Token', async () => {
       const response = httpMocks.createResponse();
@@ -127,7 +147,7 @@ describe('Auth Controller - Unit Tests', () => {
 
       await expect(next).toBeCalledWith(new Error('Refresh Token is required'));
     });
-    it('No Refresh Token', async () => {
+    it('No valid Refresh Token', async () => {
       const response = httpMocks.createResponse();
       const request = httpMocks.createRequest();
       request._setBody({
@@ -136,25 +156,6 @@ describe('Auth Controller - Unit Tests', () => {
 
       const next = jest.fn();
       await authController.refreshToken(request, response, next);
-
-      await expect(next).toBeCalledWith(new Error('Refresh token is not in database'));
-    });
-    it('Refresh token expired', async () => {
-      const testUser = await User.findOne({where: {email: MOCK_USER_DATA.email}});
-      const testToken = await RefreshToken.findOne({where: {userId: testUser.id}});
-      let expiredAt = new Date();
-      expiredAt.setSeconds(expiredAt.getSeconds() - 1);
-      testToken.expiryDate = expiredAt.getTime();
-      await testToken.save();
-      const response = httpMocks.createResponse();
-      const request = httpMocks.createRequest();
-      request._setBody({
-        refreshToken: testToken.token
-      });
-
-      const next = jest.fn();
-      await authController.refreshToken(request, response, next);
-
       await expect(next).toBeCalledWith(new Error('Refresh token expired'));
     });
   });

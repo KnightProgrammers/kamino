@@ -1,12 +1,13 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
-const RefreshToken = db.refreshToken;
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {errorBuilder} = require("../middleware/errorHandler");
 const RedisClient = require("../libraries/redis");
+const newrelic = require("newrelic");
+const {verifyUser} = require("../middleware/authJwt");
 
 exports.signup = async (req, res) => {
   const user = await User.create({
@@ -55,7 +56,14 @@ exports.signin = async (req, res, next) => {
     'EX': config.jwtExpiration
   });
 
-  let refreshToken = await RefreshToken.createToken(user);
+
+  const refreshToken = jwt.sign({id: user.id},
+    config.secret,
+    {
+      algorithm: 'HS256',
+      allowInsecureKeySizes: true,
+      expiresIn: config.jwtRefreshExpiration
+    });
 
   res.status(201).send({
     id: user.id,
@@ -67,31 +75,49 @@ exports.signin = async (req, res, next) => {
 };
 
 exports.refreshToken = async (req, res, next) => {
-  const { refreshToken: requestToken } = req.body;
+  const {refreshToken: requestToken} = req.body;
 
   if (!requestToken) {
     return next(errorBuilder('Refresh Token is required', 403, 'warn'));
   }
-  let refreshToken = await RefreshToken.findOne({ where: { token: requestToken } });
-  if (!refreshToken) {
-    return next(errorBuilder('Refresh token is not in database', 403, 'warn'));
-  }
+  return new Promise((resolve, reject) => {
+    jwt.verify(requestToken,
+      config.secret,
+      async (err, decoded) => {
+        if (err || !decoded || !decoded.hasOwnProperty('id')) {
+          next(errorBuilder('Refresh token expired', 403, 'warn'));
+          resolve();
+          return;
+        }
+        const userId = decoded.id;
+        const user = await User.findByPk(userId);
+        if (!user) {
+          next(errorBuilder('Unauthorized', 401, 'warn'));
+          resolve();
+          return;
+        }
+        req.userId = decoded.id;
+        newrelic.setUserID(decoded.id);
+        const newAccessToken = jwt.sign({id: userId}, config.secret, {
+          expiresIn: config.jwtExpiration,
+        });
 
-  if (RefreshToken.verifyExpiration(refreshToken)) {
-    RefreshToken.destroy({ where: { id: refreshToken.id } });
-    return next(errorBuilder('Refresh token expired', 403, 'warn'));
-  }
+        await RedisClient.set(newAccessToken, userId, {
+          'EX': config.jwtExpiration
+        });
 
-  let newAccessToken = jwt.sign({ id: refreshToken.userId }, config.secret, {
-    expiresIn: config.jwtExpiration,
-  });
+        const newRefreshToken = jwt.sign({id: userId},
+          config.secret,
+          {
+            algorithm: 'HS256',
+            allowInsecureKeySizes: true,
+            expiresIn: config.jwtRefreshExpiration
+          });
 
-  await RedisClient.set(newAccessToken, refreshToken.userId, {
-    'EX': config.jwtExpiration
-  });
-
-  return res.status(200).json({
-    accessToken: newAccessToken,
-    refreshToken: refreshToken.token,
-  });
+        resolve(res.status(200).json({
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        }));
+      });
+  })
 };
