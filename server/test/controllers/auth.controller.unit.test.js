@@ -110,7 +110,6 @@ describe('Auth Controller - Unit Tests', () => {
       REFRESH_TOKEN = response._getData().refreshToken;
     })
     it('Should be able to refresh a valid token', async () => {
-      console.log({REFRESH_TOKEN})
       const response = httpMocks.createResponse();
       const request = httpMocks.createRequest();
       request._setBody({
