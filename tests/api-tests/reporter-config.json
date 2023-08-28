@@ -1,0 +1,13 @@
+{
+  "reporterEnabled": "step, xunit, mochawesome",
+  "xunitReporterOptions": {
+    "output": "reports/test-report.xml"
+  },
+  "mochawesomeReporterOptions": {
+    "reportDir": "reports",
+    "reportFilename": "test-report",
+    "inline": true,
+    "cdn": true,
+    "reportTitle": "Kamino API Tests"
+  }
+}
