@@ -29,8 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./server
+        working-directory: server
     steps:
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
       - name: 🔥 Initialize MySQL
         run: sudo systemctl start mysql.service
       - name: 📌 Initialize first database
@@ -42,8 +44,6 @@ jobs:
           mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
           IDENTIFIED WITH mysql_native_password BY 'root';" \
           -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      - name: 🍺 Check out repository code
-        uses: actions/checkout@v3
       - name: 🦑 Install Node
         uses: actions/setup-node@v3
         with:
@@ -57,7 +57,7 @@ jobs:
         uses: MishaKav/jest-coverage-comment@main
         if: always()
         with:
-          coverage-summary-path: ./server/coverage/coverage-summary.json
+          coverage-summary-path: ./coverage/coverage-summary.json
           title: Server Coverage
           summary-title: Summary
           badge-title: Coverage
@@ -125,7 +125,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./tests/api-tests
+        working-directory: tests/api-tests
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
