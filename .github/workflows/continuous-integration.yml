@@ -67,10 +67,62 @@ jobs:
           hide-summary: false
           junitxml-title: Test Report
           junitxml-path: ./server/junit.xml
+  pull-docker-images:
+    name: "Pull Docker Images"
+    needs: server-unit-tests
+    strategy:
+      matrix:
+        include:
+          - name: "redis-docker-image"
+            image: "redis:latest"
+          - name: "mysql-docker-image"
+            image: "mysql/mysql-server:5.7"
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🌏 Pull image
+        run: |
+          docker pull ${{ matrix.image }}
+      - name: 🦄 Save image
+        run: |
+          docker save ${{ matrix.image }} > /tmp/${{ matrix.name }}.tar
+      - name: 🪼 Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}
+          path: /tmp/${{ matrix.name }}.tar
+  build-docker-images:
+    name: "Build Docker Images"
+    strategy:
+      matrix:
+        app: ["server", "client"]
+    runs-on: ubuntu-latest
+    needs: server-unit-tests
+    steps:
+      - name: 🍺 Check out repository code
+        uses: actions/checkout@v3
+      - name: ⚒️ Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
+      - name: 🐳 Build Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          push: false
+          load: true
+          tags: kamino-kamino-${{ matrix.app }}:latest
+          builder: ${{ steps.buildx.outputs.name }}
+          file: ./${{ matrix.app }}/Dockerfile
+          context: ./${{ matrix.app }}
+          outputs: type=docker,dest=/tmp/${{ matrix.app }}-docker-image.tar
+      - name: 🪼 Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.app }}-docker-image
+          path: /tmp/${{ matrix.app }}-docker-image.tar
+          retention-days: 1
   server-api-tests:
     name: "Server - API Tests"
     runs-on: ubuntu-latest
-    needs: server-unit-tests
+    needs: [build-docker-images, pull-docker-images]
     defaults:
       run:
         shell: bash
@@ -78,8 +130,19 @@ jobs:
     steps:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v3
+      - name: 🛬 Download Docker Images
+        uses: actions/download-artifact@v3
+        with:
+          path: /tmp
+      - name: 🎣 Load Docker Images
+        run: |
+          docker load --input /tmp/server-docker-image/server-docker-image.tar
+          docker load --input /tmp/client-docker-image/client-docker-image.tar
+          docker load --input /tmp/redis-docker-image/redis-docker-image.tar
+          docker load --input /tmp/mysql-docker-image/mysql-docker-image.tar
+          docker image ls -a
       - name: 🚂 Run Dockers
-        run: docker compose up --detach --wait
+        run: docker compose up --detach --wait --no-build
       - name: 🦑 Install Node
         uses: actions/setup-node@v3
         with:
@@ -88,11 +151,25 @@ jobs:
       - name: 🧶 Install Dependencies
         run: npm ci
       - name: 📦 run tests
-        run: npm run test
+        run: npm run test                    # Default: UTC
+  cleanup:
+    runs-on: ubuntu-latest
+    name: Remove Artifacts
+    needs: [server-api-tests]
+    if: always()
+    steps:
+      - name: 🗑️ Delete Artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+            name: |
+              server-docker-image
+              client-docker-image
+              mysql-docker-image
+              redis-docker-image
   newrelic-notification:
     runs-on: ubuntu-latest
     name: New Relic Notification
-    needs: server-api-tests
+    needs: [server-api-tests]
     if: github.event_name == 'push'
     steps:
       - name: ☄️ New Relic Application Deployment Marker
@@ -107,7 +184,7 @@ jobs:
   db-backup:
     runs-on: ubuntu-latest
     name: Production DB Backup
-    needs: server-api-tests
+    needs: [server-api-tests]
     if: github.event_name == 'push'
     steps:
       - name: 🍺 Check out repository code
