@@ -81,10 +81,9 @@ npm run dev-start
 
 ## 📖 API Documentation
 
-- [Postman Documentation](https://documenter.getpostman.com/view/954922/2s9Xy2MrRn)
-- [Local Swagger](http://localhost:8080/api-docs)
+- [Postman Documentation](https://www.postman.com/knight-programmers/workspace/kamino/api/fdbf19a6-c37d-4269-9269-54cef3cabe08)
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/954922-f2c48d14-63b7-41b0-9d40-211a6c55210f)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/954922-25d49430-8525-47b6-8f34-d463a16a9fd5)
 
 ------
 
