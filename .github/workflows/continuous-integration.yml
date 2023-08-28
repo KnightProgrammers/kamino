@@ -182,7 +182,7 @@ jobs:
         if: always()
         with:
           name: API Test Report
-          path: ./tests/api-tests/reports/api-test-report.xml
+          path: ./tests/api-tests/reports/test-report.xml
           reporter: java-junit
           fail-on-error: false
   cleanup:

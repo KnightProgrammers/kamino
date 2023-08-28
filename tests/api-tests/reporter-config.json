@@ -1,10 +1,11 @@
 {
   "reporterEnabled": "xunit,mocha-junit-reporter, mochawesome",
   "mochaJunitReporterReporterOptions": {
-    "mochaFile": "reports/test-report.xml"
-  },
-  "xunitReporterOptions": {
-    "output": "reports/api-test-report.xml"
+    "mochaFile": "reports/test-report.xml",
+    "jenkinsMode": true,
+    "rootSuiteTitle": "Suite",
+    "testsuitesTitle": "API Tests",
+    "suiteTitleSeparatedBy": " - "
   },
   "mochawesomeReporterOptions": {
     "reportDir": "reports",
