@@ -362,3 +362,5 @@ components:
       type: apiKey
       name: x-access-token
       in: header
+security:
+  - ApiKeyAuth: []
