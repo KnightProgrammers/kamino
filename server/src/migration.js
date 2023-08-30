@@ -7,15 +7,30 @@ const umzug = new Umzug({
   migrations: { glob: './src/migrations/*.js' },
   context: sequelize.getQueryInterface(),
   storage: new SequelizeStorage({ sequelize, tableName: 'migrations' }),
-  logger: console,
+  logger: {
+    info: ({event, name, duration = ''}) => {
+      console.log(`[${event.toUpperCase()}] - ${name} ${duration}`)
+    },
+    error: console.error
+  }
 });
 
-(async () => {
-  const migrations = await umzug.pending();
-  console.log(migrations);
-  try {
-    await umzug.up();
-  } catch (e) {
-    console.log(e)
+let migrations = [];
+
+const main = async () => {
+  migrations = await umzug.pending();
+  if(migrations.length) {
+    console.log(' === Migrations Start 🏁  ===');
+  } else {
+    console.log(' === No migrations to run 🚜 ===');
   }
-})();
+  await umzug.up();
+}
+
+main().then(() => {
+  if(migrations.length) {
+    console.log(' === Migrations Done ✅  ===');
+  }
+}).catch((e) => {
+  console.error(e)
+});
