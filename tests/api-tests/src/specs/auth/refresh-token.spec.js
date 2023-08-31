@@ -26,7 +26,6 @@ describe('[POST] /auth/refreshtoken', function () {
         password: DATASET.password,
       }
     });
-    console.log(signinResult.data);
     AUTH_TOKEN = {
       accessToken: signinResult.data.accessToken,
       refreshToken: signinResult.data.refreshToken
@@ -65,6 +64,20 @@ describe('[POST] /auth/refreshtoken', function () {
     expect(response.data).to.contains({
       status: 400,
       message: '"Refresh Token" is required'
+    });
+  });
+  it('The server validates the refresh token', async () => {
+    const response = await refreshToken({
+      body: {
+        refreshToken: 'Not Valid'
+      }
+    });
+
+    expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
+    expect(response.status).to.equal(403);
+    expect(response.data).to.contains({
+      status: 403,
+      message: 'Refresh token expired'
     });
   });
 });
