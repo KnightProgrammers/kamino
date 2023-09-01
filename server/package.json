@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "migration": "node src/migration.js",
+    "start": "npm run migration && node src/server.js",
     "dev-start": "nodemon src/server.js",
     "test": "jest --detectOpenHandles",
     "test-ci": "jest --detectOpenHandles --coverageReporters=\"json-summary\""
@@ -24,6 +25,7 @@
     "nodemon": "3.0.1",
     "redis": "4.6.8",
     "sequelize": "6.32.1",
+    "umzug": "3.3.1",
     "uuid": "9.0.0",
     "winston": "3.10.0"
   },

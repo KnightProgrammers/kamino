@@ -6,6 +6,9 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Kamino/Kamino/1.0.0
   - url: http://127.0.0.1:8080
     description: Development server
   - url: https://kamino-server-production.up.railway.app
@@ -283,6 +286,7 @@ components:
   schemas:
     User:
       type: object
+      additionalProperties: false
       properties:
         id:
           type: string
@@ -295,6 +299,7 @@ components:
           example: anakin@empire.com
     AuthLogin:
       type: object
+      additionalProperties: false
       properties:
         email:
           type: string
@@ -304,6 +309,7 @@ components:
           example: HighGround
     AuthRegistration:
       type: object
+      additionalProperties: false
       properties:
         name:
           type: string
@@ -316,6 +322,7 @@ components:
           example: HighGround
     AuthToken:
       type: object
+      additionalProperties: false
       properties:
         accessToken:
           type: string
@@ -325,6 +332,7 @@ components:
           example: <Refresh_Token>
     AuthTokenWithUser:
       type: object
+      additionalProperties: false
       properties:
         id:
           type: string
@@ -343,12 +351,14 @@ components:
           example: <Refresh_Token>
     RefreshToken:
       type: object
+      additionalProperties: false
       properties:
         refreshToken:
           type: string
           example: 2c86c5a2-0aaf-4ae9-b538-496f9ec2c32b
     ErrorResponse:
       type: object
+      additionalProperties: false
       properties:
         status:
           type: integer

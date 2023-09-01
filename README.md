@@ -46,6 +46,22 @@ docker compose up --detach --wait --build
 
 ## 💻 Development
 
+### Client
+
+> **Folder:** `/client`
+
+**Install Dependencies**
+
+```shell
+npm install
+```
+
+**Start Client**
+
+```shell
+npm run dev
+```
+
 ### Server
 
 > **Folder:** `/server`
@@ -64,28 +80,28 @@ npm run dev-start
 
 **Environment Vars**
 
-| Var             | Type    | Default Value      | Description                                                                            |
-|-----------------|---------|--------------------|----------------------------------------------------------------------------------------|
-| `SECRET`        | String  | `THIS IS A SECRET` | Used to encrypt passwords on the database                                              |
-| `DB_HOST`       | String  | `localhost`        | Database connection host                                                               |
-| `DB_PORT`       | Number  | `3306`             | Database connection port                                                               |
-| `DB_USER`       | String  | `root`             | Database connection user                                                               |
-| `DB_PASSWORD`   | String  | `root`             | Database connection password                                                           |
-| `DB_SCHEMA`     | String  | `testdb`           | Database name                                                                          |
-| `PORT`          | Number  | `8080`             | Server port number                                                                     |
-| `FORCE_DB_SYNC` | Boolean | `false`            | Force database structure creation                                                      |
-| `DEBUG`         | Boolean | `false`            | Enables the debug mode                                                                 |
-| `CORS_ORIGIN`   | String  | `*`                | Origin hosts list separated by comma, allowed to make requests (`*` means all allowed) |
+| Var             | Type    | Default Value            | Description                                                                            |
+|-----------------|---------|--------------------------|----------------------------------------------------------------------------------------|
+| `SECRET`        | String  | `THIS IS A SECRET`       | Used to encrypt passwords on the database                                              |
+| `DB_HOST`       | String  | `localhost`              | Database connection host                                                               |
+| `DB_PORT`       | Number  | `3306`                   | Database connection port                                                               |
+| `DB_USER`       | String  | `root`                   | Database connection user                                                               |
+| `DB_PASSWORD`   | String  | `root`                   | Database connection password                                                           |
+| `DB_SCHEMA`     | String  | `testdb`                 | Database name                                                                          |
+| `PORT`          | Number  | `8080`                   | Server port number                                                                     |
+| `FORCE_DB_SYNC` | Boolean | `false`                  | Force database structure creation                                                      |
+| `DEBUG`         | Boolean | `false`                  | Enables the debug mode                                                                 |
+| `CORS_ORIGIN`   | String  | `*`                      | Origin hosts list separated by comma, allowed to make requests (`*` means all allowed) |
+| `REDIS_URL`     | String  | `redis://localhost:6380` | The redis connection url                                                               |      
+| `LOG_LEVEL`     | String  | `INFO`                   | The `LOG_LEVEL` specifies the minimum level to log for selected categories             |      
+| `ENVIRONMENT`   | String  |                          | Indicates the environment where the server is running                                  |      
 
 ------
 
 ## 📖 API Documentation
 
-- [Postman Documentation](https://documenter.getpostman.com/view/954922/2s9Xy2MrRn)
-- [Local Swagger](http://localhost:8080/api-docs)
-
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/954922-f2c48d14-63b7-41b0-9d40-211a6c55210f)
-
+[![swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black)](https://app.swaggerhub.com/apis/Kamino/Kamino)
+[![postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white)](https://www.postman.com/knight-programmers/workspace/kamino/api/fdbf19a6-c37d-4269-9269-54cef3cabe08)
 ------
 
 ## 🗄️ Database
@@ -103,6 +119,7 @@ Backups are stored in Azure Containers data storage.
 **Automatic Executions**
 
 - On every push to main
+- Every Saturday at 8AM (UTC-3)
 
 **Install Dependencies**
 
