@@ -108,7 +108,7 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@master
       - name: 🐳 Build Docker Image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: false
           load: true
