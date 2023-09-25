@@ -23,7 +23,7 @@
     "mysql2": "3.6.1",
     "newrelic": "latest",
     "nodemon": "3.0.1",
-    "redis": "4.6.8",
+    "redis": "4.6.10",
     "sequelize": "6.33.0",
     "umzug": "3.3.1",
     "uuid": "9.0.1",
