@@ -2,7 +2,11 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
+import styles from "@/styles/general.module.css";
 import axios from "axios";
+import { Staatliches } from "next/font/google";
+import Link from "next/link";
+import Head from "next/head";
 
 export default function Registration() {
   const handleRegister = async (values) => {
@@ -36,32 +40,47 @@ export default function Registration() {
 
   return (
     <>
+      <Head>
+        <title>Project-1</title>
+      </Head>
       <Formik
         initialValues={{ email: "", password: "", confirmation: "" }}
         onSubmit={handleRegister}
         validationSchema={validationsRegister}
       >
-        <Form>
-          <div>
-            <h1>Registro</h1>
-            <Field type="text" name="email" placeholder="Email" />
-            <ErrorMessage name="email" component="div" />
+        <div className={styles.container_register}>
+          <div className={styles.form_register}>
+            <div className={styles.form_title_register}>
+              <h1>REGISTRO </h1>
+            </div>
+            <div>
+              <Field type="text" name="email" placeholder="Email" />
+              <ErrorMessage name="email" component="div" />
+            </div>
+
+            <div>
+              <Field type="password" name="password" placeholder="Contraseña" />
+              <ErrorMessage name="password" component="div" />
+            </div>
+            <div>
+              <Field
+                type="password"
+                name="confirmation"
+                placeholder="Confirmación de Contraseña"
+              />
+              <ErrorMessage name="confirmation" component="div" />
+            </div>
+
+            <button> Registrarse</button>
             <br />
-            <Field type="password" name="password" placeholder="Contraseña" />
-            <ErrorMessage name="password" component="div" />
-            <br />
-            <Field
-              type="password"
-              name="confirmation"
-              placeholder="Confirmación de Contraseña"
-            />
-            <ErrorMessage name="confirmation" component="div" />
-            <br />
-            <button type="submit">Registrar</button>
-            <br />
+            <Link href="/Login" className={styles.form_buttom_register}>
+              Volver al inicio
+            </Link>
           </div>
-        </Form>
+        </div>
       </Formik>
     </>
   );
 }
+
+  

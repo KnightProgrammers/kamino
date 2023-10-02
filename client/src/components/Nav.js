@@ -1,7 +1,7 @@
 import React from "react";
 import { Inter, Staatliches } from "next/font/google";
 import Link from "next/link";
-import styles from "@/styles/Home.module.css";
+import styles from "@/styles/general.module.css";
 
 
 function NavWeb() {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import styles from "@/styles/Home.module.css";
+import styles from "@/styles/general.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
