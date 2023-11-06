@@ -268,7 +268,7 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - name: ☄️ New Relic Application Deployment Marker
-        uses: newrelic/deployment-marker-action@v2.4.0
+        uses: newrelic/deployment-marker-action@v2.5.0
         with:
           apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
           guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
