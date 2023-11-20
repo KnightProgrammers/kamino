@@ -24,7 +24,7 @@
     "newrelic": "latest",
     "nodemon": "3.0.1",
     "redis": "4.6.10",
-    "sequelize": "6.35.0",
+    "sequelize": "6.35.1",
     "umzug": "3.4.0",
     "uuid": "9.0.1",
     "winston": "3.11.0"
