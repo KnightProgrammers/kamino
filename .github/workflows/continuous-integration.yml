@@ -135,7 +135,7 @@ jobs:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v4
       - name: 🛬 Download Docker Images
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: /tmp
       - name: 🎣 Load Docker Images
@@ -197,7 +197,7 @@ jobs:
       - name: 🍺 Check out repository code
         uses: actions/checkout@v4
       - name: 🛬 Download Docker Images
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: /tmp
       - name: 🎣 Load Docker Images
