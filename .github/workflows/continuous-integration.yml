@@ -90,7 +90,7 @@ jobs:
         run: |
           docker save ${{ matrix.image }} > /tmp/${{ matrix.name }}.tar
       - name: 🪼 Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.name }}
           path: /tmp/${{ matrix.name }}.tar
@@ -118,7 +118,7 @@ jobs:
           context: ./${{ matrix.app }}
           outputs: type=docker,dest=/tmp/${{ matrix.app }}-docker-image.tar
       - name: 🪼 Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.app }}-docker-image
           path: /tmp/${{ matrix.app }}-docker-image.tar
@@ -172,7 +172,7 @@ jobs:
           junitxml-title: Test Report
           junitxml-path: ./tests/api-tests/reports/test-report.xml
       - name: 🪼 Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: api-test-report.html
@@ -234,7 +234,7 @@ jobs:
           junitxml-title: Test Report
           junitxml-path: ./tests/e2e-tests/reports/test-report.xml
       - name: 🪼 Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: e2e-report
