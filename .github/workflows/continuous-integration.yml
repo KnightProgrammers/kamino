@@ -254,7 +254,7 @@ jobs:
     if: always()
     steps:
       - name: 🗑️ Delete Artifacts
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v4
         with:
           name: |
             server-docker-image
