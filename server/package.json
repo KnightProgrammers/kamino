@@ -20,7 +20,7 @@
     "joi": "17.12.0",
     "jsonwebtoken": "9.0.2",
     "morgan": "1.10.0",
-    "mysql2": "3.7.1",
+    "mysql2": "3.9.1",
     "newrelic": "latest",
     "nodemon": "3.0.3",
     "redis": "4.6.12",
